@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jerónimo Nene Toro — Portafolio de Arquitectura</title>
+<meta name="description" content="Portafolio de arquitectura de Jerónimo Nene Toro. Proyectos residenciales, institucionales y de visualización arquitectónica.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">Jerónimo Nene Toro<span>.</span></a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index.html" class="active">Inicio</a></li>
+        <li><a href="index.html#trabajo">Trabajo</a></li>
+        <li><a href="index.html#proyectos">Proyectos</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" aria-label="Abrir menú">☰</button>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero wrap">
+    <div>
+      <div class="hero-eyebrow">Portafolio · Colombia</div>
+      <h1>Arquitectura que empieza en <em>el lugar</em>, no en la forma.</h1>
+      <p class="lead">Estudiante de arquitectura de la Universidad Nacional de Colombia. Trabajo entre el dibujo técnico y la visualización, desde el anteproyecto hasta el detalle constructivo.</p>
+      <div class="hero-actions">
+        <a href="#proyectos" class="btn">Ver proyectos</a>
+        <a href="contacto.html" class="btn btn-red">Contactar</a>
+      </div>
+    </div>
+    <div>
+      <div class="hero-portrait">
+        <img src="img/perfil.jpg" alt="Retrato de Jerónimo Nene Toro">
+      </div>
+      <div class="hero-data">
+        <div>
+          <span class="d-label">Formación</span>
+          <span class="d-val">Arquitectura, Universidad Nacional</span>
+        </div>
+        <div>
+          <span class="d-label">Software</span>
+          <span class="d-val">AutoCAD · Revit · Rhino · D5</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="trabajo">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-eyebrow">Visualización &amp; dibujo técnico</div>
+        <h2>Del render a la planta, la misma idea contada dos veces.</h2>
+      </div>
+
+      <div class="showcase">
+        <figure class="s-1">
+          <img src="img/interwind-photos.jpg" alt="Detalle e interior del Pabellón Interwind">
+          <figcaption>Interwind Pavillion — detalle e interior</figcaption>
+        </figure>
+        <figure class="s-2">
+          <img src="img/tayrona-plan.jpg" alt="Planta arquitectónica del Centro Arqueológico Tayrona">
+          <figcaption>Tayrona — planta primer piso</figcaption>
+        </figure>
+        <figure class="s-3">
+          <img src="img/tayrona-axo.jpg" alt="Axonometría del Centro Arqueológico Tayrona">
+          <figcaption>Tayrona — axonometría</figcaption>
+        </figure>
+        <figure class="s-4">
+          <img src="img/sol-interior.jpg" alt="Render interior de la biblioteca, Colegio Sol Fernández">
+          <figcaption>Sol Fernández — interior biblioteca</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="proyectos">
+    <div class="wrap model-section">
+      <div class="section-head">
+        <div class="section-eyebrow">Selección de proyectos</div>
+        <h2>Cuatro maquetas, cuatro formas de habitar.</h2>
+        <p>Hacé clic sobre cada maqueta para ver el proyecto y entrar al detalle completo.</p>
+      </div>
+
+      <div class="model-frame">
+        <img src="img/maquetas.jpg" alt="Cuatro maquetas de proyectos arquitectónicos sobre una mesa">
+
+        <!-- Hotspot 1: Tayrona (maqueta de topografía, izquierda) -->
+        <button class="hotspot" style="left:16%; top:66%;" data-bubble="bubble-tayrona" aria-label="Ver proyecto Tayrona Archaeological Pavillion"></button>
+        <div class="bubble" id="bubble-tayrona" style="left:16%; top:66%;">
+          <span class="b-tag">Proyecto 01 · Institucional</span>
+          <span class="b-title">Tayrona Archaeological Pavillion</span>
+          <a href="proyectos/tayrona.html">Ver proyecto →</a>
+        </div>
+
+        <!-- Hotspot 2: Sol Fernández (maqueta de bloque, centro-izq) -->
+        <button class="hotspot" style="left:40%; top:62%;" data-bubble="bubble-sol" aria-label="Ver proyecto Sol Fernández High School"></button>
+        <div class="bubble" id="bubble-sol" style="left:40%; top:62%;">
+          <span class="b-tag">Proyecto 02 · Educativo</span>
+          <span class="b-title">Sol Fernández High School</span>
+          <a href="proyectos/sol-fernandez.html">Ver proyecto →</a>
+        </div>
+
+        <!-- Hotspot 3: Interwind Pavillion (maqueta de estructura curva, centro-der) -->
+        <button class="hotspot" style="left:63%; top:64%;" data-bubble="bubble-interwind" aria-label="Ver proyecto Interwind Pavillion"></button>
+        <div class="bubble" id="bubble-interwind" style="left:63%; top:64%;">
+          <span class="b-tag">Proyecto 03 · Instalación efímera</span>
+          <span class="b-title">Interwind Pavillion</span>
+          <a href="proyectos/interwind.html">Ver proyecto →</a>
+        </div>
+
+        <!-- Hotspot 4: Enea's Complex (maqueta de torres, derecha) — en construcción -->
+        <button class="hotspot" style="left:87%; top:60%; background:var(--gray); box-shadow:0 0 0 2px var(--gray); animation:none;" data-bubble="bubble-enea" aria-label="Proyecto Enea's Complex, próximamente"></button>
+        <div class="bubble" id="bubble-enea" style="left:87%; top:60%;">
+          <span class="b-tag">Proyecto 04 · Residencial</span>
+          <span class="b-title">Enea's Residential Complex</span>
+          <a href="contacto.html">Próximamente →</a>
+        </div>
+      </div>
+      <div class="model-caption"><span class="dot"></span>3 de 4 proyectos disponibles — Enea's Complex se publica próximamente.</div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h3>¿Hablamos de tu próximo proyecto?</h3>
+        <a href="contacto.html" class="text-link">Ir a contacto →</a>
+      </div>
+    </div>
+    <div class="foot-meta">
+      <span>© 2026 Jerónimo Nene Toro</span>
+      <span>Bogotá, Colombia</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
