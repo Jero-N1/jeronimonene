@@ -60,6 +60,8 @@
     </a>
   </section>
 
+  <div class="seam seam--dark" aria-hidden="true"></div>
+
   <!-- ============ TRABAJO — carruseles ============ -->
   <section id="trabajo" class="work-section">
     <div class="wrap">
@@ -96,6 +98,8 @@
     </div>
   </section>
 
+  <div class="seam seam--fade" aria-hidden="true"></div>
+
   <!-- ============ PROYECTOS — inmersivo full-bleed ============ -->
   <section id="proyectos" class="model-section-immersive full-bleed">
     <div class="wrap">
@@ -105,7 +109,8 @@
         <p>Tocá cada punto para ver el proyecto y entrar al detalle completo.</p>
       </div>
 
-      <div class="project-tabs" role="tablist">
+      <div class="project-tabs" role="tablist" id="projectTabs">
+        <span class="tab-indicator" id="tabIndicator"></span>
         <button class="tab active" data-tab="arquitectura" role="tab" aria-selected="true">Arquitectura</button>
         <button class="tab" data-tab="urbanismo" role="tab" aria-selected="false">Urbanismo</button>
         <button class="tab" data-tab="flipbook" role="tab" aria-selected="false">Flipbook</button>
@@ -117,8 +122,8 @@
         <img src="img/maquetas.jpg" alt="Cuatro maquetas de proyectos arquitectónicos sobre una mesa">
 
         <div class="pin" style="left:16%; top:66%;">
-          <span class="pin-line"></span>
           <button class="hotspot" data-bubble="bubble-tayrona" aria-label="Ver proyecto Tayrona Archaeological Pavillion"></button>
+          <span class="pin-line"></span>
           <div class="bubble" id="bubble-tayrona">
             <span class="b-tag">Proyecto 01 · Institucional</span>
             <span class="b-title">Tayrona Archaeological Pavillion</span>
@@ -127,8 +132,8 @@
         </div>
 
         <div class="pin" style="left:40%; top:62%;">
-          <span class="pin-line"></span>
           <button class="hotspot" data-bubble="bubble-sol" aria-label="Ver proyecto Sol Fernández High School"></button>
+          <span class="pin-line"></span>
           <div class="bubble" id="bubble-sol">
             <span class="b-tag">Proyecto 02 · Educativo</span>
             <span class="b-title">Sol Fernández High School</span>
@@ -137,8 +142,8 @@
         </div>
 
         <div class="pin" style="left:63%; top:64%;">
-          <span class="pin-line"></span>
           <button class="hotspot" data-bubble="bubble-interwind" aria-label="Ver proyecto Interwind Pavillion"></button>
+          <span class="pin-line"></span>
           <div class="bubble" id="bubble-interwind">
             <span class="b-tag">Proyecto 03 · Instalación efímera</span>
             <span class="b-title">Interwind Pavillion</span>
@@ -147,8 +152,8 @@
         </div>
 
         <div class="pin" style="left:87%; top:60%;">
-          <span class="pin-line pin-line--muted"></span>
           <button class="hotspot hotspot--muted" data-bubble="bubble-enea" aria-label="Proyecto Enea's Complex, próximamente"></button>
+          <span class="pin-line pin-line--muted"></span>
           <div class="bubble" id="bubble-enea">
             <span class="b-tag">Proyecto 04 · Residencial</span>
             <span class="b-title">Enea's Residential Complex</span>
