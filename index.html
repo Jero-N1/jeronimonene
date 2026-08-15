@@ -7,124 +7,164 @@
 <meta name="description" content="Portafolio de arquitectura de Jerónimo Nene Toro. Proyectos residenciales, institucionales y de visualización arquitectónica.">
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="home">
 
-<header class="site-header">
-  <div class="nav-inner">
-    <a href="index.html" class="brand">Jerónimo Nene Toro<span>.</span></a>
-    <nav class="main-nav">
-      <ul>
-        <li><a href="index.html" class="active">Inicio</a></li>
-        <li><a href="index.html#trabajo">Trabajo</a></li>
-        <li><a href="index.html#proyectos">Proyectos</a></li>
-        <li><a href="contacto.html">Contacto</a></li>
-      </ul>
-    </nav>
-    <button class="nav-toggle" aria-label="Abrir menú">☰</button>
+<!-- Nav flotante tipo isla — oculto sobre el hero, aparece al hacer scroll -->
+<nav class="floating-nav" id="floatingNav">
+  <a href="index.html" class="fn-brand">Jerónimo Nene Toro<span>.</span></a>
+  <div class="fn-links" id="fnLinks">
+    <span class="fn-indicator" id="fnIndicator"></span>
+    <a href="#inicio" data-section="inicio" class="fn-link active">Inicio</a>
+    <a href="#trabajo" data-section="trabajo" class="fn-link">Trabajo</a>
+    <a href="#proyectos" data-section="proyectos" class="fn-link">Proyectos</a>
+    <a href="contacto.html" class="fn-link">Contacto</a>
   </div>
-</header>
+  <button class="fn-toggle" id="fnToggle" aria-label="Abrir menú">☰</button>
+</nav>
 
 <main>
 
-  <section class="hero wrap">
-    <div>
-      <div class="hero-eyebrow">Portafolio · Colombia</div>
-      <h1>Arquitectura que empieza en <em>el lugar</em>, no en la forma.</h1>
-      <p class="lead">Estudiante de arquitectura de la Universidad Nacional de Colombia. Trabajo entre el dibujo técnico y la visualización, desde el anteproyecto hasta el detalle constructivo.</p>
-      <div class="hero-actions">
-        <a href="#proyectos" class="btn">Ver proyectos</a>
-        <a href="contacto.html" class="btn btn-red">Contactar</a>
+  <!-- ============ HERO INMERSIVO ============ -->
+  <section class="hero-immersive" id="inicio">
+    <div class="hi-grid" aria-hidden="true">
+      <svg viewBox="0 0 1200 800" preserveAspectRatio="none">
+        <line class="hi-line" x1="0" y1="160" x2="1200" y2="160"/>
+        <line class="hi-line" x1="0" y1="400" x2="1200" y2="400"/>
+        <line class="hi-line" x1="0" y1="640" x2="1200" y2="640"/>
+        <line class="hi-line" x1="200" y1="0" x2="200" y2="800"/>
+        <line class="hi-line" x1="600" y1="0" x2="600" y2="800"/>
+        <line class="hi-line" x1="1000" y1="0" x2="1000" y2="800"/>
+      </svg>
+      <div class="hi-glow"></div>
+    </div>
+
+    <a class="hi-siiu" href="proyectos/genova.html" aria-label="Ver proyecto Genova's Habitability — Seminario SIIU 2026">
+      <img src="img/siiu-logo.png" alt="Logo SIIU — Seminario Internacional de Investigación en Urbanismo" onerror="this.parentElement.classList.add('hi-siiu--placeholder')">
+      <span class="hi-siiu-label">SIIU 2026<br>Genova's Habitability</span>
+    </a>
+
+    <div class="hi-content">
+      <span class="hi-name">Jerónimo Nene Toro</span>
+      <h1 class="hi-title">Portafolio</h1>
+      <span class="hi-sub">Arquitectura y diseño</span>
+
+      <div class="hi-actions">
+        <a href="contacto.html" class="btn-solid">Contacto</a>
+        <a href="#proyectos" class="btn-ghost">Proyectos</a>
       </div>
     </div>
-    <div>
-      <div class="hero-portrait">
-        <img src="img/perfil.jpg" alt="Retrato de Jerónimo Nene Toro">
-      </div>
-      <div class="hero-data">
-        <div>
-          <span class="d-label">Formación</span>
-          <span class="d-val">Arquitectura, Universidad Nacional</span>
-        </div>
-        <div>
-          <span class="d-label">Software</span>
-          <span class="d-val">AutoCAD · Revit · Rhino · D5</span>
-        </div>
-      </div>
-    </div>
+
+    <a href="#trabajo" class="hi-scroll" aria-label="Desplazarse hacia abajo">
+      <span class="hi-scroll-bar"></span>
+      Desplazar
+    </a>
   </section>
 
-  <section id="trabajo">
+  <!-- ============ TRABAJO — carruseles ============ -->
+  <section id="trabajo" class="work-section">
     <div class="wrap">
       <div class="section-head">
-        <div class="section-eyebrow">Visualización &amp; dibujo técnico</div>
+        <div class="section-eyebrow">Trabajo</div>
         <h2>Del render a la planta, la misma idea contada dos veces.</h2>
       </div>
+    </div>
 
-      <div class="showcase">
-        <figure class="s-1">
-          <img src="img/interwind-photos.jpg" alt="Detalle e interior del Pabellón Interwind">
-          <figcaption>Interwind Pavillion — detalle e interior</figcaption>
-        </figure>
-        <figure class="s-2">
-          <img src="img/tayrona-plan.jpg" alt="Planta arquitectónica del Centro Arqueológico Tayrona">
-          <figcaption>Tayrona — planta primer piso</figcaption>
-        </figure>
-        <figure class="s-3">
-          <img src="img/tayrona-axo.jpg" alt="Axonometría del Centro Arqueológico Tayrona">
-          <figcaption>Tayrona — axonometría</figcaption>
-        </figure>
-        <figure class="s-4">
-          <img src="img/sol-interior.jpg" alt="Render interior de la biblioteca, Colegio Sol Fernández">
-          <figcaption>Sol Fernández — interior biblioteca</figcaption>
-        </figure>
+    <div class="carousel-block">
+      <div class="wrap"><h3 class="carousel-title">Visualización arquitectónica</h3></div>
+      <div class="carousel" data-carousel>
+        <div class="carousel-track" data-track>
+          <figure class="c-item"><img src="img/tayrona-hero.jpg" alt="Render nocturno Tayrona Archaeological Pavillion"><figcaption>Tayrona — vista nocturna</figcaption></figure>
+          <figure class="c-item"><img src="img/tayrona-sunset.jpg" alt="Render exterior Tayrona al atardecer"><figcaption>Tayrona — exterior sobre el agua</figcaption></figure>
+          <figure class="c-item"><img src="img/solfernandez-hero.jpg" alt="Render nocturno Sol Fernández High School"><figcaption>Sol Fernández — fachada nocturna</figcaption></figure>
+          <figure class="c-item"><img src="img/sol-interior.jpg" alt="Render interior biblioteca Sol Fernández"><figcaption>Sol Fernández — interior biblioteca</figcaption></figure>
+          <figure class="c-item"><img src="img/interwind-hero.jpg" alt="Render Interwind Pavillion en la plaza"><figcaption>Interwind — implantación en plaza</figcaption></figure>
+          <figure class="c-item"><img src="img/interwind-photos.jpg" alt="Detalle e interior Interwind Pavillion"><figcaption>Interwind — detalle e interior</figcaption></figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="carousel-block">
+      <div class="wrap"><h3 class="carousel-title">Planos arquitectónicos</h3></div>
+      <div class="carousel" data-carousel>
+        <div class="carousel-track" data-track>
+          <figure class="c-item"><img src="img/tayrona-plan.jpg" alt="Planta primer piso Tayrona Archaeological Pavillion"><figcaption>Tayrona — planta primer piso</figcaption></figure>
+          <figure class="c-item"><img src="img/tayrona-axo.jpg" alt="Axonometría Tayrona Archaeological Pavillion"><figcaption>Tayrona — axonometría</figcaption></figure>
+          <figure class="c-item"><img src="img/sol-plan.jpg" alt="Planta primer piso Sol Fernández High School"><figcaption>Sol Fernández — planta primer piso</figcaption></figure>
+          <figure class="c-item"><img src="img/interwind-axo.jpg" alt="Axonometría estructural Interwind Pavillion"><figcaption>Interwind — axonometría estructural</figcaption></figure>
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="proyectos">
-    <div class="wrap model-section">
+  <!-- ============ PROYECTOS — inmersivo full-bleed ============ -->
+  <section id="proyectos" class="model-section-immersive full-bleed">
+    <div class="wrap">
       <div class="section-head">
         <div class="section-eyebrow">Selección de proyectos</div>
         <h2>Cuatro maquetas, cuatro formas de habitar.</h2>
-        <p>Hacé clic sobre cada maqueta para ver el proyecto y entrar al detalle completo.</p>
+        <p>Tocá cada punto para ver el proyecto y entrar al detalle completo.</p>
       </div>
 
-      <div class="model-frame">
+      <div class="project-tabs" role="tablist">
+        <button class="tab active" data-tab="arquitectura" role="tab" aria-selected="true">Arquitectura</button>
+        <button class="tab" data-tab="urbanismo" role="tab" aria-selected="false">Urbanismo</button>
+        <button class="tab" data-tab="flipbook" role="tab" aria-selected="false">Flipbook</button>
+      </div>
+    </div>
+
+    <div class="tab-panel active" data-panel="arquitectura">
+      <div class="model-frame full">
         <img src="img/maquetas.jpg" alt="Cuatro maquetas de proyectos arquitectónicos sobre una mesa">
 
-        <!-- Hotspot 1: Tayrona (maqueta de topografía, izquierda) -->
-        <button class="hotspot" style="left:16%; top:66%;" data-bubble="bubble-tayrona" aria-label="Ver proyecto Tayrona Archaeological Pavillion"></button>
-        <div class="bubble" id="bubble-tayrona" style="left:16%; top:66%;">
-          <span class="b-tag">Proyecto 01 · Institucional</span>
-          <span class="b-title">Tayrona Archaeological Pavillion</span>
-          <a href="proyectos/tayrona.html">Ver proyecto →</a>
+        <div class="pin" style="left:16%; top:66%;">
+          <span class="pin-line"></span>
+          <button class="hotspot" data-bubble="bubble-tayrona" aria-label="Ver proyecto Tayrona Archaeological Pavillion"></button>
+          <div class="bubble" id="bubble-tayrona">
+            <span class="b-tag">Proyecto 01 · Institucional</span>
+            <span class="b-title">Tayrona Archaeological Pavillion</span>
+            <a href="proyectos/tayrona.html">Ver proyecto →</a>
+          </div>
         </div>
 
-        <!-- Hotspot 2: Sol Fernández (maqueta de bloque, centro-izq) -->
-        <button class="hotspot" style="left:40%; top:62%;" data-bubble="bubble-sol" aria-label="Ver proyecto Sol Fernández High School"></button>
-        <div class="bubble" id="bubble-sol" style="left:40%; top:62%;">
-          <span class="b-tag">Proyecto 02 · Educativo</span>
-          <span class="b-title">Sol Fernández High School</span>
-          <a href="proyectos/sol-fernandez.html">Ver proyecto →</a>
+        <div class="pin" style="left:40%; top:62%;">
+          <span class="pin-line"></span>
+          <button class="hotspot" data-bubble="bubble-sol" aria-label="Ver proyecto Sol Fernández High School"></button>
+          <div class="bubble" id="bubble-sol">
+            <span class="b-tag">Proyecto 02 · Educativo</span>
+            <span class="b-title">Sol Fernández High School</span>
+            <a href="proyectos/sol-fernandez.html">Ver proyecto →</a>
+          </div>
         </div>
 
-        <!-- Hotspot 3: Interwind Pavillion (maqueta de estructura curva, centro-der) -->
-        <button class="hotspot" style="left:63%; top:64%;" data-bubble="bubble-interwind" aria-label="Ver proyecto Interwind Pavillion"></button>
-        <div class="bubble" id="bubble-interwind" style="left:63%; top:64%;">
-          <span class="b-tag">Proyecto 03 · Instalación efímera</span>
-          <span class="b-title">Interwind Pavillion</span>
-          <a href="proyectos/interwind.html">Ver proyecto →</a>
+        <div class="pin" style="left:63%; top:64%;">
+          <span class="pin-line"></span>
+          <button class="hotspot" data-bubble="bubble-interwind" aria-label="Ver proyecto Interwind Pavillion"></button>
+          <div class="bubble" id="bubble-interwind">
+            <span class="b-tag">Proyecto 03 · Instalación efímera</span>
+            <span class="b-title">Interwind Pavillion</span>
+            <a href="proyectos/interwind.html">Ver proyecto →</a>
+          </div>
         </div>
 
-        <!-- Hotspot 4: Enea's Complex (maqueta de torres, derecha) — en construcción -->
-        <button class="hotspot" style="left:87%; top:60%; background:var(--gray); box-shadow:0 0 0 2px var(--gray); animation:none;" data-bubble="bubble-enea" aria-label="Proyecto Enea's Complex, próximamente"></button>
-        <div class="bubble" id="bubble-enea" style="left:87%; top:60%;">
-          <span class="b-tag">Proyecto 04 · Residencial</span>
-          <span class="b-title">Enea's Residential Complex</span>
-          <a href="contacto.html">Próximamente →</a>
+        <div class="pin" style="left:87%; top:60%;">
+          <span class="pin-line pin-line--muted"></span>
+          <button class="hotspot hotspot--muted" data-bubble="bubble-enea" aria-label="Proyecto Enea's Complex, próximamente"></button>
+          <div class="bubble" id="bubble-enea">
+            <span class="b-tag">Proyecto 04 · Residencial</span>
+            <span class="b-title">Enea's Residential Complex</span>
+            <a href="contacto.html">Próximamente →</a>
+          </div>
         </div>
       </div>
-      <div class="model-caption"><span class="dot"></span>3 de 4 proyectos disponibles — Enea's Complex se publica próximamente.</div>
+      <div class="wrap"><div class="model-caption"><span class="dot"></span>3 de 4 proyectos disponibles — Enea's Complex se publica próximamente.</div></div>
+    </div>
+
+    <div class="tab-panel" data-panel="urbanismo">
+      <div class="tab-empty"><p>Próximamente — proyectos de urbanismo.</p></div>
+    </div>
+
+    <div class="tab-panel" data-panel="flipbook">
+      <div class="tab-empty"><p>Próximamente — flipbook del portafolio completo.</p></div>
     </div>
   </section>
 
