@@ -65,35 +65,45 @@
   <!-- ============ TRABAJO — carruseles ============ -->
   <section id="trabajo" class="work-section">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head reveal">
         <div class="section-eyebrow">Trabajo</div>
-        <h2>Del render a la planta, la misma idea contada dos veces.</h2>
+      </div>
+
+      <div class="work-tabs reveal" id="workTabs">
+        <span class="wt-indicator" id="workTabIndicator"></span>
+        <button class="wt-tab active" data-work="visual">Visualización</button>
+        <button class="wt-tab" data-work="planos">Planos</button>
+        <button class="wt-tab" data-work="interior">Diseño interior</button>
       </div>
     </div>
 
-    <div class="carousel-block">
-      <div class="wrap"><h3 class="carousel-title">Visualización arquitectónica</h3></div>
-      <div class="carousel" data-carousel>
+    <div class="work-panel active" data-work-panel="visual">
+      <div class="carousel" data-carousel tabindex="0">
         <div class="carousel-track" data-track>
           <figure class="c-item"><img src="img/tayrona-hero.jpg" alt="Render nocturno Tayrona Archaeological Pavillion"><figcaption>Tayrona — vista nocturna</figcaption></figure>
           <figure class="c-item"><img src="img/tayrona-sunset.jpg" alt="Render exterior Tayrona al atardecer"><figcaption>Tayrona — exterior sobre el agua</figcaption></figure>
           <figure class="c-item"><img src="img/solfernandez-hero.jpg" alt="Render nocturno Sol Fernández High School"><figcaption>Sol Fernández — fachada nocturna</figcaption></figure>
-          <figure class="c-item"><img src="img/sol-interior.jpg" alt="Render interior biblioteca Sol Fernández"><figcaption>Sol Fernández — interior biblioteca</figcaption></figure>
           <figure class="c-item"><img src="img/interwind-hero.jpg" alt="Render Interwind Pavillion en la plaza"><figcaption>Interwind — implantación en plaza</figcaption></figure>
-          <figure class="c-item"><img src="img/interwind-photos.jpg" alt="Detalle e interior Interwind Pavillion"><figcaption>Interwind — detalle e interior</figcaption></figure>
-          <figure class="c-item"><img src="img/tayronafachada-hero.png" alt="Fachada Tayrona Archaeological Pavillion"><figcaption>Tayrona — Fachada frontal</figcaption></figure>
         </div>
       </div>
     </div>
 
-    <div class="carousel-block">
-      <div class="wrap"><h3 class="carousel-title">Planos arquitectónicos</h3></div>
-      <div class="carousel" data-carousel>
+    <div class="work-panel" data-work-panel="planos">
+      <div class="carousel" data-carousel tabindex="0">
         <div class="carousel-track" data-track>
           <figure class="c-item"><img src="img/tayrona-plan.jpg" alt="Planta primer piso Tayrona Archaeological Pavillion"><figcaption>Tayrona — planta primer piso</figcaption></figure>
           <figure class="c-item"><img src="img/tayrona-axo.jpg" alt="Axonometría Tayrona Archaeological Pavillion"><figcaption>Tayrona — axonometría</figcaption></figure>
           <figure class="c-item"><img src="img/sol-plan.jpg" alt="Planta primer piso Sol Fernández High School"><figcaption>Sol Fernández — planta primer piso</figcaption></figure>
           <figure class="c-item"><img src="img/interwind-axo.jpg" alt="Axonometría estructural Interwind Pavillion"><figcaption>Interwind — axonometría estructural</figcaption></figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="work-panel" data-work-panel="interior">
+      <div class="carousel" data-carousel tabindex="0">
+        <div class="carousel-track" data-track>
+          <figure class="c-item"><img src="img/sol-interior.jpg" alt="Render interior biblioteca Sol Fernández"><figcaption>Sol Fernández — interior biblioteca</figcaption></figure>
+          <figure class="c-item"><img src="img/interwind-photos.jpg" alt="Detalle e interior Interwind Pavillion"><figcaption>Interwind — detalle e interior</figcaption></figure>
         </div>
       </div>
     </div>
@@ -104,13 +114,12 @@
   <!-- ============ PROYECTOS — inmersivo full-bleed ============ -->
   <section id="proyectos" class="model-section-immersive full-bleed">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head reveal">
         <div class="section-eyebrow">Selección de proyectos</div>
-        <h2>Cuatro maquetas, cuatro formas de habitar.</h2>
         <p>Tocá cada punto para ver el proyecto y entrar al detalle completo.</p>
       </div>
 
-      <div class="project-tabs" role="tablist" id="projectTabs">
+      <div class="project-tabs reveal" role="tablist" id="projectTabs">
         <span class="tab-indicator" id="tabIndicator"></span>
         <button class="tab active" data-tab="arquitectura" role="tab" aria-selected="true">Arquitectura</button>
         <button class="tab" data-tab="urbanismo" role="tab" aria-selected="false">Urbanismo</button>
@@ -119,7 +128,7 @@
     </div>
 
     <div class="tab-panel active" data-panel="arquitectura">
-      <div class="model-frame full">
+      <div class="model-frame full reveal">
         <img src="img/maquetas.jpg" alt="Cuatro maquetas de proyectos arquitectónicos sobre una mesa">
 
         <div class="pin" style="left:16%; top:66%;">
@@ -178,13 +187,13 @@
 
 <footer class="site-footer">
   <div class="wrap">
-    <div class="footer-grid">
+    <div class="footer-grid reveal">
       <div>
         <h3>¿Hablamos de tu próximo proyecto?</h3>
         <a href="contacto.html" class="text-link">Ir a contacto →</a>
       </div>
     </div>
-    <div class="foot-meta">
+    <div class="foot-meta reveal">
       <span>© 2026 Jerónimo Nene Toro</span>
       <span>Bogotá, Colombia</span>
     </div>
