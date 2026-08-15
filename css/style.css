@@ -1022,7 +1022,7 @@ body.home{ background:var(--ink); }
 
 .carousel{
   overflow-x:auto;
-  overflow-y:hidden;
+  overflow-y:visible;
   scroll-snap-type:x mandatory;
   scroll-snap-stop:always;
   scrollbar-width:none;
@@ -1037,27 +1037,25 @@ body.home{ background:var(--ink); }
 .carousel-track{
   display:flex;
   align-items:center;
-  gap:0;
-  padding:0 calc(50vw - 190px);
+  padding:0 calc(50vw - 200px);
 }
 @media (max-width:900px){
-  .carousel-track{ padding:0 calc(50vw - 125px); }
+  .carousel-track{ padding:0 calc(50vw - 130px); }
 }
 
+/* La CAJA de cada tarjeta tiene ancho fijo — nunca se anima, así el scroll
+   nunca "pelea" contra un layout que se mueve solo. Todo el efecto de
+   tamaño pasa por transform en la imagen de adentro (no afecta el layout). */
 .c-item{
   flex:0 0 auto;
-  width:340px;
-  margin:0 -40px;
+  width:400px;
+  padding:0 16px;
+  box-sizing:border-box;
   scroll-snap-align:center;
-  transform:scale(0.7);
-  opacity:0.35;
-  z-index:1;
-  transition:transform .4s cubic-bezier(.22,1,.36,1), opacity .4s ease, margin .4s cubic-bezier(.22,1,.36,1), width .4s cubic-bezier(.22,1,.36,1);
-  transform-origin:center center;
   pointer-events:none;
-  user-select:none;
-  -webkit-user-select:none;
 }
+.c-item.is-center{ pointer-events:auto; z-index:3; position:relative; }
+
 .c-item img{
   width:100%;
   aspect-ratio:16/10;
@@ -1066,18 +1064,18 @@ body.home{ background:var(--ink); }
   box-shadow:0 20px 50px rgba(0,0,0,0.35);
   -webkit-user-drag:none;
   display:block;
-}
-.c-item.is-center{
-  width:620px;
-  transform:scale(1);
-  opacity:1;
-  margin:0 26px;
-  z-index:3;
-  pointer-events:auto;
+  transform:scale(0.72);
+  opacity:0.38;
+  transform-origin:center center;
+  transition:transform .5s cubic-bezier(.22,1,.36,1), opacity .5s ease, box-shadow .5s ease;
+  will-change:transform;
+  backface-visibility:hidden;
 }
 .c-item.is-center img{
+  transform:scale(1.22);
+  opacity:1;
   aspect-ratio:auto;
-  max-height:64vh;
+  max-height:60vh;
   object-fit:contain;
   border-radius:8px;
   background:rgba(255,255,255,0.02);
@@ -1085,8 +1083,8 @@ body.home{ background:var(--ink); }
   animation:kenBurns 12s ease-in-out infinite alternate;
 }
 @keyframes kenBurns{
-  from{ transform:scale(1); }
-  to{ transform:scale(1.045) translate(-1%,-1%); }
+  from{ transform:scale(1.22); }
+  to{ transform:scale(1.28) translate(-1%,-1%); }
 }
 @media (prefers-reduced-motion: reduce){
   .c-item.is-center img{ animation:none; }
@@ -1098,14 +1096,13 @@ body.home{ background:var(--ink); }
   text-transform:uppercase;
   letter-spacing:0.05em;
   opacity:0;
-  transition:opacity .35s ease;
+  transition:opacity .4s ease;
   text-align:center;
 }
 .c-item.is-center figcaption{ opacity:1; color:rgba(255,255,255,0.7); }
 @media (max-width:900px){
-  .c-item{ width:230px; margin:0 -20px; }
-  .c-item.is-center{ width:320px; margin:0 8px; }
-  .c-item.is-center img{ max-height:44vh; }
+  .c-item{ width:260px; padding:0 8px; }
+  .c-item.is-center img{ max-height:42vh; }
 }
 
 /* ---------- Proyectos inmersivo full-bleed ---------- */
