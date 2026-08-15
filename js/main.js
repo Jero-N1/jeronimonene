@@ -265,13 +265,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 120);
       }, { passive: true });
 
-      // Rueda del mouse (vertical) -> desplazamiento horizontal
-      carousel.addEventListener('wheel', function (e) {
-        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-          carousel.scrollLeft += e.deltaY;
-          e.preventDefault();
-        }
-      }, { passive: false });
+      // Rueda del mouse: NO se intercepta — así el scroll normal de la página
+      // sigue funcionando con el mouse encima del carrusel. El trackpad ya
+      // mueve el carrusel horizontal de forma nativa (deltaX).
 
       // Arrastrar con mouse
       var isDown = false, startX = 0, startScroll = 0, moved = false;
@@ -302,8 +298,8 @@ document.addEventListener('DOMContentLoaded', function () {
       carousel.addEventListener('keydown', function (e) {
         if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
         e.preventDefault();
-        var centerItem = track.querySelector('.c-item.is-center') || allItems()[0];
-        var step = centerItem.offsetWidth + 20;
+        var refItem = track.querySelector('.c-item.is-center') || allItems()[0];
+        var step = refItem.offsetWidth;
         carousel.scrollBy({ left: e.key === 'ArrowRight' ? step : -step, behavior: 'smooth' });
       });
 
