@@ -407,8 +407,10 @@ footer.site-footer{
   padding:60px 0 40px;
   margin-top:60px;
 }
-footer.site-footer .footer-grid h3{ color:var(--ink); }
+footer.site-footer h3{ color:var(--ink); }
 footer.site-footer .foot-meta{ color:var(--gray); }
+
+/* Mantiene compatibilidad con footer-grid (usado en páginas de proyecto) */
 .footer-grid{
   display:flex;
   justify-content:space-between;
@@ -417,11 +419,11 @@ footer.site-footer .foot-meta{ color:var(--gray); }
   gap:30px;
   padding-bottom:30px;
 }
-.footer-grid h3{
+.footer-grid h3, .footer-top h3{
   font-family:var(--font-display);
   font-weight:600;
   font-size:28px;
-  margin-bottom:14px;
+  margin-bottom:0;
 }
 footer .foot-meta{
   display:flex;
@@ -433,6 +435,40 @@ footer .foot-meta{
   padding-top:20px;
   justify-content:space-between;
   flex-wrap:wrap;
+}
+
+/* Encabezado del footer con íconos liquid glass */
+.footer-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:22px;
+  padding-bottom:30px;
+}
+.footer-icons{
+  display:flex;
+  gap:10px;
+}
+.ficon{
+  width:42px; height:42px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(28,27,24,0.05);
+  border:1px solid rgba(28,27,24,0.12);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  color:var(--ink);
+  transition:background .25s ease, transform .25s ease, color .25s ease;
+  flex-shrink:0;
+}
+.ficon:hover{ background:var(--ink); color:#fff; transform:translateY(-2px); }
+.ficon svg{ width:18px; height:18px; }
+
+@media (max-width:640px){
+  .footer-top{ flex-direction:column; align-items:flex-start; }
 }
 
 /* ---------- Project detail pages ---------- */
@@ -643,8 +679,7 @@ body.home{ background:var(--ink); }
 .floating-nav{
   position:fixed;
   top:22px;
-  left:50%;
-  transform:translate(-50%,-90px);
+  right:28px;
   z-index:300;
   display:flex;
   align-items:center;
@@ -658,12 +693,13 @@ body.home{ background:var(--ink); }
   box-shadow:0 8px 30px rgba(0,0,0,0.18);
   opacity:0;
   pointer-events:none;
+  transform:translateY(-90px);
   transition:opacity .5s ease, transform .5s cubic-bezier(.22,1,.36,1), background .3s ease, border-color .3s ease;
 }
 .floating-nav.visible{
   opacity:1;
   pointer-events:auto;
-  transform:translate(-50%,0);
+  transform:translateY(0);
 }
 .floating-nav.on-light{
   background:rgba(28,27,24,0.06);
@@ -838,6 +874,22 @@ body.home{ background:var(--ink); }
 }
 .btn-solid:hover{ transform:translateY(-2px); box-shadow:0 10px 26px rgba(0,0,0,0.25); }
 
+.btn-glass{
+  background:rgba(255,255,255,0.16);
+  border:1px solid rgba(255,255,255,0.4);
+  backdrop-filter:blur(16px) saturate(180%);
+  -webkit-backdrop-filter:blur(16px) saturate(180%);
+  color:#fff;
+  padding:15px 32px;
+  font-size:13px;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  font-weight:600;
+  border-radius:999px;
+  transition:transform .25s ease, background .25s ease, box-shadow .25s ease;
+}
+.btn-glass:hover{ background:rgba(255,255,255,0.26); transform:translateY(-2px); box-shadow:0 10px 26px rgba(0,0,0,0.2); }
+
 .btn-ghost{
   border:1.5px solid rgba(255,255,255,0.55);
   color:#fff;
@@ -908,6 +960,76 @@ body.home{ background:var(--ink); }
   .hi-siiu:hover{ transform:translateX(50%) translateY(-2px); }
 }
 
+/* Marca (arriba-izq) sobre el hero */
+.hi-mark{
+  position:absolute;
+  top:28px;
+  left:6%;
+  z-index:3;
+  font-family:var(--font-display);
+  font-weight:600;
+  font-style:italic;
+  font-size:17px;
+  color:#fff;
+  opacity:0;
+  animation:hiFade .7s ease .1s forwards;
+}
+.hi-mark span{ color:var(--olive); }
+
+/* Nav lateral (lista) sobre el hero — la píldora glass solo aparece al pasar el mouse */
+.hero-nav{
+  position:absolute;
+  top:150px;
+  left:6%;
+  z-index:3;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:6px;
+  opacity:0;
+  animation:hiFade .8s ease .3s forwards;
+}
+.hero-social{
+  position:absolute;
+  bottom:38px;
+  left:6%;
+  z-index:3;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:2px;
+  opacity:0;
+  animation:hiFade .8s ease .5s forwards;
+}
+.hn-link{
+  display:inline-block;
+  color:rgba(255,255,255,0.8);
+  font-size:12.5px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  font-weight:600;
+  padding:9px 16px;
+  border-radius:999px;
+  transition:background .3s ease, color .3s ease, border-color .3s ease;
+  border:1px solid transparent;
+}
+.hn-link.hn-active{ color:#fff; }
+.hn-link:hover{
+  color:#fff;
+  background:rgba(255,255,255,0.14);
+  border-color:rgba(255,255,255,0.22);
+  backdrop-filter:blur(14px) saturate(180%);
+  -webkit-backdrop-filter:blur(14px) saturate(180%);
+}
+.hn-small{ font-size:11px; padding:6px 16px; color:rgba(255,255,255,0.55); }
+.hn-small:hover{ color:rgba(255,255,255,0.95); }
+
+@media (max-width:900px){
+  .hi-mark{ top:20px; left:24px; font-size:15px; }
+  .hero-nav{ display:none; }
+  .hero-social{ display:none; }
+}
+
 .hi-scroll{
   position:absolute;
   bottom:38px;
@@ -947,6 +1069,9 @@ body.home{ background:var(--ink); }
 }
 .seam--dark{ background:var(--ink); }
 .seam--fade{ background:linear-gradient(180deg, var(--ink) 0%, var(--paper-warm) 100%); }
+.seam--light{ background:var(--paper-warm); }
+.seam--light::before{ background:linear-gradient(90deg, transparent, rgba(190,59,68,0.35), rgba(184,184,2,0.35), transparent); }
+.seam--light::after{ background:linear-gradient(90deg, transparent, rgba(28,27,24,0.35), transparent); }
 .seam::before{
   content:"";
   position:absolute;
@@ -974,6 +1099,46 @@ body.home{ background:var(--ink); }
 }
 .work-section .section-eyebrow{ color:var(--olive); }
 .work-section .section-head h2{ color:#fff; }
+
+/* Tiles de Trabajo: una imagen fija por categoría */
+.work-tiles{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+  margin:20px 0 20px;
+}
+.work-tile{
+  position:relative;
+  display:block;
+  aspect-ratio:3/4;
+  overflow:hidden;
+  border-radius:4px;
+}
+.work-tile img{
+  width:100%; height:100%;
+  object-fit:cover;
+  transition:transform .7s cubic-bezier(.22,1,.36,1);
+}
+.work-tile::after{
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(180deg, transparent 45%, rgba(0,0,0,0.6) 100%);
+  transition:opacity .3s ease;
+}
+.work-tile:hover img{ transform:scale(1.06); }
+.wt-label{
+  position:absolute;
+  left:22px; bottom:22px;
+  z-index:2;
+  color:#fff;
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:clamp(18px,2vw,24px);
+  letter-spacing:-0.01em;
+}
+@media (max-width:760px){
+  .work-tiles{ grid-template-columns:1fr; gap:16px; }
+}
 
 /* .carousel-title reemplazado por el selector .work-tabs */
 .work-tabs{
@@ -1053,6 +1218,7 @@ body.home{ background:var(--ink); }
   box-sizing:border-box;
   scroll-snap-align:center;
   pointer-events:none;
+  position:relative;
 }
 .c-item.is-center{ pointer-events:auto; z-index:3; position:relative; }
 
@@ -1100,6 +1266,29 @@ body.home{ background:var(--ink); }
   text-align:center;
 }
 .c-item.is-center figcaption{ opacity:1; color:rgba(255,255,255,0.7); }
+
+/* Título superpuesto para el carrusel de proyectos (imagen de portada) */
+.c-item-title{
+  position:absolute;
+  top:24px; left:24px;
+  z-index:4;
+  font-family:var(--font-display);
+  font-weight:700;
+  color:#fff;
+  font-size:clamp(18px,2.2vw,26px);
+  line-height:1.08;
+  text-transform:uppercase;
+  letter-spacing:-0.01em;
+  text-shadow:0 2px 16px rgba(0,0,0,0.45);
+  opacity:0;
+  transition:opacity .4s ease;
+  pointer-events:none;
+}
+.c-item.is-center .c-item-title{ opacity:1; }
+
+.proyectos-carousel{ margin-top:8px; }
+.proyectos-carousel .c-item img{ box-shadow:0 24px 60px rgba(28,27,24,0.28); }
+.proyectos-carousel .c-item.is-center img{ box-shadow:0 34px 80px rgba(28,27,24,0.35); }
 @media (max-width:900px){
   .c-item{ width:260px; padding:0 8px; }
   .c-item.is-center img{ max-height:42vh; }
@@ -1121,6 +1310,26 @@ body.home{ background:var(--ink); }
   padding-bottom:110px;
 }
 .model-section-immersive .section-head{ padding-top:0; }
+
+/* ---------- Flipbook (sección independiente) ---------- */
+.flipbook-section{
+  background:var(--paper-warm);
+  padding:56px 0 100px;
+}
+.flipbook-section .section-head{ padding-top:0; padding-bottom:34px; }
+.flipbook-placeholder{
+  border:1px dashed var(--line);
+  border-radius:6px;
+  min-height:280px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--gray);
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  background:rgba(28,27,24,0.02);
+}
 
 .project-tabs{
   position:relative;
