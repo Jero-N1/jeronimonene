@@ -13,45 +13,41 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  /* ---------- Hotspots interactivos (pin: dot -> línea -> burbuja) ---------- */
+  /* ---------- Hotspots interactivos (si existen en la página) ---------- */
   var hotspots = document.querySelectorAll('.hotspot');
   var bubbles = document.querySelectorAll('.bubble');
-
-  function closeAllBubbles() {
-    hotspots.forEach(function (h) { h.classList.remove('active'); });
-    bubbles.forEach(function (b) { b.classList.remove('show'); });
+  if (hotspots.length) {
+    function closeAllBubbles() {
+      hotspots.forEach(function (h) { h.classList.remove('active'); });
+      bubbles.forEach(function (b) { b.classList.remove('show'); });
+    }
+    hotspots.forEach(function (hotspot) {
+      hotspot.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var targetId = hotspot.getAttribute('data-bubble');
+        var bubble = document.getElementById(targetId);
+        var isOpen = bubble && bubble.classList.contains('show');
+        closeAllBubbles();
+        if (bubble && !isOpen) {
+          bubble.classList.add('show');
+          hotspot.classList.add('active');
+        }
+      });
+    });
+    document.addEventListener('click', closeAllBubbles);
+    bubbles.forEach(function (b) {
+      b.addEventListener('click', function (e) { e.stopPropagation(); });
+    });
   }
 
-  hotspots.forEach(function (hotspot) {
-    hotspot.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var targetId = hotspot.getAttribute('data-bubble');
-      var bubble = document.getElementById(targetId);
-      var isOpen = bubble && bubble.classList.contains('show');
-      closeAllBubbles();
-      if (bubble && !isOpen) {
-        bubble.classList.add('show');
-        hotspot.classList.add('active');
-      }
-    });
-  });
-
-  document.addEventListener('click', closeAllBubbles);
-  bubbles.forEach(function (b) {
-    b.addEventListener('click', function (e) { e.stopPropagation(); });
-  });
-
-  /* ---------- Reveal on scroll: aparición fluida de bloques al bajar ---------- */
+  /* ---------- Reveal on scroll: se repite cada vez que entra/sale de la vista ---------- */
   var revealEls = document.querySelectorAll('.reveal');
   if (revealEls.length && 'IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          io.unobserve(entry.target);
-        }
+        entry.target.classList.toggle('in-view', entry.isIntersecting);
       });
-    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
     revealEls.forEach(function (el) { io.observe(el); });
   } else {
     revealEls.forEach(function (el) { el.classList.add('in-view'); });
@@ -64,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
   var floatingNav = document.getElementById('floatingNav');
   if (floatingNav) {
 
-    /* ---- Toggle menú móvil de la isla ---- */
     var fnToggle = document.getElementById('fnToggle');
     var fnLinks = document.getElementById('fnLinks');
     if (fnToggle && fnLinks) {
@@ -73,10 +68,9 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    /* ---- Mostrar la isla al salir del hero + modo claro/oscuro según lo que hay debajo ---- */
     var hero = document.getElementById('inicio');
     var proyectos = document.getElementById('proyectos');
-    var modelFrame = document.querySelector('.model-frame.full');
+    var modelFrame = document.querySelector('.proyectos-carousel');
 
     function updateNavVisibility() {
       var heroBottom = hero.getBoundingClientRect().bottom;
@@ -96,10 +90,9 @@ document.addEventListener('DOMContentLoaded', function () {
       floatingNav.classList.toggle('on-light', onLight);
     }
 
-    /* ---- Indicador deslizante + sección activa ---- */
     var fnLinkEls = document.querySelectorAll('.fn-link[data-section]');
     var indicator = document.getElementById('fnIndicator');
-    var sections = ['inicio', 'trabajo', 'proyectos']
+    var sections = ['inicio', 'trabajo', 'proyectos', 'flipbook']
       .map(function (id) { return document.getElementById(id); })
       .filter(Boolean);
 
@@ -138,72 +131,8 @@ document.addEventListener('DOMContentLoaded', function () {
     onScroll();
     setTimeout(onScroll, 200);
 
-    /* ---- Selector genérico con indicador deslizante (Trabajo y Proyectos) ---- */
-    function setupPillTabs(opts) {
-      var wrap = document.getElementById(opts.wrapId);
-      var indicatorEl = document.getElementById(opts.indicatorId);
-      if (!wrap) return;
-      var tabEls = wrap.querySelectorAll(opts.tabSelector);
-      var panelEls = document.querySelectorAll(opts.panelSelector);
-
-      function moveTo(tab) {
-        if (!indicatorEl || !tab) return;
-        indicatorEl.style.width = tab.offsetWidth + 'px';
-        indicatorEl.style.transform = 'translateX(' + tab.offsetLeft + 'px)';
-      }
-
-      tabEls.forEach(function (tab) {
-        tab.addEventListener('click', function () {
-          var target = tab.getAttribute(opts.dataAttr);
-          tabEls.forEach(function (t) {
-            t.classList.toggle('active', t === tab);
-            t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
-          });
-          panelEls.forEach(function (p) {
-            p.classList.toggle('active', p.getAttribute(opts.panelAttr) === target);
-          });
-          moveTo(tab);
-          if (opts.onSwitch) opts.onSwitch(target);
-        });
-      });
-
-      var current = wrap.querySelector(opts.tabSelector + '.active');
-      moveTo(current);
-      setTimeout(function () { moveTo(current); }, 250);
-      window.addEventListener('resize', function () {
-        var active = wrap.querySelector(opts.tabSelector + '.active');
-        moveTo(active);
-      });
-    }
-
-    setupPillTabs({
-      wrapId: 'projectTabs',
-      indicatorId: 'tabIndicator',
-      tabSelector: '.tab',
-      panelSelector: '.tab-panel',
-      dataAttr: 'data-tab',
-      panelAttr: 'data-panel'
-    });
-
-    setupPillTabs({
-      wrapId: 'workTabs',
-      indicatorId: 'workTabIndicator',
-      tabSelector: '.wt-tab',
-      panelSelector: '.work-panel',
-      dataAttr: 'data-work',
-      panelAttr: 'data-work-panel',
-      onSwitch: function () {
-        // recalcular carruseles del panel recién mostrado (puede tener otro ancho/posición)
-        setTimeout(function () {
-          document.querySelectorAll('.work-panel.active .carousel').forEach(function (c) {
-            if (c._refreshCarousel) c._refreshCarousel();
-          });
-        }, 50);
-      }
-    });
-
-    /* ---- Carruseles: loop infinito + escala + drag con mouse + rueda + teclado (sin bugs de snap) ---- */
-    var carousels = document.querySelectorAll('.carousel');
+    /* ---- Carrusel de proyectos: loop infinito + escala + drag + rueda + teclado + autoscroll ---- */
+    var carousels = document.querySelectorAll('.carousel[data-carousel]');
 
     carousels.forEach(function (carousel) {
       var track = carousel.querySelector('[data-track]');
@@ -223,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       function updateScale() {
         var box = carousel.getBoundingClientRect();
-        if (box.width === 0) return; // panel oculto
+        if (box.width === 0) return;
         var center = box.left + box.width / 2;
         allItems().forEach(function (item) {
           var r = item.getBoundingClientRect();
@@ -235,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       var setWidth = 0;
       function initLoopPosition() {
-        if (carousel.getBoundingClientRect().width === 0) return; // panel oculto, reintentar luego
+        if (carousel.getBoundingClientRect().width === 0) return;
         var firstReal = track.children[n];
         var firstAny = track.children[0];
         setWidth = firstReal.offsetLeft - firstAny.offsetLeft;
@@ -245,29 +174,17 @@ document.addEventListener('DOMContentLoaded', function () {
       initLoopPosition();
       setTimeout(initLoopPosition, 300);
 
-      // Reposiciona el loop solo cuando el scroll está QUIETO (evita el "rebote" visual)
-      var loopTimeout;
+      // Chequeo de loop inmediato (las cajas ya no cambian de tamaño, así que es seguro
+      // hacerlo en cada evento de scroll sin esperar a que se detenga).
       carousel.addEventListener('scroll', function () {
         updateScale();
-        clearTimeout(loopTimeout);
-        loopTimeout = setTimeout(function () {
-          if (setWidth === 0) return;
-          var prevBehavior = carousel.style.scrollBehavior;
-          if (carousel.scrollLeft < setWidth * 0.5) {
-            carousel.style.scrollBehavior = 'auto';
-            carousel.scrollLeft += setWidth;
-            carousel.style.scrollBehavior = prevBehavior || '';
-          } else if (carousel.scrollLeft > setWidth * 1.5) {
-            carousel.style.scrollBehavior = 'auto';
-            carousel.scrollLeft -= setWidth;
-            carousel.style.scrollBehavior = prevBehavior || '';
-          }
-        }, 120);
+        if (setWidth === 0) return;
+        if (carousel.scrollLeft < setWidth * 0.5) {
+          carousel.scrollLeft += setWidth;
+        } else if (carousel.scrollLeft > setWidth * 1.5) {
+          carousel.scrollLeft -= setWidth;
+        }
       }, { passive: true });
-
-      // Rueda del mouse: NO se intercepta — así el scroll normal de la página
-      // sigue funcionando con el mouse encima del carrusel. El trackpad ya
-      // mueve el carrusel horizontal de forma nativa (deltaX).
 
       // Arrastrar con mouse
       var isDown = false, startX = 0, startScroll = 0, moved = false;
@@ -294,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (moved) { e.preventDefault(); e.stopPropagation(); }
       }, true);
 
-      // Flechas del teclado: paso controlado de un elemento completo (evita el bug de scroll nativo + snap)
+      // Flechas del teclado
       carousel.addEventListener('keydown', function (e) {
         if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
         e.preventDefault();
@@ -303,10 +220,40 @@ document.addEventListener('DOMContentLoaded', function () {
         carousel.scrollBy({ left: e.key === 'ArrowRight' ? step : -step, behavior: 'smooth' });
       });
 
-      carousel._refreshCarousel = function () {
-        initLoopPosition();
-        updateScale();
-      };
+      // Autoscroll lento (solo si el carrusel lo pide) — se pausa con cualquier interacción
+      if (carousel.hasAttribute('data-autoscroll')) {
+        var paused = false;
+        var resumeTimeout;
+        function pause() {
+          paused = true;
+          clearTimeout(resumeTimeout);
+        }
+        function scheduleResume() {
+          clearTimeout(resumeTimeout);
+          resumeTimeout = setTimeout(function () { paused = false; }, 1800);
+        }
+        carousel.addEventListener('pointerdown', pause);
+        carousel.addEventListener('pointerup', scheduleResume);
+        carousel.addEventListener('pointercancel', scheduleResume);
+        carousel.addEventListener('wheel', function () { pause(); scheduleResume(); }, { passive: true });
+        carousel.addEventListener('mouseenter', pause);
+        carousel.addEventListener('mouseleave', scheduleResume);
+        carousel.addEventListener('touchstart', pause, { passive: true });
+        carousel.addEventListener('touchend', scheduleResume);
+        carousel.addEventListener('keydown', function () { pause(); scheduleResume(); });
+
+        var lastTime = null;
+        function autoTick(t) {
+          if (lastTime === null) lastTime = t;
+          var dt = t - lastTime;
+          lastTime = t;
+          if (!paused && setWidth > 0) {
+            carousel.scrollLeft += dt * 0.028; // px por ms — lento y constante
+          }
+          window.requestAnimationFrame(autoTick);
+        }
+        window.requestAnimationFrame(autoTick);
+      }
 
       window.addEventListener('resize', function () {
         initLoopPosition();
