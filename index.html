@@ -17,6 +17,7 @@
     <a href="#inicio" data-section="inicio" class="fn-link active">Inicio</a>
     <a href="#trabajo" data-section="trabajo" class="fn-link">Trabajo</a>
     <a href="#proyectos" data-section="proyectos" class="fn-link">Proyectos</a>
+    <a href="#flipbook" data-section="flipbook" class="fn-link">Flipbook</a>
     <a href="contacto.html" class="fn-link">Contacto</a>
   </div>
   <button class="fn-toggle" id="fnToggle" aria-label="Abrir menú">☰</button>
@@ -43,13 +44,28 @@
       <span class="hi-siiu-label">SIIU 2026<br>Genova's Habitability</span>
     </a>
 
+    <a href="index.html" class="hi-mark">Jerónimo Nene Toro<span>.</span></a>
+
+    <nav class="hero-nav" aria-label="Navegación principal">
+      <a href="#inicio" class="hn-link hn-active">Inicio</a>
+      <a href="#trabajo" class="hn-link">Trabajo</a>
+      <a href="#proyectos" class="hn-link">Proyectos</a>
+      <a href="#flipbook" class="hn-link">Flipbook</a>
+      <a href="contacto.html" class="hn-link">Contacto</a>
+    </nav>
+
+    <nav class="hero-social" aria-label="Redes sociales">
+      <a href="https://instagram.com/" target="_blank" rel="noopener" class="hn-link hn-small">IG</a>
+      <a href="https://www.linkedin.com/in/jeronimo-nene" target="_blank" rel="noopener" class="hn-link hn-small">LinkedIn</a>
+    </nav>
+
     <div class="hi-content">
       <span class="hi-name">Jerónimo Nene Toro</span>
       <h1 class="hi-title">Portafolio</h1>
       <span class="hi-sub">Arquitectura y diseño</span>
 
       <div class="hi-actions">
-        <a href="contacto.html" class="btn-solid">Contacto</a>
+        <a href="contacto.html" class="btn-glass">Contacto</a>
         <a href="#proyectos" class="btn-ghost">Proyectos</a>
       </div>
     </div>
@@ -62,124 +78,75 @@
 
   <div class="seam seam--dark" aria-hidden="true"></div>
 
-  <!-- ============ TRABAJO — carruseles ============ -->
+  <!-- ============ TRABAJO — 3 imágenes fijas ============ -->
   <section id="trabajo" class="work-section">
     <div class="wrap">
       <div class="section-head reveal">
         <div class="section-eyebrow">Trabajo</div>
       </div>
 
-      <div class="work-tabs reveal" id="workTabs">
-        <span class="wt-indicator" id="workTabIndicator"></span>
-        <button class="wt-tab active" data-work="visual">Visualización</button>
-        <button class="wt-tab" data-work="planos">Planos</button>
-        <button class="wt-tab" data-work="interior">Diseño interior</button>
-      </div>
-    </div>
-
-    <div class="work-panel active" data-work-panel="visual">
-      <div class="carousel" data-carousel tabindex="0">
-        <div class="carousel-track" data-track>
-          <figure class="c-item"><img src="img/tayrona-hero.jpg" alt="Render nocturno Tayrona Archaeological Pavillion"><figcaption>Tayrona — vista nocturna</figcaption></figure>
-          <figure class="c-item"><img src="img/tayrona-sunset.jpg" alt="Render exterior Tayrona al atardecer"><figcaption>Tayrona — exterior sobre el agua</figcaption></figure>
-          <figure class="c-item"><img src="img/solfernandez-hero.jpg" alt="Render nocturno Sol Fernández High School"><figcaption>Sol Fernández — fachada nocturna</figcaption></figure>
-          <figure class="c-item"><img src="img/interwind-hero.jpg" alt="Render Interwind Pavillion en la plaza"><figcaption>Interwind — implantación en plaza</figcaption></figure>
-        </div>
-      </div>
-    </div>
-
-    <div class="work-panel" data-work-panel="planos">
-      <div class="carousel" data-carousel tabindex="0">
-        <div class="carousel-track" data-track>
-          <figure class="c-item"><img src="img/tayrona-plan.jpg" alt="Planta primer piso Tayrona Archaeological Pavillion"><figcaption>Tayrona — planta primer piso</figcaption></figure>
-          <figure class="c-item"><img src="img/tayrona-axo.jpg" alt="Axonometría Tayrona Archaeological Pavillion"><figcaption>Tayrona — axonometría</figcaption></figure>
-          <figure class="c-item"><img src="img/sol-plan.jpg" alt="Planta primer piso Sol Fernández High School"><figcaption>Sol Fernández — planta primer piso</figcaption></figure>
-          <figure class="c-item"><img src="img/interwind-axo.jpg" alt="Axonometría estructural Interwind Pavillion"><figcaption>Interwind — axonometría estructural</figcaption></figure>
-        </div>
-      </div>
-    </div>
-
-    <div class="work-panel" data-work-panel="interior">
-      <div class="carousel" data-carousel tabindex="0">
-        <div class="carousel-track" data-track>
-          <figure class="c-item"><img src="img/sol-interior.jpg" alt="Render interior biblioteca Sol Fernández"><figcaption>Sol Fernández — interior biblioteca</figcaption></figure>
-          <figure class="c-item"><img src="img/interwind-photos.jpg" alt="Detalle e interior Interwind Pavillion"><figcaption>Interwind — detalle e interior</figcaption></figure>
-        </div>
+      <div class="work-tiles reveal">
+        <a href="trabajo/visualizacion.html" class="work-tile">
+          <img src="img/tayrona-hero.jpg" alt="Visualización arquitectónica">
+          <span class="wt-label">Visualización</span>
+        </a>
+        <a href="trabajo/planos.html" class="work-tile">
+          <img src="img/tayrona-axo.jpg" alt="Planos arquitectónicos">
+          <span class="wt-label">Planos</span>
+        </a>
+        <a href="trabajo/diseno-interior.html" class="work-tile">
+          <img src="img/sol-interior.jpg" alt="Diseño interior">
+          <span class="wt-label">Diseño interior</span>
+        </a>
       </div>
     </div>
   </section>
 
   <div class="seam seam--fade" aria-hidden="true"></div>
 
-  <!-- ============ PROYECTOS — inmersivo full-bleed ============ -->
+  <!-- ============ PROYECTOS — carrusel con autoscroll ============ -->
   <section id="proyectos" class="model-section-immersive full-bleed">
     <div class="wrap">
       <div class="section-head reveal">
-        <div class="section-eyebrow">Selección de proyectos</div>
-        <p>Tocá cada punto para ver el proyecto y entrar al detalle completo.</p>
-      </div>
-
-      <div class="project-tabs reveal" role="tablist" id="projectTabs">
-        <span class="tab-indicator" id="tabIndicator"></span>
-        <button class="tab active" data-tab="arquitectura" role="tab" aria-selected="true">Arquitectura</button>
-        <button class="tab" data-tab="urbanismo" role="tab" aria-selected="false">Urbanismo</button>
-        <button class="tab" data-tab="flipbook" role="tab" aria-selected="false">Flipbook</button>
+        <div class="section-eyebrow">Proyectos</div>
+        <p>La del centro se agranda sola — arrastrá o hacé clic para entrar al detalle.</p>
       </div>
     </div>
 
-    <div class="tab-panel active" data-panel="arquitectura">
-      <div class="model-frame full reveal">
-        <img src="img/maquetas.jpg" alt="Cuatro maquetas de proyectos arquitectónicos sobre una mesa">
-
-        <div class="pin" style="left:16%; top:66%;">
-          <button class="hotspot" data-bubble="bubble-tayrona" aria-label="Ver proyecto Tayrona Archaeological Pavillion"></button>
-          <span class="pin-line"></span>
-          <div class="bubble" id="bubble-tayrona">
-            <span class="b-tag">Proyecto 01 · Institucional</span>
-            <span class="b-title">Tayrona Archaeological Pavillion</span>
-            <a href="proyectos/tayrona.html">Ver proyecto →</a>
-          </div>
-        </div>
-
-        <div class="pin" style="left:40%; top:62%;">
-          <button class="hotspot" data-bubble="bubble-sol" aria-label="Ver proyecto Sol Fernández High School"></button>
-          <span class="pin-line"></span>
-          <div class="bubble" id="bubble-sol">
-            <span class="b-tag">Proyecto 02 · Educativo</span>
-            <span class="b-title">Sol Fernández High School</span>
-            <a href="proyectos/sol-fernandez.html">Ver proyecto →</a>
-          </div>
-        </div>
-
-        <div class="pin" style="left:63%; top:64%;">
-          <button class="hotspot" data-bubble="bubble-interwind" aria-label="Ver proyecto Interwind Pavillion"></button>
-          <span class="pin-line"></span>
-          <div class="bubble" id="bubble-interwind">
-            <span class="b-tag">Proyecto 03 · Instalación efímera</span>
-            <span class="b-title">Interwind Pavillion</span>
-            <a href="proyectos/interwind.html">Ver proyecto →</a>
-          </div>
-        </div>
-
-        <div class="pin" style="left:87%; top:60%;">
-          <button class="hotspot hotspot--muted" data-bubble="bubble-enea" aria-label="Proyecto Enea's Complex, próximamente"></button>
-          <span class="pin-line pin-line--muted"></span>
-          <div class="bubble" id="bubble-enea">
-            <span class="b-tag">Proyecto 04 · Residencial</span>
-            <span class="b-title">Enea's Residential Complex</span>
-            <a href="contacto.html">Próximamente →</a>
-          </div>
-        </div>
+    <div class="carousel proyectos-carousel reveal" data-carousel data-autoscroll tabindex="0">
+      <div class="carousel-track" data-track>
+        <a class="c-item" href="proyectos/tayrona.html">
+          <img src="img/tayrona-hero.jpg" alt="Tayrona Archaeological Pavillion">
+          <span class="c-item-title">Pabellón<br>Tayrona</span>
+        </a>
+        <a class="c-item" href="proyectos/sol-fernandez.html">
+          <img src="img/solfernandez-hero.jpg" alt="Sol Fernández High School">
+          <span class="c-item-title">Sol<br>Fernández</span>
+        </a>
+        <a class="c-item" href="proyectos/interwind.html">
+          <img src="img/interwind-hero.jpg" alt="Interwind Pavillion">
+          <span class="c-item-title">Interwind<br>Pavillion</span>
+        </a>
+        <a class="c-item" href="proyectos/genova.html">
+          <img src="img/sol-interior.jpg" alt="Enea's Residential Complex — próximamente">
+          <span class="c-item-title">Enea's<br>Complex</span>
+        </a>
       </div>
-      <div class="wrap"><div class="model-caption"><span class="dot"></span>3 de 4 proyectos disponibles — Enea's Complex se publica próximamente.</div></div>
     </div>
 
-    <div class="tab-panel" data-panel="urbanismo">
-      <div class="tab-empty"><p>Próximamente — proyectos de urbanismo.</p></div>
-    </div>
+    <div class="wrap"><div class="model-caption"><span class="dot"></span>3 de 4 proyectos disponibles — Enea's Complex se publica próximamente.</div></div>
+  </section>
 
-    <div class="tab-panel" data-panel="flipbook">
-      <div class="tab-empty"><p>Próximamente — flipbook del portafolio completo.</p></div>
+  <div class="seam seam--light" aria-hidden="true"></div>
+
+  <!-- ============ FLIPBOOK — sección independiente ============ -->
+  <section id="flipbook" class="flipbook-section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="section-eyebrow">Flipbook</div>
+        <p>El portafolio completo, hoja por hoja. Muy pronto.</p>
+      </div>
+      <div class="flipbook-placeholder reveal">Próximamente</div>
     </div>
   </section>
 
@@ -187,15 +154,25 @@
 
 <footer class="site-footer">
   <div class="wrap">
-    <div class="footer-grid reveal">
-      <div>
+    <div class="footer-inner reveal">
+      <div class="footer-top">
         <h3>¿Hablamos de tu próximo proyecto?</h3>
-        <a href="contacto.html" class="text-link">Ir a contacto →</a>
+        <div class="footer-icons">
+          <a href="https://instagram.com/" target="_blank" rel="noopener" class="ficon" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+          </a>
+          <a href="mailto:jernen302@gmail.com" class="ficon" aria-label="Correo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 6l8 7 8-7"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/jeronimo-nene" target="_blank" rel="noopener" class="ficon" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="7.5" y1="10.5" x2="7.5" y2="16.5"/><circle cx="7.5" cy="7.3" r="0.6" fill="currentColor"/><path d="M11.5 16.5v-4a2 2 0 0 1 4 0v4"/><line x1="11.5" y1="10.5" x2="11.5" y2="16.5"/></svg>
+          </a>
+        </div>
       </div>
-    </div>
-    <div class="foot-meta reveal">
-      <span>© 2026 Jerónimo Nene Toro</span>
-      <span>Bogotá, Colombia</span>
+      <div class="foot-meta">
+        <span>© 2026 Jerónimo Nene Toro</span>
+        <span>Bogotá, Colombia</span>
+      </div>
     </div>
   </div>
 </footer>
