@@ -1265,8 +1265,21 @@ body.home{ background:var(--ink); }
 /* Título de la tarjeta centrado - Ajustamos su posición un poco */
 .c-item-title {
   position: absolute;
-  top: 30px; left: 30px;
-  /* ... (deja el resto de atributos de .c-item-title igual) ... */
+  top: 30px; 
+  left: 30px;
+  z-index: 4;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: #fff;
+  font-size: clamp(17px,2vw,24px);
+  line-height: 1.08;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.45);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .35s ease, transform .35s ease;
+  pointer-events: none;
 }
 
 /* Responsividad para móviles (tamaño ligeramente más pequeño que en PC) */
