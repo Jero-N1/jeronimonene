@@ -1097,13 +1097,13 @@ body.home{ background:var(--ink); }
   display:flex;
   align-items:center;
   gap:26px;
-  padding:34px 0 40px;
+  padding:14px 0 40px;
 }
 .ch-title{
-  font-family:var(--font-display);
-  font-weight:700;
-  font-size:clamp(30px,4.6vw,52px);
-  letter-spacing:-0.01em;
+  font-family:var(--font-body);
+  font-weight:600;
+  font-size:clamp(22px,3vw,34px);
+  letter-spacing:0.01em;
   text-transform:uppercase;
   color:var(--ink);
   white-space:nowrap;
@@ -1116,7 +1116,7 @@ body.home{ background:var(--ink); }
   background:var(--line);
 }
 @media (max-width:640px){
-  .corner-head{ gap:16px; padding:26px 0 30px; }
+  .corner-head{ gap:16px; padding:10px 0 30px; }
   .ch-bar{ height:4px; }
 }
 
@@ -1205,65 +1205,22 @@ body.home{ background:var(--ink); }
 .work-panel{ display:none; }
 .work-panel.active{ display:block; }
 
-.carousel{
-  overflow-x:auto;
-  overflow-y:visible;
-  scroll-snap-type:x mandatory;
-  scroll-snap-stop:always;
-  scrollbar-width:none;
-  -ms-overflow-style:none;
-  padding:36px 0 34px;
-  cursor:grab;
-  outline:none;
+/* ---------- Carrusel de proyectos (Swiper) ---------- */
+.proyectos-swiper{
+  padding:36px 0 54px;
 }
-.carousel::-webkit-scrollbar{ display:none; }
-.carousel.dragging{ cursor:grabbing; scroll-snap-type:none; }
-
-.carousel-track{
-  display:flex;
-  align-items:center;
-  padding:0 calc(50vw - 130px);
+.proyectos-swiper .swiper-slide{
+  width:260px;
 }
 @media (max-width:900px){
-  .carousel-track{ padding:0 calc(50vw - 85px); }
+  .proyectos-swiper .swiper-slide{ width:170px; }
 }
 
-/* La CAJA de cada tarjeta tiene ancho fijo — nunca se anima, así el scroll
-   nunca "pelea" contra un layout que se mueve solo. Todo el efecto de
-   tamaño pasa por transform en la imagen de adentro (no afecta el layout). */
 .c-item{
-  flex:0 0 auto;
-  width:260px;
-  padding:0 12px;
-  box-sizing:border-box;
-  scroll-snap-align:center;
-  position:relative;
+  display:block;
   cursor:pointer;
 }
-.c-item.is-center{ z-index:3; cursor:default; }
-
-.c-frame{
-  position:relative;
-  display:block;
-}
-.c-frame::after{
-  content:"";
-  position:absolute; inset:0;
-  z-index:3;
-  background:rgba(20,19,17,0);
-  backdrop-filter:blur(0px);
-  -webkit-backdrop-filter:blur(0px);
-  border-radius:8px;
-  transform:scale(0.86);
-  transform-origin:center center;
-  transition:background .4s ease, backdrop-filter .4s ease, transform .5s cubic-bezier(.22,1,.36,1);
-}
-.c-item.is-center .c-frame::after{ transform:scale(2.35); }
-.c-item.is-center:hover .c-frame::after{
-  background:rgba(20,19,17,0.3);
-  backdrop-filter:blur(2px);
-  -webkit-backdrop-filter:blur(2px);
-}
+.c-frame{ position:relative; display:block; }
 
 .c-item img{
   width:100%;
@@ -1273,80 +1230,56 @@ body.home{ background:var(--ink); }
   border-radius:8px;
   box-shadow:0 20px 50px rgba(0,0,0,0.35);
   -webkit-user-drag:none;
-  transform:scale(0.86);
-  opacity:0.4;
-  transform-origin:center center;
-  transition:transform .5s cubic-bezier(.22,1,.36,1), opacity .5s ease, box-shadow .5s ease;
-  will-change:transform;
-  backface-visibility:hidden;
+  transition:transform .5s cubic-bezier(.22,1,.36,1), box-shadow .5s ease;
 }
-.c-item.is-center img{
-  transform:scale(2.35);
-  opacity:1;
+.swiper-slide-active .c-item img{
+  transform:scale(1.06);
   box-shadow:0 30px 70px rgba(0,0,0,0.4);
 }
 
-/* Título — invisible por defecto, aparece solo al pasar el mouse sobre la del centro */
 .c-item-title{
   position:absolute;
   top:22px; left:22px;
   z-index:4;
-  font-family:var(--font-display);
-  font-weight:700;
+  font-family:var(--font-body);
+  font-weight:600;
   color:#fff;
-  font-size:clamp(17px,2vw,24px);
-  line-height:1.08;
+  font-size:clamp(15px,1.8vw,20px);
+  line-height:1.1;
   text-transform:uppercase;
-  letter-spacing:-0.01em;
+  letter-spacing:0.02em;
   text-shadow:0 2px 16px rgba(0,0,0,0.45);
   opacity:0;
-  transform:translateY(6px);
-  transition:opacity .35s ease, transform .35s ease;
+  transition:opacity .3s ease;
   pointer-events:none;
 }
-.c-item.is-center:hover .c-item-title{ opacity:1; transform:translateY(0); }
+.swiper-slide-active .c-item-title{ opacity:1; }
 
-.proyectos-carousel{ margin-top:0; }
-
-/* Tamaño base de cada tarjeta — fijo, nunca cambia (el "agrandado" es solo transform) */
-@media (max-width:900px){
-  .c-item{ width:170px; padding:0 8px; }
-  .c-item.is-center img{ transform:scale(1.9); }
-  .c-item.is-center .c-frame::after{ transform:scale(1.9); }
-}
-
-/* Contenedor del carrusel + flechas laterales (liquid glass) */
-.carousel-wrap{
-  position:relative;
-}
-.carousel-arrow{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:20;
+/* Flechas y paginación — mismo estilo "liquid glass" que antes */
+.proyectos-swiper .swiper-button-prev,
+.proyectos-swiper .swiper-button-next{
   width:48px; height:48px;
   border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
   background:rgba(28,27,24,0.06);
   border:1px solid rgba(28,27,24,0.12);
   backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
   color:var(--ink);
-  cursor:pointer;
-  transition:background .25s ease, transform .25s ease;
+  transition:background .25s ease, color .25s ease;
 }
-.carousel-arrow:hover{ background:var(--ink); color:#fff; }
-.carousel-arrow svg{ width:20px; height:20px; }
-.carousel-arrow.prev{ left:20px; }
-.carousel-arrow.next{ right:20px; }
+.proyectos-swiper .swiper-button-prev:hover,
+.proyectos-swiper .swiper-button-next:hover{ background:var(--ink); color:#fff; }
+.proyectos-swiper .swiper-button-prev::after,
+.proyectos-swiper .swiper-button-next::after{ font-size:18px; }
 @media (max-width:640px){
-  .carousel-arrow{ width:38px; height:38px; }
-  .carousel-arrow svg{ width:16px; height:16px; }
-  .carousel-arrow.prev{ left:8px; }
-  .carousel-arrow.next{ right:8px; }
+  .proyectos-swiper .swiper-button-prev,
+  .proyectos-swiper .swiper-button-next{ width:38px; height:38px; }
+  .proyectos-swiper .swiper-button-prev::after,
+  .proyectos-swiper .swiper-button-next::after{ font-size:14px; }
 }
+
+.proyectos-swiper .swiper-pagination-bullet{ background:var(--ink); opacity:0.25; }
+.proyectos-swiper .swiper-pagination-bullet-active{ opacity:1; }
 
 /* ---------- Proyectos inmersivo full-bleed ---------- */
 .full-bleed{
