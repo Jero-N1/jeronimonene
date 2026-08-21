@@ -1513,3 +1513,99 @@ body.home{ background:var(--ink); }
 }
 
 /* ---------- Contacto page uses light nav — helper for non-home pages already exists (.site-header) ---------- */
+
+/* ============================================
+   Ajustes de Interfaz y Carrusel
+   ============================================ */
+
+/* 1. Corrección del menú superior en secciones de fondo claro */
+.floating-nav.on-light {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(28, 27, 24, 0.15);
+  box-shadow: 0 8px 24px rgba(28, 27, 24, 0.08);
+}
+.floating-nav.on-light .fn-brand,
+.floating-nav.on-light .fn-link,
+.floating-nav.on-light .fn-toggle {
+  color: var(--ink) !important;
+}
+.floating-nav.on-light .fn-link:hover, 
+.floating-nav.on-light .fn-link.active {
+  color: var(--red) !important;
+}
+
+/* 2. Reducción del tamaño de los títulos (Trabajo y Proyectos) */
+.ch-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(24px, 3.2vw, 36px);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+  margin: 0;
+}
+
+/* 3. Corrección del carrusel (imagen libre sin scroll interno vertical) */
+.carousel {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-snap-stop: always;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 60px 0 60px;
+  cursor: grab;
+  outline: none;
+}
+
+.c-item {
+  flex: 0 0 auto;
+  width: 320px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  scroll-snap-align: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.c-item img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+  border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  transform: scale(0.85);
+  opacity: 0.5;
+  filter: blur(1px);
+  transition: transform .5s cubic-bezier(.22,1,.36,1), opacity .5s ease, filter .5s ease, box-shadow .5s ease;
+  will-change: transform;
+}
+
+/* Tarjeta central activa */
+.c-item.is-center img {
+  transform: scale(1.35);
+  opacity: 1;
+  filter: blur(0);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+}
+
+.c-item.is-center .c-frame::after {
+  transform: scale(1.35);
+}
+
+/* 4. Flechas del carrusel más cerca del centro */
+.carousel-arrow.prev { 
+  left: 15%; 
+}
+.carousel-arrow.next { 
+  right: 15%; 
+}
+
+@media (max-width: 900px) {
+  .carousel-arrow.prev { left: 4%; }
+  .carousel-arrow.next { right: 4%; }
+  .c-item { width: 220px; }
+  .c-item.is-center img { transform: scale(1.2); }
+}
