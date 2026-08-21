@@ -1207,13 +1207,12 @@ body.home{ background:var(--ink); }
 
 .carousel {
   overflow-x: auto;
-  overflow-y: visible;
+  overflow-y: hidden; /* Esto elimina cualquier posibilidad de scroll vertical */
   scroll-snap-type: x mandatory;
   scroll-snap-stop: always;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  /* AUMENTAMOS EL PADDING VERTICAL PARA QUE LA IMAGEN GIGANTE NO SE CORTE */
-  padding: 160px 0 140px; 
+  padding: 140px 0; /* Espacio calculado exacto para la nueva escala */
   cursor: grab;
   outline: none;
 }
@@ -1221,8 +1220,7 @@ body.home{ background:var(--ink); }
 .carousel-track {
   display: flex;
   align-items: center;
-  /* Ajustamos el centro a la mitad del nuevo ancho base (320px) */
-  padding: 0 calc(50vw - 160px); 
+  padding: 0 calc(50vw - 140px); /* Alineado a la mitad del nuevo ancho */
 }
 @media (max-width:900px){
   .carousel-track{ padding: 0 calc(50vw - 110px); }
@@ -1230,7 +1228,7 @@ body.home{ background:var(--ink); }
 
 .c-item {
   flex: 0 0 auto;
-  width: 320px; /* Aumentamos el tamaño base de la tarjeta */
+  width: 280px; /* Tamaño base un poco más contenido */
   padding: 0 12px;
   box-sizing: border-box;
   scroll-snap-align: center;
@@ -1238,7 +1236,7 @@ body.home{ background:var(--ink); }
   cursor: pointer;
 }
 
-.c-item.is-center .c-frame::after { transform: scale(2.2); }
+.c-item.is-center .c-frame::after { transform: scale(2.0); } /* Escala máxima bajó de 2.2 a 2.0 */
 
 .c-item img {
   width: 100%;
@@ -1257,7 +1255,7 @@ body.home{ background:var(--ink); }
 }
 
 .c-item.is-center img {
-  transform: scale(2.2); /* Al estar al centro, crecerá casi a 700px */
+  transform: scale(2.0); /* Se verá grande pero sin desbordarse */
   opacity: 1;
   box-shadow: 0 30px 70px rgba(0,0,0,0.4);
 }
@@ -1284,7 +1282,8 @@ body.home{ background:var(--ink); }
 
 /* Responsividad para móviles (tamaño ligeramente más pequeño que en PC) */
 @media (max-width:900px){
-  .c-item { width: 220px; padding: 0 8px; }
+  .carousel-track { padding: 0 calc(50vw - 100px); }
+  .c-item { width: 200px; padding: 0 8px; }
   .c-item.is-center img { transform: scale(1.8); }
   .c-item.is-center .c-frame::after { transform: scale(1.8); }
 }
