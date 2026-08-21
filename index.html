@@ -27,6 +27,7 @@
 
   <!-- ============ HERO INMERSIVO ============ -->
   <section class="hero-immersive" id="inicio">
+    <img class="hi-bg" src="img/tayrona-hero.jpg" alt="" aria-hidden="true">
     <div class="hi-grid" aria-hidden="true">
       <svg viewBox="0 0 1200 800" preserveAspectRatio="none">
         <line class="hi-line" x1="0" y1="160" x2="1200" y2="160"/>
@@ -61,28 +62,20 @@
 
     <div class="hi-content">
       <span class="hi-name">Jerónimo Nene Toro</span>
-      <h1 class="hi-title">Portafolio</h1>
-      <span class="hi-sub">Arquitectura y diseño</span>
-
-      <div class="hi-actions">
-        <a href="contacto.html" class="btn-glass">Contacto</a>
-        <a href="#proyectos" class="btn-ghost">Proyectos</a>
-      </div>
+      <span class="hi-sub">Arquitecto</span>
     </div>
 
     <a href="#trabajo" class="hi-scroll" aria-label="Desplazarse hacia abajo">
-      <span class="hi-scroll-bar"></span>
-      Desplazar
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 9l7 7 7-7"/></svg>
     </a>
   </section>
-
-  <div class="seam seam--dark" aria-hidden="true"></div>
 
   <!-- ============ TRABAJO — 3 imágenes fijas ============ -->
   <section id="trabajo" class="work-section">
     <div class="wrap">
-      <div class="section-head reveal">
-        <div class="section-eyebrow">Trabajo</div>
+      <div class="corner-head reveal">
+        <h2 class="ch-title">Trabajo</h2>
+        <span class="ch-bar"></span>
       </div>
 
       <div class="work-tiles reveal">
@@ -102,49 +95,61 @@
     </div>
   </section>
 
-  <div class="seam seam--fade" aria-hidden="true"></div>
-
   <!-- ============ PROYECTOS — carrusel con autoscroll ============ -->
   <section id="proyectos" class="model-section-immersive full-bleed">
     <div class="wrap">
-      <div class="section-head reveal">
-        <div class="section-eyebrow">Proyectos</div>
-        <p>La del centro se agranda sola — arrastrá o hacé clic para entrar al detalle.</p>
+      <div class="corner-head reveal">
+        <h2 class="ch-title">Proyectos</h2>
+        <span class="ch-bar"></span>
       </div>
     </div>
 
-    <div class="carousel proyectos-carousel reveal" data-carousel data-autoscroll tabindex="0">
-      <div class="carousel-track" data-track>
-        <a class="c-item" href="proyectos/tayrona.html">
-          <img src="img/tayrona-hero.jpg" alt="Tayrona Archaeological Pavillion">
-          <span class="c-item-title">Pabellón<br>Tayrona</span>
-        </a>
-        <a class="c-item" href="proyectos/sol-fernandez.html">
-          <img src="img/solfernandez-hero.jpg" alt="Sol Fernández High School">
-          <span class="c-item-title">Sol<br>Fernández</span>
-        </a>
-        <a class="c-item" href="proyectos/interwind.html">
-          <img src="img/interwind-hero.jpg" alt="Interwind Pavillion">
-          <span class="c-item-title">Interwind<br>Pavillion</span>
-        </a>
-        <a class="c-item" href="proyectos/genova.html">
-          <img src="img/sol-interior.jpg" alt="Enea's Residential Complex — próximamente">
-          <span class="c-item-title">Enea's<br>Complex</span>
-        </a>
+    <div class="carousel-wrap reveal">
+      <button class="carousel-arrow prev" data-dir="-1" aria-label="Proyecto anterior">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="carousel proyectos-carousel" data-carousel data-autoscroll tabindex="0">
+        <div class="carousel-track" data-track>
+          <a class="c-item" href="proyectos/tayrona.html">
+            <span class="c-frame">
+              <img src="img/tayrona-hero.jpg" alt="Tayrona Archaeological Pavillion">
+              <span class="c-item-title">Pabellón<br>Tayrona</span>
+            </span>
+          </a>
+          <a class="c-item" href="proyectos/sol-fernandez.html">
+            <span class="c-frame">
+              <img src="img/solfernandez-hero.jpg" alt="Sol Fernández High School">
+              <span class="c-item-title">Sol<br>Fernández</span>
+            </span>
+          </a>
+          <a class="c-item" href="proyectos/interwind.html">
+            <span class="c-frame">
+              <img src="img/interwind-hero.jpg" alt="Interwind Pavillion">
+              <span class="c-item-title">Interwind<br>Pavillion</span>
+            </span>
+          </a>
+          <a class="c-item" href="proyectos/genova.html">
+            <span class="c-frame">
+              <img src="img/sol-interior.jpg" alt="Enea's Residential Complex — próximamente">
+              <span class="c-item-title">Enea's<br>Complex</span>
+            </span>
+          </a>
+        </div>
       </div>
+      <button class="carousel-arrow next" data-dir="1" aria-label="Proyecto siguiente">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
     </div>
 
     <div class="wrap"><div class="model-caption"><span class="dot"></span>3 de 4 proyectos disponibles — Enea's Complex se publica próximamente.</div></div>
   </section>
 
-  <div class="seam seam--light" aria-hidden="true"></div>
-
   <!-- ============ FLIPBOOK — sección independiente ============ -->
   <section id="flipbook" class="flipbook-section">
     <div class="wrap">
-      <div class="section-head reveal">
-        <div class="section-eyebrow">Flipbook</div>
-        <p>El portafolio completo, hoja por hoja. Muy pronto.</p>
+      <div class="corner-head reveal">
+        <h2 class="ch-title">Flipbook</h2>
+        <span class="ch-bar"></span>
       </div>
       <div class="flipbook-placeholder reveal">Próximamente</div>
     </div>
