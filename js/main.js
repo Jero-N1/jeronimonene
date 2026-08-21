@@ -73,19 +73,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var modelFrame = document.querySelector('.proyectos-carousel');
 
     function updateNavVisibility() {
-      // Agregamos una validación extra por seguridad
-      if (!hero || !floatingNav) return; 
-
       var heroBottom = hero.getBoundingClientRect().bottom;
-      
-      // Hace visible el menú cuando empezamos a hacer scroll
       floatingNav.classList.toggle('visible', heroBottom < 80);
-
-      // Como todas las secciones debajo del hero son de fondo claro,
-      // activamos 'on-light' en el menú (letras oscuras) al salir del hero
-      var onLight = heroBottom < 60;
-      floatingNav.classList.toggle('on-light', onLight);
-    }
 
       var onLight = false;
       if (proyectos) {
