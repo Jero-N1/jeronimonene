@@ -235,4 +235,3 @@ carousels.forEach(function (carousel) {
     }
   });
 });
-});
