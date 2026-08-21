@@ -129,6 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ---- Carrusel de proyectos: Swiper (coverflow) ---- */
     if (window.Swiper && document.querySelector('.proyectos-swiper')) {
       new Swiper('.proyectos-swiper', {
+        slidesPerView: 'auto',
         slidesOffsetBefore: 200,
         slidesOffsetAfter: 200,
         initialSlide: 1,
