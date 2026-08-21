@@ -208,17 +208,39 @@ document.addEventListener('DOMContentLoaded', function () {
       carousel.addEventListener('pointercancel', endDrag);
       carousel.addEventListener('pointerleave', endDrag);
       carousel.addEventListener('click', function (e) {
-        if (moved) { e.preventDefault(); e.stopPropagation(); }
+        if (moved) { e.preventDefault(); e.stopPropagation(); return; }
+        // Si se hizo clic en una tarjeta que NO es la del centro, la centramos
+        // en vez de navegar. La del centro sigue su link normalmente.
+        var item = e.target.closest ? e.target.closest('.c-item') : null;
+        if (item && !item.classList.contains('is-center')) {
+          e.preventDefault();
+          var carouselRect = carousel.getBoundingClientRect();
+          var itemRect = item.getBoundingClientRect();
+          var delta = (itemRect.left + itemRect.width / 2) - (carouselRect.left + carouselRect.width / 2);
+          carousel.scrollBy({ left: delta, behavior: 'smooth' });
+        }
       }, true);
 
-      // Flechas del teclado
+      // Flechas del teclado y botones prev/next — la caja de cada tarjeta
+      // es SIEMPRE del mismo ancho, así que el "paso" es siempre confiable.
+      var stepSize = track.children[0].offsetWidth;
+      function step(dir) {
+        carousel.scrollBy({ left: dir * stepSize, behavior: 'smooth' });
+      }
       carousel.addEventListener('keydown', function (e) {
         if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
         e.preventDefault();
-        var refItem = track.querySelector('.c-item.is-center') || allItems()[0];
-        var step = refItem.offsetWidth;
-        carousel.scrollBy({ left: e.key === 'ArrowRight' ? step : -step, behavior: 'smooth' });
+        step(e.key === 'ArrowRight' ? 1 : -1);
       });
+
+      var wrapEl = carousel.closest('.carousel-wrap');
+      if (wrapEl) {
+        wrapEl.querySelectorAll('.carousel-arrow').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            step(parseInt(btn.getAttribute('data-dir'), 10));
+          });
+        });
+      }
 
       // Autoscroll lento (solo si el carrusel lo pide) — se pausa con cualquier interacción
       if (carousel.hasAttribute('data-autoscroll')) {
@@ -258,6 +280,7 @@ document.addEventListener('DOMContentLoaded', function () {
       window.addEventListener('resize', function () {
         initLoopPosition();
         updateScale();
+        stepSize = track.children[0].offsetWidth;
       });
     });
   }
