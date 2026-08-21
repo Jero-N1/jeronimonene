@@ -590,6 +590,184 @@ footer .foot-meta{
 .p-nav .pn-label{ font-size:10.5px; color:var(--gray); }
 .p-nav .pn-next{ text-align:right; align-items:flex-end; }
 
+/* ============================================
+   PÁGINA DE PROYECTO — hero, galería y carruseles
+   ============================================ */
+
+/* ---------- Hero de proyecto (más corto que el de inicio) ---------- */
+.pd-hero{
+  position:relative;
+  height:88vh;
+  min-height:520px;
+  overflow:hidden;
+  background:var(--ink);
+}
+.pd-hero-bg{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+}
+.pd-hero-overlay{
+  position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(17,16,14,0.15) 0%, rgba(17,16,14,0.35) 55%, rgba(17,16,14,0.86) 100%);
+}
+/* Reutilizamos .hi-mark / .hero-social / .hi-scroll del hero de inicio, pero aquí sin animación de entrada */
+.pd-hero .hi-mark,
+.pd-hero .hero-social,
+.pd-hero .hi-scroll{ opacity:1; animation:none; }
+
+.pd-hero-content{
+  position:absolute;
+  left:6%; bottom:110px;
+  z-index:2;
+  max-width:640px;
+}
+.pd-eyebrow{
+  display:block;
+  font-size:12.5px;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--olive);
+  margin-bottom:14px;
+}
+.pd-title{
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:clamp(40px,6.5vw,76px);
+  line-height:0.98;
+  letter-spacing:-0.01em;
+  color:#fff;
+  text-transform:uppercase;
+}
+.pd-tag{
+  margin-top:18px;
+  font-size:15.5px;
+  color:rgba(255,255,255,0.72);
+  max-width:420px;
+}
+@media (max-width:760px){
+  .pd-hero-content{ left:24px; right:24px; bottom:90px; }
+}
+
+/* ---------- Bloques genéricos de la página de proyecto ---------- */
+.pd-block{ padding:90px 0; scroll-margin-top:100px; }
+.pd-block--tight{ padding-top:0; }
+.pd-text p{
+  font-size:17.5px;
+  color:var(--ink-soft);
+  max-width:680px;
+  margin-bottom:18px;
+}
+.pd-text p:first-child{ color:var(--ink); font-size:19px; }
+
+/* ---------- Carrusel arrastrable con autoscroll (variado y de proyectos) ---------- */
+.pd-carousel-wrap{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.pd-carousel-viewport{
+  flex:1;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
+  mask-image:linear-gradient(90deg, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
+}
+.pd-carousel-viewport::-webkit-scrollbar{ display:none; }
+.pd-carousel-track{
+  display:flex;
+  align-items:flex-end;
+  gap:20px;
+  padding:6px 48px;
+  width:max-content;
+  cursor:grab;
+  user-select:none;
+}
+.pd-carousel-track.dragging{ cursor:grabbing; }
+
+.pd-item{
+  position:relative;
+  flex-shrink:0;
+  display:block;
+  border-radius:6px;
+  overflow:hidden;
+  box-shadow:0 16px 40px rgba(0,0,0,0.16);
+}
+.pd-item img{
+  width:100%; height:100%;
+  object-fit:cover;
+  -webkit-user-drag:none;
+  pointer-events:none;
+}
+
+/* Carrusel "otros proyectos": reutiliza .c-item pero con caption siempre visible */
+.pd-item--uniform{ width:250px; height:330px; box-shadow:none; border-radius:8px; }
+.pd-carousel .c-item-title{ opacity:1; }
+
+.pd-arrow{
+  flex-shrink:0;
+  width:48px; height:48px;
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(28,27,24,0.06);
+  border:1px solid rgba(28,27,24,0.12);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  color:var(--ink);
+  cursor:pointer;
+  transition:background .25s ease, color .25s ease;
+}
+.pd-arrow:hover{ background:var(--ink); color:#fff; }
+.pd-arrow svg{ width:18px; height:18px; }
+@media (max-width:640px){
+  .pd-arrow{ width:38px; height:38px; }
+  .pd-arrow svg{ width:14px; height:14px; }
+}
+
+/* ---------- Galería mosaico ---------- */
+.pd-gallery-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:40px;
+  margin-bottom:44px;
+}
+.pd-gallery-row .g-tall{ aspect-ratio:3/4; overflow:hidden; border-radius:4px; }
+.pd-gallery-row .g-tall img{ width:100%; height:100%; object-fit:cover; }
+
+.pd-textcard{ scroll-margin-top:100px; }
+.tc-label{
+  display:block;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--red);
+  font-weight:500;
+  margin-bottom:14px;
+}
+.pd-textcard p{ font-size:16px; color:var(--ink-soft); margin-bottom:22px; max-width:420px; }
+.pd-textcard .g-wide{ aspect-ratio:16/10; overflow:hidden; border-radius:4px; }
+.pd-textcard .g-wide img{ width:100%; height:100%; object-fit:cover; }
+
+.pd-gallery-row2{
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  gap:24px;
+}
+.pd-gallery-row2 .g-big{ aspect-ratio:4/5; overflow:hidden; border-radius:4px; }
+.pd-gallery-row2 .g-big img{ width:100%; height:100%; object-fit:cover; }
+.pd-stack{ display:flex; flex-direction:column; gap:24px; }
+.pd-stack figure{ aspect-ratio:16/10; overflow:hidden; border-radius:4px; flex:1; }
+.pd-stack img{ width:100%; height:100%; object-fit:cover; }
+
+@media (max-width:760px){
+  .pd-gallery-row,
+  .pd-gallery-row2{ grid-template-columns:1fr; gap:22px; }
+}
+
 /* ---------- Contact page ---------- */
 .contact-hero{
   padding:170px 0 70px;
