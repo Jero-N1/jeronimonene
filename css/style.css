@@ -673,7 +673,7 @@ footer .foot-meta{
    LANDING INMERSIVO (solo index.html)
    ============================================ */
 
-body.home{ background:var(--ink); }
+body.home{ background:var(--paper); }
 
 /* ---------- Nav flotante "isla" liquid glass ---------- */
 .floating-nav{
@@ -1087,8 +1087,12 @@ body.home{ background:var(--ink); }
 .work-section{
   background:var(--paper);
   color:var(--ink);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
   padding-top:0;
-  padding-bottom:80px;
+  padding-bottom:0;
   scroll-margin-top:90px;
 }
 
@@ -1205,10 +1209,15 @@ body.home{ background:var(--ink); }
 .work-panel{ display:none; }
 .work-panel.active{ display:block; }
 
-/* ---------- Carrusel de proyectos (Swiper) ---------- */
+/* ---------- Carrusel de proyectos (Swiper — coverflow) ---------- */
 .proyectos-swiper{
-  padding:36px 0 54px;
+  flex:1;
+  display:flex;
+  align-items:center;
+  width:100%;
+  min-height:0;
 }
+.proyectos-swiper .swiper-wrapper{ align-items:center; }
 .proyectos-swiper .swiper-slide{
   width:260px;
 }
@@ -1292,16 +1301,23 @@ body.home{ background:var(--ink); }
 }
 
 .model-section-immersive{
-  background:var(--paper-warm);
+  background:var(--paper);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
   padding-top:0;
-  padding-bottom:110px;
+  padding-bottom:50px;
   scroll-margin-top:90px;
 }
 
 /* ---------- Flipbook (sección independiente) ---------- */
 .flipbook-section{
-  background:var(--paper-warm);
-  padding:0 0 100px;
+  background:var(--paper);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:0;
   scroll-margin-top:90px;
 }
 .flipbook-placeholder{
