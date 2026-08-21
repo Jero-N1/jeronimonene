@@ -1099,15 +1099,15 @@ body.home{ background:var(--ink); }
   gap:26px;
   padding:34px 0 40px;
 }
-.ch-title{
-  font-family:var(--font-display);
-  font-weight:700;
-  font-size:clamp(30px,4.6vw,52px);
-  letter-spacing:-0.01em;
-  text-transform:uppercase;
-  color:var(--ink);
-  white-space:nowrap;
-  margin:0;
+..ch-title {
+  font-family: var(--font-body); /* Cambiado a la fuente del hero */
+  font-weight: 500; /* Un poco menos pesado para que se vea elegante */
+  font-size: clamp(24px, 3.5vw, 36px); /* Tamaño reducido */
+  letter-spacing: 0.05em; /* Un poco de aire entre las letras */
+  text-transform: uppercase; /* Opcional, pero va muy bien con la fuente Jost */
+  color: var(--ink);
+  white-space: nowrap;
+  margin: 0;
 }
 .ch-bar{
   flex:1;
@@ -1205,114 +1205,75 @@ body.home{ background:var(--ink); }
 .work-panel{ display:none; }
 .work-panel.active{ display:block; }
 
-.carousel{
-  overflow-x:auto;
-  overflow-y:visible;
-  scroll-snap-type:x mandatory;
-  scroll-snap-stop:always;
-  scrollbar-width:none;
-  -ms-overflow-style:none;
-  padding:36px 0 34px;
-  cursor:grab;
-  outline:none;
+.carousel {
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x mandatory;
+  scroll-snap-stop: always;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* AUMENTAMOS EL PADDING VERTICAL PARA QUE LA IMAGEN GIGANTE NO SE CORTE */
+  padding: 160px 0 140px; 
+  cursor: grab;
+  outline: none;
 }
-.carousel::-webkit-scrollbar{ display:none; }
-.carousel.dragging{ cursor:grabbing; scroll-snap-type:none; }
 
-.carousel-track{
-  display:flex;
-  align-items:center;
-  padding:0 calc(50vw - 130px);
+.carousel-track {
+  display: flex;
+  align-items: center;
+  /* Ajustamos el centro a la mitad del nuevo ancho base (320px) */
+  padding: 0 calc(50vw - 160px); 
 }
 @media (max-width:900px){
-  .carousel-track{ padding:0 calc(50vw - 85px); }
+  .carousel-track{ padding: 0 calc(50vw - 110px); }
 }
 
-/* La CAJA de cada tarjeta tiene ancho fijo — nunca se anima, así el scroll
-   nunca "pelea" contra un layout que se mueve solo. Todo el efecto de
-   tamaño pasa por transform en la imagen de adentro (no afecta el layout). */
-.c-item{
-  flex:0 0 auto;
-  width:260px;
-  padding:0 12px;
-  box-sizing:border-box;
-  scroll-snap-align:center;
-  position:relative;
-  cursor:pointer;
-}
-.c-item.is-center{ z-index:3; cursor:default; }
-
-.c-frame{
-  position:relative;
-  display:block;
-}
-.c-frame::after{
-  content:"";
-  position:absolute; inset:0;
-  z-index:3;
-  background:rgba(20,19,17,0);
-  backdrop-filter:blur(0px);
-  -webkit-backdrop-filter:blur(0px);
-  border-radius:8px;
-  transform:scale(0.86);
-  transform-origin:center center;
-  transition:background .4s ease, backdrop-filter .4s ease, transform .5s cubic-bezier(.22,1,.36,1);
-}
-.c-item.is-center .c-frame::after{ transform:scale(2.35); }
-.c-item.is-center:hover .c-frame::after{
-  background:rgba(20,19,17,0.3);
-  backdrop-filter:blur(2px);
-  -webkit-backdrop-filter:blur(2px);
+.c-item {
+  flex: 0 0 auto;
+  width: 320px; /* Aumentamos el tamaño base de la tarjeta */
+  padding: 0 12px;
+  box-sizing: border-box;
+  scroll-snap-align: center;
+  position: relative;
+  cursor: pointer;
 }
 
-.c-item img{
-  width:100%;
-  aspect-ratio:1/1;
-  object-fit:cover;
-  display:block;
-  border-radius:8px;
-  box-shadow:0 20px 50px rgba(0,0,0,0.35);
-  -webkit-user-drag:none;
-  transform:scale(0.86);
-  opacity:0.4;
-  transform-origin:center center;
-  transition:transform .5s cubic-bezier(.22,1,.36,1), opacity .5s ease, box-shadow .5s ease;
-  will-change:transform;
-  backface-visibility:hidden;
-}
-.c-item.is-center img{
-  transform:scale(2.35);
-  opacity:1;
-  box-shadow:0 30px 70px rgba(0,0,0,0.4);
+.c-item.is-center .c-frame::after { transform: scale(2.2); }
+
+.c-item img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+  -webkit-user-drag: none;
+  transform: scale(0.9);
+  opacity: 0.4;
+  transform-origin: center center;
+  transition: transform .5s cubic-bezier(.22,1,.36,1), opacity .5s ease, box-shadow .5s ease;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
-/* Título — invisible por defecto, aparece solo al pasar el mouse sobre la del centro */
-.c-item-title{
-  position:absolute;
-  top:22px; left:22px;
-  z-index:4;
-  font-family:var(--font-display);
-  font-weight:700;
-  color:#fff;
-  font-size:clamp(17px,2vw,24px);
-  line-height:1.08;
-  text-transform:uppercase;
-  letter-spacing:-0.01em;
-  text-shadow:0 2px 16px rgba(0,0,0,0.45);
-  opacity:0;
-  transform:translateY(6px);
-  transition:opacity .35s ease, transform .35s ease;
-  pointer-events:none;
+.c-item.is-center img {
+  transform: scale(2.2); /* Al estar al centro, crecerá casi a 700px */
+  opacity: 1;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.4);
 }
-.c-item.is-center:hover .c-item-title{ opacity:1; transform:translateY(0); }
 
-.proyectos-carousel{ margin-top:0; }
+/* Título de la tarjeta centrado - Ajustamos su posición un poco */
+.c-item-title {
+  position: absolute;
+  top: 30px; left: 30px;
+  /* ... (deja el resto de atributos de .c-item-title igual) ... */
+}
 
-/* Tamaño base de cada tarjeta — fijo, nunca cambia (el "agrandado" es solo transform) */
+/* Responsividad para móviles (tamaño ligeramente más pequeño que en PC) */
 @media (max-width:900px){
-  .c-item{ width:170px; padding:0 8px; }
-  .c-item.is-center img{ transform:scale(1.9); }
-  .c-item.is-center .c-frame::after{ transform:scale(1.9); }
+  .c-item { width: 220px; padding: 0 8px; }
+  .c-item.is-center img { transform: scale(1.8); }
+  .c-item.is-center .c-frame::after { transform: scale(1.8); }
 }
 
 /* Contenedor del carrusel + flechas laterales (liquid glass) */
@@ -1513,99 +1474,3 @@ body.home{ background:var(--ink); }
 }
 
 /* ---------- Contacto page uses light nav — helper for non-home pages already exists (.site-header) ---------- */
-
-/* ============================================
-   Ajustes de Interfaz y Carrusel
-   ============================================ */
-
-/* 1. Corrección del menú superior en secciones de fondo claro */
-.floating-nav.on-light {
-  background: rgba(255, 255, 255, 0.85);
-  border-color: rgba(28, 27, 24, 0.15);
-  box-shadow: 0 8px 24px rgba(28, 27, 24, 0.08);
-}
-.floating-nav.on-light .fn-brand,
-.floating-nav.on-light .fn-link,
-.floating-nav.on-light .fn-toggle {
-  color: var(--ink) !important;
-}
-.floating-nav.on-light .fn-link:hover, 
-.floating-nav.on-light .fn-link.active {
-  color: var(--red) !important;
-}
-
-/* 2. Reducción del tamaño de los títulos (Trabajo y Proyectos) */
-.ch-title {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(24px, 3.2vw, 36px);
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
-  color: var(--ink);
-  white-space: nowrap;
-  margin: 0;
-}
-
-/* 3. Corrección del carrusel (imagen libre sin scroll interno vertical) */
-.carousel {
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  scroll-snap-stop: always;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  padding: 60px 0 60px;
-  cursor: grab;
-  outline: none;
-}
-
-.c-item {
-  flex: 0 0 auto;
-  width: 320px;
-  padding: 0 16px;
-  box-sizing: border-box;
-  scroll-snap-align: center;
-  position: relative;
-  cursor: pointer;
-}
-
-.c-item img {
-  width: 100%;
-  aspect-ratio: 4/3;
-  object-fit: cover;
-  display: block;
-  border-radius: 6px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  transform: scale(0.85);
-  opacity: 0.5;
-  filter: blur(1px);
-  transition: transform .5s cubic-bezier(.22,1,.36,1), opacity .5s ease, filter .5s ease, box-shadow .5s ease;
-  will-change: transform;
-}
-
-/* Tarjeta central activa */
-.c-item.is-center img {
-  transform: scale(1.35);
-  opacity: 1;
-  filter: blur(0);
-  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-}
-
-.c-item.is-center .c-frame::after {
-  transform: scale(1.35);
-}
-
-/* 4. Flechas del carrusel más cerca del centro */
-.carousel-arrow.prev { 
-  left: 15%; 
-}
-.carousel-arrow.next { 
-  right: 15%; 
-}
-
-@media (max-width: 900px) {
-  .carousel-arrow.prev { left: 4%; }
-  .carousel-arrow.next { right: 4%; }
-  .c-item { width: 220px; }
-  .c-item.is-center img { transform: scale(1.2); }
-}
