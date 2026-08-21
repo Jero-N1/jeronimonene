@@ -1506,7 +1506,7 @@ body.home{ background:var(--ink); }
 /* 1. Forzar color claro en Proyectos y centrar Trabajo al hacer click */
 #proyectos, #trabajo, .work-section, .model-section-immersive {
   background-color: var(--paper-warm) !important;
-  scroll-margin-top: 130px !important;
+  scroll-margin-top: 40px !important;
 }
 
 /* 2. Asegurar que el título aparezca en el centro de la imagen al poner el mouse */
