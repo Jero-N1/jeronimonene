@@ -1,60 +1,130 @@
+// ============================================
+// Portafolio — interactividad compartida
+// ============================================
+
 document.addEventListener('DOMContentLoaded', function () {
 
-  /* --- 1. MENÚ MÓVIL --- */
-  const toggle = document.querySelector('.nav-toggle');
-  const nav = document.querySelector('.main-nav');
+  /* ---------- Menú móvil ---------- */
+  var toggle = document.querySelector('.nav-toggle');
+  var nav = document.querySelector('.main-nav');
   if (toggle && nav) {
-    toggle.addEventListener('click', () => nav.classList.toggle('open'));
+    toggle.addEventListener('click', function () {
+      nav.classList.toggle('open');
+    });
   }
 
-  /* --- 2. REVEAL ON SCROLL (Animaciones al bajar) --- */
-  const revealEls = document.querySelectorAll('.reveal');
+  /* ---------- Hotspots interactivos ---------- */
+  var hotspots = document.querySelectorAll('.hotspot');
+  var bubbles = document.querySelectorAll('.bubble');
+  if (hotspots.length) {
+    function closeAllBubbles() {
+      hotspots.forEach(function (h) { h.classList.remove('active'); });
+      bubbles.forEach(function (b) { b.classList.remove('show'); });
+    }
+    hotspots.forEach(function (hotspot) {
+      hotspot.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var targetId = hotspot.getAttribute('data-bubble');
+        var bubble = document.getElementById(targetId);
+        var isOpen = bubble && bubble.classList.contains('show');
+        closeAllBubbles();
+        if (bubble && !isOpen) {
+          bubble.classList.add('show');
+          hotspot.classList.add('active');
+        }
+      });
+    });
+    document.addEventListener('click', closeAllBubbles);
+    bubbles.forEach(function (b) {
+      b.addEventListener('click', function (e) { e.stopPropagation(); });
+    });
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
   if (revealEls.length && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
         entry.target.classList.toggle('in-view', entry.isIntersecting);
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-    revealEls.forEach(el => io.observe(el));
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    revealEls.forEach(function (el) { io.observe(el); });
   } else {
-    revealEls.forEach(el => el.classList.add('in-view'));
+    revealEls.forEach(function (el) { el.classList.add('in-view'); });
   }
 
-  /* --- 3. NAVEGACIÓN FLOTANTE (Solo en Home) --- */
-  const floatingNav = document.getElementById('floatingNav');
+  /* ---------- LANDING INMERSIVO (Nav Flotante) ---------- */
+  var floatingNav = document.getElementById('floatingNav');
   if (floatingNav) {
-    const fnToggle = document.getElementById('fnToggle');
-    const fnLinks = document.getElementById('fnLinks');
+    var fnToggle = document.getElementById('fnToggle');
+    var fnLinks = document.getElementById('fnLinks');
     if (fnToggle && fnLinks) {
-      fnToggle.addEventListener('click', () => fnLinks.classList.toggle('open'));
+      fnToggle.addEventListener('click', function () {
+        fnLinks.classList.toggle('open');
+      });
     }
 
-    const hero = document.getElementById('inicio');
-    function handleScroll() {
-      if (!hero) return;
-      const heroBottom = hero.getBoundingClientRect().bottom;
-      // Muestra la barra si el hero ya pasó
+    var hero = document.getElementById('inicio');
+    var indicator = document.getElementById('fnIndicator');
+    var fnLinkEls = document.querySelectorAll('.fn-link[data-section]');
+    var sections = ['inicio', 'trabajo', 'proyectos', 'flipbook']
+      .map(function (id) { return document.getElementById(id); })
+      .filter(Boolean);
+
+    function updateNavVisibility() {
+      if(!hero) return;
+      var heroBottom = hero.getBoundingClientRect().bottom;
       floatingNav.classList.toggle('visible', heroBottom < 80);
-      // Cambia los colores si está sobre fondo claro
       floatingNav.classList.toggle('on-light', heroBottom < 60);
     }
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+
+    function moveIndicator(link) {
+      if (!indicator || !link) return;
+      indicator.style.width = link.offsetWidth + 'px';
+      indicator.style.transform = 'translateX(' + link.offsetLeft + 'px)';
+    }
+
+    function updateActiveSection() {
+      var scrollPos = window.scrollY + window.innerHeight * 0.4;
+      var currentId = sections[0] ? sections[0].id : 'inicio';
+      sections.forEach(function (sec) {
+        if (sec.offsetTop <= scrollPos) currentId = sec.id;
+      });
+      fnLinkEls.forEach(function (link) {
+        var isActive = link.getAttribute('data-section') === currentId;
+        link.classList.toggle('active', isActive);
+        if (isActive) moveIndicator(link);
+      });
+    }
+
+    var ticking = false;
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(function () {
+          updateNavVisibility();
+          updateActiveSection();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
   }
 
-  /* --- 4. SWIPER CAROUSEL --- */
-  // Verificamos que exista el contenedor antes de iniciarlo para evitar errores
+  /* ---------- SWIPER CAROUSEL (REEMPLAZO) ---------- */
   const swiperContainer = document.querySelector('.swiper');
   if (swiperContainer && typeof Swiper !== 'undefined') {
-    const swiper = new Swiper('.swiper', {
+    new Swiper('.swiper', {
       effect: "coverflow",
       grabCursor: true,
       centeredSlides: true,
-      slidesPerView: "auto", // Crucial para que respete el tamaño del CSS
+      slidesPerView: "auto", 
       initialSlide: 1,
       loop: true,
       coverflowEffect: {
-        rotate: 30, // Reduje un poco la rotación para que no se vea tan caótico
+        rotate: 30, 
         stretch: 0,
         depth: 200,
         modifier: 1,
