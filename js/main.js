@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
     onScroll();
     setTimeout(onScroll, 200);
 
-    /* ---- Carrusel de proyectos: loop infinito + escala + drag + rueda + teclado + autoscroll ---- */
+/* ---- Carrusel de proyectos: loop infinito + escala + drag + rueda + autoscroll ---- */
     var carousels = document.querySelectorAll('.carousel[data-carousel]');
 
     carousels.forEach(function (carousel) {
@@ -133,9 +133,9 @@ document.addEventListener('DOMContentLoaded', function () {
       var n = originalItems.length;
       if (n === 0) return;
 
+      // Clones para loop infinito
       var beforeClones = originalItems.map(function (item) { return item.cloneNode(true); });
       beforeClones.slice().reverse().forEach(function (clone) { track.insertBefore(clone, track.firstChild); });
-
       var afterClones = originalItems.map(function (item) { return item.cloneNode(true); });
       afterClones.forEach(function (clone) { track.appendChild(clone); });
 
@@ -159,26 +159,34 @@ document.addEventListener('DOMContentLoaded', function () {
         var firstReal = track.children[n];
         var firstAny = track.children[0];
         setWidth = firstReal.offsetLeft - firstAny.offsetLeft;
+        
+        // Apaga el "snap" temporalmente para que no pelee con el inicio
+        carousel.style.scrollSnapType = 'none';
         carousel.scrollLeft = setWidth;
         updateScale();
+        setTimeout(function() { carousel.style.scrollSnapType = ''; }, 50);
       }
       initLoopPosition();
       setTimeout(initLoopPosition, 300);
 
-      // Chequeo de loop inmediato (las cajas ya no cambian de tamaño, así que es seguro
-      // hacerlo en cada evento de scroll sin esperar a que se detenga).
       carousel.addEventListener('scroll', function () {
         updateScale();
         if (setWidth === 0) return;
-        if (carousel.scrollLeft < setWidth * 0.5) {
+        
+        // Corrección del bug del loop: apagar snap un microsegundo al saltar
+        if (carousel.scrollLeft < setWidth * 0.2) {
+          carousel.style.scrollSnapType = 'none';
           carousel.scrollLeft += setWidth;
-        } else if (carousel.scrollLeft > setWidth * 1.5) {
+          setTimeout(function() { carousel.style.scrollSnapType = ''; }, 50);
+        } else if (carousel.scrollLeft > setWidth * 1.8) {
+          carousel.style.scrollSnapType = 'none';
           carousel.scrollLeft -= setWidth;
+          setTimeout(function() { carousel.style.scrollSnapType = ''; }, 50);
         }
       }, { passive: true });
 
-      // Arrastrar con mouse
-      var isDown = false, startX = 0, startScroll = 0, moved = false;
+      // Dragging (arrastrar con el mouse)
+      var isDown = false, startX, startScroll, moved = false;
       carousel.addEventListener('pointerdown', function (e) {
         if (e.pointerType === 'touch') return;
         isDown = true;
@@ -198,10 +206,10 @@ document.addEventListener('DOMContentLoaded', function () {
       carousel.addEventListener('pointerup', endDrag);
       carousel.addEventListener('pointercancel', endDrag);
       carousel.addEventListener('pointerleave', endDrag);
+
+      // Clic para centrar imágenes pequeñas o ir al proyecto si ya está centrada
       carousel.addEventListener('click', function (e) {
         if (moved) { e.preventDefault(); e.stopPropagation(); return; }
-        // Si se hizo clic en una tarjeta que NO es la del centro, la centramos
-        // en vez de navegar. La del centro sigue su link normalmente.
         var item = e.target.closest ? e.target.closest('.c-item') : null;
         if (item && !item.classList.contains('is-center')) {
           e.preventDefault();
@@ -212,66 +220,49 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       }, true);
 
-      // Flechas del teclado y botones prev/next — la caja de cada tarjeta
-      // es SIEMPRE del mismo ancho, así que el "paso" es siempre confiable.
-      var stepSize = track.children[0].offsetWidth;
-      function step(dir) {
-        carousel.scrollBy({ left: dir * stepSize, behavior: 'smooth' });
-      }
-      carousel.addEventListener('keydown', function (e) {
-        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-        e.preventDefault();
-        step(e.key === 'ArrowRight' ? 1 : -1);
-      });
-
+      // Flechas (clic)
       var wrapEl = carousel.closest('.carousel-wrap');
       if (wrapEl) {
         wrapEl.querySelectorAll('.carousel-arrow').forEach(function (btn) {
           btn.addEventListener('click', function () {
-            step(parseInt(btn.getAttribute('data-dir'), 10));
+            var dir = parseInt(btn.getAttribute('data-dir'), 10);
+            var stepSize = track.children[0].offsetWidth;
+            carousel.scrollBy({ left: dir * stepSize, behavior: 'smooth' });
           });
         });
       }
 
-      // Autoscroll lento (solo si el carrusel lo pide) — se pausa con cualquier interacción
+      // Autoscroll Lento Automático
       if (carousel.hasAttribute('data-autoscroll')) {
         var paused = false;
         var resumeTimeout;
-        function pause() {
-          paused = true;
-          clearTimeout(resumeTimeout);
-        }
+        function pause() { paused = true; clearTimeout(resumeTimeout); }
         function scheduleResume() {
           clearTimeout(resumeTimeout);
-          resumeTimeout = setTimeout(function () { paused = false; }, 1800);
+          resumeTimeout = setTimeout(function () { paused = false; }, 2000); // Se pausa 2 seg al tocarlo
         }
         carousel.addEventListener('pointerdown', pause);
         carousel.addEventListener('pointerup', scheduleResume);
-        carousel.addEventListener('pointercancel', scheduleResume);
         carousel.addEventListener('wheel', function () { pause(); scheduleResume(); }, { passive: true });
         carousel.addEventListener('mouseenter', pause);
         carousel.addEventListener('mouseleave', scheduleResume);
-        carousel.addEventListener('touchstart', pause, { passive: true });
-        carousel.addEventListener('touchend', scheduleResume);
-        carousel.addEventListener('keydown', function () { pause(); scheduleResume(); });
-
+        
         var lastTime = null;
         function autoTick(t) {
           if (lastTime === null) lastTime = t;
           var dt = t - lastTime;
           lastTime = t;
-          if (!paused && setWidth > 0) {
-            carousel.scrollLeft += dt * 0.028; // px por ms — lento y constante
+          // Si no está pausado y no se está arrastrando, avanza despacio
+          if (!paused && setWidth > 0 && !isDown) {
+            carousel.scrollLeft += dt * 0.03; // Ajusta este número (0.03) para mayor/menor velocidad
           }
           window.requestAnimationFrame(autoTick);
         }
         window.requestAnimationFrame(autoTick);
       }
-
+      
       window.addEventListener('resize', function () {
         initLoopPosition();
-        updateScale();
-        stepSize = track.children[0].offsetWidth;
       });
     });
   }
