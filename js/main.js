@@ -133,7 +133,7 @@ carousels.forEach(function (carousel) {
   var n = originalItems.length;
   if (n === 0) return;
 
-  // Clones para loop infinito
+  // Clones para que sea infinito
   var beforeClones = originalItems.map(function (item) { return item.cloneNode(true); });
   beforeClones.slice().reverse().forEach(function (clone) { track.insertBefore(clone, track.firstChild); });
   var afterClones = originalItems.map(function (item) { return item.cloneNode(true); });
@@ -148,7 +148,6 @@ carousels.forEach(function (carousel) {
       var r = item.getBoundingClientRect();
       var itemCenter = r.left + r.width / 2;
       var dist = Math.abs(center - itemCenter);
-      // Solo le da la clase is-center a la que está justo en medio
       if (dist < r.width / 2) {
         item.classList.add('is-center');
       } else {
@@ -169,7 +168,7 @@ carousels.forEach(function (carousel) {
   
   setTimeout(initLoopPosition, 300);
 
-  // Arreglo del Loop
+  // Arreglo del Loop al hacer scroll
   carousel.addEventListener('scroll', function () {
     updateScale();
     if (carousel.scrollLeft <= itemWidth) {
@@ -183,36 +182,7 @@ carousels.forEach(function (carousel) {
     }
   });
 
-  // Drag con el mouse (arrastrar)
-  var isDragging = false;
-  var startX, startScrollLeft;
-  
-  carousel.addEventListener('mousedown', function(e) {
-    isDragging = true;
-    carousel.classList.add('dragging');
-    startX = e.pageX - carousel.offsetLeft;
-    startScrollLeft = carousel.scrollLeft;
-  });
-  
-  carousel.addEventListener('mouseleave', function() {
-    isDragging = false;
-    carousel.classList.remove('dragging');
-  });
-  
-  carousel.addEventListener('mouseup', function() {
-    isDragging = false;
-    carousel.classList.remove('dragging');
-  });
-  
-  carousel.addEventListener('mousemove', function(e) {
-    if (!isDragging) return;
-    e.preventDefault();
-    var x = e.pageX - carousel.offsetLeft;
-    var walk = (x - startX) * 2; // Velocidad del drag
-    carousel.scrollLeft = startScrollLeft - walk;
-  });
-
-  // Flechas
+  // Flechas (ahora sí funcionarán)
   var wrapEl = carousel.closest('.carousel-wrap');
   if (wrapEl) {
     wrapEl.querySelectorAll('.carousel-arrow').forEach(function (btn) {
@@ -222,8 +192,27 @@ carousels.forEach(function (carousel) {
       });
     });
   }
-  
-  // Click en imagenes pequeñas para centrarlas
+
+  // Drag con el mouse
+  var isDragging = false;
+  var startX, startScrollLeft;
+  carousel.addEventListener('mousedown', function(e) {
+    isDragging = true;
+    carousel.classList.add('dragging');
+    startX = e.pageX - carousel.offsetLeft;
+    startScrollLeft = carousel.scrollLeft;
+  });
+  carousel.addEventListener('mouseleave', function() { isDragging = false; carousel.classList.remove('dragging'); });
+  carousel.addEventListener('mouseup', function() { isDragging = false; carousel.classList.remove('dragging'); });
+  carousel.addEventListener('mousemove', function(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    var x = e.pageX - carousel.offsetLeft;
+    var walk = (x - startX) * 2;
+    carousel.scrollLeft = startScrollLeft - walk;
+  });
+
+  // Click en imagenes para centrar
   carousel.addEventListener('click', function (e) {
     var item = e.target.closest('.c-item');
     if (item && !item.classList.contains('is-center')) {
@@ -234,4 +223,15 @@ carousels.forEach(function (carousel) {
       carousel.scrollBy({ left: delta, behavior: 'smooth' });
     }
   });
+
+  // Auto-scroll (Avanza solo, se pausa si pones el mouse)
+  var autoScrollInterval = setInterval(function() {
+    if (!isDragging) {
+      carousel.scrollBy({ left: itemWidth, behavior: 'smooth' });
+    }
+  }, 3000);
+  carousel.addEventListener('mouseenter', function() { clearInterval(autoScrollInterval); });
+});
+
+/* --- ESTA ES LA LLAVE QUE FALTABA PARA QUE TODO EL ARCHIVO VUELVA A LA VIDA --- */
 });
