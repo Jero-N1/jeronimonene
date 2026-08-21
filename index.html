@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
+<head>  
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jerónimo Nene Toro — Portafolio de Arquitectura</title>
 <meta name="description" content="Portafolio de arquitectura de Jerónimo Nene Toro. Proyectos residenciales, institucionales y de visualización arquitectónica.">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 <body class="home">
 
@@ -95,52 +96,26 @@
     </div>
   </section>
 
-  <!-- ============ PROYECTOS — carrusel con autoscroll ============ -->
- <!-- ============ PROYECTOS — carrusel con autoscroll ============ -->
-  <section id="proyectos" class="model-section-immersive full-bleed">
-    <div class="wrap">
-      <div class="corner-head reveal">
-        <h2 class="ch-title">Proyectos</h2>
-        <span class="ch-bar"></span>
-      </div>
-    </div>
-
-    <div class="carousel-wrap reveal">
-      <button class="carousel-arrow prev" data-dir="-1" aria-label="Proyecto anterior">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg>
-      </button>
-      <div class="carousel proyectos-carousel" data-carousel data-autoscroll tabindex="0">
-        <div class="carousel-track" data-track>
-          <a class="c-item" href="proyectos/tayrona.html">
-            <span class="c-frame">
-              <img src="img/tayrona-hero.jpg" alt="Tayrona Archaeological Pavillion">
-              <span class="c-item-title">Pabellón<br>Tayrona</span>
-            </span>
-          </a>
-          <a class="c-item" href="proyectos/sol-fernandez.html">
-            <span class="c-frame">
-              <img src="img/solfernandez-hero.jpg" alt="Sol Fernández High School">
-              <span class="c-item-title">Sol<br>Fernández</span>
-            </span>
-          </a>
-          <a class="c-item" href="proyectos/interwind.html">
-            <span class="c-frame">
-              <img src="img/interwind-hero.jpg" alt="Interwind Pavillion">
-              <span class="c-item-title">Interwind<br>Pavillion</span>
-            </span>
-          </a>
-          <a class="c-item" href="proyectos/genova.html">
-            <span class="c-frame">
-              <img src="img/sol-interior.jpg" alt="Enea's Residential Complex — próximamente">
-              <span class="c-item-title">Enea's<br>Complex</span>
-            </span>
-          </a>
-        </div>
-     <div class="carousel-arrow next" data-dir="1">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <polyline points="9 18 15 12 9 6"></polyline>
-  </svg>
-  </button>
+ <!-- Contenedor principal de Swiper -->
+<div class="swiper">
+  <!-- Envoltorio adicional requerido -->
+  <div class="swiper-wrapper">
+    
+    <!-- Tus imágenes (Slides) -->
+    <div class="swiper-slide"><img src="RUTA_DE_TU_IMAGEN_1.jpg" alt="Proyecto 1"></div>
+    <div class="swiper-slide"><img src="RUTA_DE_TU_IMAGEN_2.jpg" alt="Proyecto 2"></div>
+    <div class="swiper-slide"><img src="RUTA_DE_TU_IMAGEN_3.jpg" alt="Proyecto 3"></div>
+    <div class="swiper-slide"><img src="RUTA_DE_TU_IMAGEN_4.jpg" alt="Proyecto 4"></div>
+    <div class="swiper-slide"><img src="RUTA_DE_TU_IMAGEN_5.jpg" alt="Proyecto 5"></div>
+    
+  </div>
+  
+  <!-- Flechas de navegación -->
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+  
+  <!-- Puntos de paginación (Opcional, abajo) -->
+  <div class="swiper-pagination"></div>
 </div>
   </section>
 
@@ -183,5 +158,6 @@
 </footer>
 
 <script src="js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>        
 </body>
 </html>
