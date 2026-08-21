@@ -1502,3 +1502,36 @@ body.home{ background:var(--ink); }
 }
 
 /* ---------- Contacto page uses light nav — helper for non-home pages already exists (.site-header) ---------- */
+
+/* 1. Forzar color claro en Proyectos y centrar Trabajo al hacer click */
+#proyectos, #trabajo, .work-section {
+  background-color: var(--bg-light, #F5F4F0) !important;
+  scroll-margin-top: 130px !important;
+}
+
+/* 2. Asegurar que el título aparezca en el centro de la imagen al poner el mouse */
+.c-item-title {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -40%);
+  z-index: 10;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: #fff;
+  font-size: 22px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 14px 28px;
+  border-radius: 99px;
+  opacity: 0; /* Oculto por defecto */
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+/* Al poner el mouse sobre la imagen central, forzamos que se vea */
+.c-item.is-center:hover .c-item-title {
+  opacity: 1 !important;
+  transform: translate(-50%, -50%) !important;
+}
