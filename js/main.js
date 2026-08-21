@@ -76,17 +76,8 @@ document.addEventListener('DOMContentLoaded', function () {
       var heroBottom = hero.getBoundingClientRect().bottom;
       floatingNav.classList.toggle('visible', heroBottom < 80);
 
-      var onLight = false;
-      if (proyectos) {
-        var pRect = proyectos.getBoundingClientRect();
-        if (pRect.top < 60 && pRect.bottom > 60) {
-          onLight = true;
-          if (modelFrame) {
-            var fRect = modelFrame.getBoundingClientRect();
-            if (fRect.top < 60 && fRect.bottom > 60) onLight = false;
-          }
-        }
-      }
+      // En cuanto salimos del hero oscuro, ponemos la barra en modo claro (texto oscuro)
+      var onLight = heroBottom < 60;
       floatingNav.classList.toggle('on-light', onLight);
     }
 
