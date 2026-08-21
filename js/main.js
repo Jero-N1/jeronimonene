@@ -122,149 +122,117 @@ document.addEventListener('DOMContentLoaded', function () {
     onScroll();
     setTimeout(onScroll, 200);
 
-/* ---- Carrusel de proyectos: loop infinito + escala + drag + rueda + autoscroll ---- */
-    var carousels = document.querySelectorAll('.carousel[data-carousel]');
+/* ---- Carrusel de proyectos ---- */
+var carousels = document.querySelectorAll('.carousel[data-carousel]');
 
-    carousels.forEach(function (carousel) {
-      var track = carousel.querySelector('[data-track]');
-      if (!track) return;
+carousels.forEach(function (carousel) {
+  var track = carousel.querySelector('[data-track]');
+  if (!track) return;
 
-      var originalItems = Array.prototype.slice.call(track.children);
-      var n = originalItems.length;
-      if (n === 0) return;
+  var originalItems = Array.prototype.slice.call(track.children);
+  var n = originalItems.length;
+  if (n === 0) return;
 
-      // Clones para loop infinito
-      var beforeClones = originalItems.map(function (item) { return item.cloneNode(true); });
-      beforeClones.slice().reverse().forEach(function (clone) { track.insertBefore(clone, track.firstChild); });
-      var afterClones = originalItems.map(function (item) { return item.cloneNode(true); });
-      afterClones.forEach(function (clone) { track.appendChild(clone); });
+  // Clones para loop infinito
+  var beforeClones = originalItems.map(function (item) { return item.cloneNode(true); });
+  beforeClones.slice().reverse().forEach(function (clone) { track.insertBefore(clone, track.firstChild); });
+  var afterClones = originalItems.map(function (item) { return item.cloneNode(true); });
+  afterClones.forEach(function (clone) { track.appendChild(clone); });
 
-      function allItems() { return track.querySelectorAll('.c-item'); }
+  function allItems() { return track.querySelectorAll('.c-item'); }
 
-      function updateScale() {
-        var box = carousel.getBoundingClientRect();
-        if (box.width === 0) return;
-        var center = box.left + box.width / 2;
-        allItems().forEach(function (item) {
-          var r = item.getBoundingClientRect();
-          var itemCenter = r.left + r.width / 2;
-          var dist = Math.abs(center - itemCenter);
-          item.classList.toggle('is-center', dist < r.width / 2.4);
-        });
+  function updateScale() {
+    var box = carousel.getBoundingClientRect();
+    var center = box.left + box.width / 2;
+    allItems().forEach(function (item) {
+      var r = item.getBoundingClientRect();
+      var itemCenter = r.left + r.width / 2;
+      var dist = Math.abs(center - itemCenter);
+      // Solo le da la clase is-center a la que está justo en medio
+      if (dist < r.width / 2) {
+        item.classList.add('is-center');
+      } else {
+        item.classList.remove('is-center');
       }
-
-      var setWidth = 0;
-      function initLoopPosition() {
-        if (carousel.getBoundingClientRect().width === 0) return;
-        var firstReal = track.children[n];
-        var firstAny = track.children[0];
-        setWidth = firstReal.offsetLeft - firstAny.offsetLeft;
-        
-        // Apaga el "snap" temporalmente para que no pelee con el inicio
-        carousel.style.scrollSnapType = 'none';
-        carousel.scrollLeft = setWidth;
-        updateScale();
-        setTimeout(function() { carousel.style.scrollSnapType = ''; }, 50);
-      }
-      initLoopPosition();
-      setTimeout(initLoopPosition, 300);
-
-      carousel.addEventListener('scroll', function () {
-        updateScale();
-        if (setWidth === 0) return;
-        
-        // Corrección del bug del loop: apagar snap un microsegundo al saltar
-        if (carousel.scrollLeft < setWidth * 0.2) {
-          carousel.style.scrollSnapType = 'none';
-          carousel.scrollLeft += setWidth;
-          setTimeout(function() { carousel.style.scrollSnapType = ''; }, 50);
-        } else if (carousel.scrollLeft > setWidth * 1.8) {
-          carousel.style.scrollSnapType = 'none';
-          carousel.scrollLeft -= setWidth;
-          setTimeout(function() { carousel.style.scrollSnapType = ''; }, 50);
-        }
-      }, { passive: true });
-
-      // Dragging (arrastrar con el mouse)
-      var isDown = false, startX, startScroll, moved = false;
-      carousel.addEventListener('pointerdown', function (e) {
-        if (e.pointerType === 'touch') return;
-        isDown = true;
-        moved = false;
-        carousel.classList.add('dragging');
-        startX = e.clientX;
-        startScroll = carousel.scrollLeft;
-        carousel.setPointerCapture(e.pointerId);
-      });
-      carousel.addEventListener('pointermove', function (e) {
-        if (!isDown) return;
-        var dx = e.clientX - startX;
-        if (Math.abs(dx) > 4) moved = true;
-        carousel.scrollLeft = startScroll - dx;
-      });
-      function endDrag() { isDown = false; carousel.classList.remove('dragging'); }
-      carousel.addEventListener('pointerup', endDrag);
-      carousel.addEventListener('pointercancel', endDrag);
-      carousel.addEventListener('pointerleave', endDrag);
-
-      // Clic para centrar imágenes pequeñas o ir al proyecto si ya está centrada
-      carousel.addEventListener('click', function (e) {
-        if (moved) { e.preventDefault(); e.stopPropagation(); return; }
-        var item = e.target.closest ? e.target.closest('.c-item') : null;
-        if (item && !item.classList.contains('is-center')) {
-          e.preventDefault();
-          var carouselRect = carousel.getBoundingClientRect();
-          var itemRect = item.getBoundingClientRect();
-          var delta = (itemRect.left + itemRect.width / 2) - (carouselRect.left + carouselRect.width / 2);
-          carousel.scrollBy({ left: delta, behavior: 'smooth' });
-        }
-      }, true);
-
-      // Flechas (clic)
-      var wrapEl = carousel.closest('.carousel-wrap');
-      if (wrapEl) {
-        wrapEl.querySelectorAll('.carousel-arrow').forEach(function (btn) {
-          btn.addEventListener('click', function () {
-            var dir = parseInt(btn.getAttribute('data-dir'), 10);
-            var stepSize = track.children[0].offsetWidth;
-            carousel.scrollBy({ left: dir * stepSize, behavior: 'smooth' });
-          });
-        });
-      }
-
-      // Autoscroll Lento Automático
-      if (carousel.hasAttribute('data-autoscroll')) {
-        var paused = false;
-        var resumeTimeout;
-        function pause() { paused = true; clearTimeout(resumeTimeout); }
-        function scheduleResume() {
-          clearTimeout(resumeTimeout);
-          resumeTimeout = setTimeout(function () { paused = false; }, 2000); // Se pausa 2 seg al tocarlo
-        }
-        carousel.addEventListener('pointerdown', pause);
-        carousel.addEventListener('pointerup', scheduleResume);
-        carousel.addEventListener('wheel', function () { pause(); scheduleResume(); }, { passive: true });
-        carousel.addEventListener('mouseenter', pause);
-        carousel.addEventListener('mouseleave', scheduleResume);
-        
-        var lastTime = null;
-        function autoTick(t) {
-          if (lastTime === null) lastTime = t;
-          var dt = t - lastTime;
-          lastTime = t;
-          // Si no está pausado y no se está arrastrando, avanza despacio
-          if (!paused && setWidth > 0 && !isDown) {
-            carousel.scrollLeft += dt * 0.03; // Ajusta este número (0.03) para mayor/menor velocidad
-          }
-          window.requestAnimationFrame(autoTick);
-        }
-        window.requestAnimationFrame(autoTick);
-      }
-      
-      window.addEventListener('resize', function () {
-        initLoopPosition();
-      });
     });
   }
 
+  var itemWidth = track.children[0].offsetWidth;
+  var setWidth = itemWidth * n;
+
+  function initLoopPosition() {
+    carousel.style.scrollSnapType = 'none';
+    carousel.scrollLeft = setWidth;
+    updateScale();
+    setTimeout(function() { carousel.style.scrollSnapType = 'x mandatory'; }, 100);
+  }
+  
+  setTimeout(initLoopPosition, 300);
+
+  // Arreglo del Loop
+  carousel.addEventListener('scroll', function () {
+    updateScale();
+    if (carousel.scrollLeft <= itemWidth) {
+      carousel.style.scrollSnapType = 'none';
+      carousel.scrollLeft += setWidth;
+      setTimeout(function() { carousel.style.scrollSnapType = 'x mandatory'; }, 10);
+    } else if (carousel.scrollLeft >= setWidth * 2 - itemWidth) {
+      carousel.style.scrollSnapType = 'none';
+      carousel.scrollLeft -= setWidth;
+      setTimeout(function() { carousel.style.scrollSnapType = 'x mandatory'; }, 10);
+    }
+  });
+
+  // Drag con el mouse (arrastrar)
+  var isDragging = false;
+  var startX, startScrollLeft;
+  
+  carousel.addEventListener('mousedown', function(e) {
+    isDragging = true;
+    carousel.classList.add('dragging');
+    startX = e.pageX - carousel.offsetLeft;
+    startScrollLeft = carousel.scrollLeft;
+  });
+  
+  carousel.addEventListener('mouseleave', function() {
+    isDragging = false;
+    carousel.classList.remove('dragging');
+  });
+  
+  carousel.addEventListener('mouseup', function() {
+    isDragging = false;
+    carousel.classList.remove('dragging');
+  });
+  
+  carousel.addEventListener('mousemove', function(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    var x = e.pageX - carousel.offsetLeft;
+    var walk = (x - startX) * 2; // Velocidad del drag
+    carousel.scrollLeft = startScrollLeft - walk;
+  });
+
+  // Flechas
+  var wrapEl = carousel.closest('.carousel-wrap');
+  if (wrapEl) {
+    wrapEl.querySelectorAll('.carousel-arrow').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var dir = parseInt(btn.getAttribute('data-dir'), 10);
+        carousel.scrollBy({ left: dir * itemWidth, behavior: 'smooth' });
+      });
+    });
+  }
+  
+  // Click en imagenes pequeñas para centrarlas
+  carousel.addEventListener('click', function (e) {
+    var item = e.target.closest('.c-item');
+    if (item && !item.classList.contains('is-center')) {
+      e.preventDefault();
+      var carouselRect = carousel.getBoundingClientRect();
+      var itemRect = item.getBoundingClientRect();
+      var delta = (itemRect.left + itemRect.width / 2) - (carouselRect.left + carouselRect.width / 2);
+      carousel.scrollBy({ left: delta, behavior: 'smooth' });
+    }
+  });
+});
 });
