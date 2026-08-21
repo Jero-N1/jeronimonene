@@ -68,12 +68,17 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
+    // #inicio existe solo en index.html. En páginas interiores (proyecto, trabajo)
+    // usamos .pd-hero si existe, y el nav queda visible desde el inicio (no oculto).
     var hero = document.getElementById('inicio');
+    var heroEl = hero || document.querySelector('.pd-hero');
+    var alwaysVisible = !hero;
     var modelFrame = document.querySelector('.proyectos-swiper');
 
     function updateNavVisibility() {
-      var heroBottom = hero.getBoundingClientRect().bottom;
-      floatingNav.classList.toggle('visible', heroBottom < 80);
+      if (!heroEl) { floatingNav.classList.add('visible', 'on-light'); return; }
+      var heroBottom = heroEl.getBoundingClientRect().bottom;
+      floatingNav.classList.toggle('visible', alwaysVisible || heroBottom < 80);
 
       // Claro en cuanto se pasa el hero (Trabajo, Proyectos, Flipbook son claras),
       // salvo mientras la barra queda sobre las fotos del carrusel de Proyectos.
@@ -163,6 +168,103 @@ document.addEventListener('DOMContentLoaded', function () {
         keyboard: true
       });
     }
+  }
+
+  /* ============================================
+     CARRUSELES ARRASTRABLES (páginas de proyecto)
+     Autoscroll + drag + click, sin tocar la rueda
+     (el wheel solo pausa/reanuda, nunca hace scroll horizontal)
+     ============================================ */
+  var dragCarousels = document.querySelectorAll('.pd-carousel');
+  if (dragCarousels.length) {
+    dragCarousels.forEach(function (track) {
+      var speed = parseFloat(track.dataset.speed) || 0.35;
+      var autoplay = true;
+      var isDown = false;
+      var startX = 0, startScroll = 0, dragged = false;
+      var resumeTimer = null;
+
+      function half() { return track.scrollWidth / 2; }
+
+      function pause() { autoplay = false; }
+      function resumeLater() {
+        clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(function () { autoplay = true; }, 1800);
+      }
+
+      function tick() {
+        if (autoplay && !isDown) {
+          track.scrollLeft += speed;
+          var h = half();
+          if (h > 0 && track.scrollLeft >= h) track.scrollLeft -= h;
+        }
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+
+      track.addEventListener('pointerdown', function (e) {
+        isDown = true;
+        dragged = false;
+        startX = e.clientX;
+        startScroll = track.scrollLeft;
+        track.classList.add('dragging');
+        try { track.setPointerCapture(e.pointerId); } catch (err) {}
+        pause();
+      });
+
+      track.addEventListener('pointermove', function (e) {
+        if (!isDown) return;
+        var dx = e.clientX - startX;
+        if (Math.abs(dx) > 4) dragged = true;
+        track.scrollLeft = startScroll - dx;
+      });
+
+      function endDrag() {
+        if (!isDown) return;
+        isDown = false;
+        track.classList.remove('dragging');
+        var h = half();
+        if (h > 0) {
+          if (track.scrollLeft < 0) track.scrollLeft += h;
+          if (track.scrollLeft >= h) track.scrollLeft -= h;
+        }
+        resumeLater();
+      }
+      track.addEventListener('pointerup', endDrag);
+      track.addEventListener('pointerleave', endDrag);
+      track.addEventListener('pointercancel', endDrag);
+
+      // Evita que un drag termine navegando al enlace (pero deja pasar los clicks normales)
+      track.addEventListener('click', function (e) {
+        if (dragged) {
+          e.preventDefault();
+          e.stopPropagation();
+          dragged = false;
+        }
+      }, true);
+
+      // La rueda del mouse solo pausa/retoma el autoscroll; nunca se captura ni redirige a scroll horizontal
+      track.addEventListener('wheel', function () {
+        pause();
+        resumeLater();
+      }, { passive: true });
+
+      var wrap = track.closest('.pd-carousel-wrap');
+      if (wrap) {
+        var prevBtn = wrap.querySelector('.pd-arrow--prev');
+        var nextBtn = wrap.querySelector('.pd-arrow--next');
+        if (prevBtn) prevBtn.addEventListener('click', function () {
+          pause();
+          track.scrollBy({ left: -track.clientWidth * 0.6, behavior: 'smooth' });
+          resumeLater();
+        });
+        if (nextBtn) nextBtn.addEventListener('click', function () {
+          pause();
+          track.scrollBy({ left: track.clientWidth * 0.6, behavior: 'smooth' });
+          resumeLater();
+        });
+      }
+    });
   }
 
 });
