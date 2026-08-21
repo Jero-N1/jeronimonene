@@ -126,23 +126,40 @@ document.addEventListener('DOMContentLoaded', function () {
     onScroll();
     setTimeout(onScroll, 200);
 
-    /* ---- Carrusel de proyectos: Swiper ---- */
+    /* ---- Carrusel de proyectos: Swiper (coverflow) ---- */
     if (window.Swiper && document.querySelector('.proyectos-swiper')) {
       new Swiper('.proyectos-swiper', {
-        slidesPerView: 'auto',
+        slidesOffsetBefore: 200,
+        slidesOffsetAfter: 200,
+        initialSlide: 1,
         centeredSlides: true,
-        spaceBetween: 24,
+        centerInsufficientSlides: true,
+        roundLengths: true,
+        slideToClickedSlide: true,
         loop: true,
-        grabCursor: true,
-        keyboard: { enabled: true },
+        effect: 'coverflow',
+        coverflowEffect: {
+          rotate: 130,
+          stretch: 120,
+          depth: 320,
+          scale: 0.55,
+          modifier: 0.5
+        },
         navigation: {
           nextEl: '.proyectos-swiper .swiper-button-next',
           prevEl: '.proyectos-swiper .swiper-button-prev'
         },
         pagination: {
           el: '.proyectos-swiper .swiper-pagination',
-          clickable: true
-        }
+          dynamicBullets: true,
+          dynamicMainBullets: 3,
+          hideOnClick: true
+        },
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: true
+        },
+        keyboard: true
       });
     }
   }
