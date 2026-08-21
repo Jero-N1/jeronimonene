@@ -251,5 +251,37 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
   });
-
+const swiper = new Swiper('.swiper', {
+  slidesOffsetBefore: 200,
+  slidesOffsetAfter: 200,
+  initialSlide: 1,
+  centeredSlides: true,
+  centerInsufficientSlides: true,
+  roundLengths: true,
+  slideToClickedSlide: true,
+  loop: true,
+  effect: "coverflow",
+  coverflowEffect: {
+    rotate: 130,
+    stretch: 120,
+    depth: 320,
+    scale: 0.55,
+    modifier: 0.5
+  },
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev"
+  },
+  pagination: {
+    el: ".swiper-pagination",
+    dynamicBullets: true,
+    dynamicMainBullets: 3,
+    hideOnClick: true
+  },
+  autoplay: {
+    delay: 2500,
+    disableOnInteraction: true
+  },
+  keyboard: true
+});
 }); // <-- CIERRE FINAL (Fin del archivo)
