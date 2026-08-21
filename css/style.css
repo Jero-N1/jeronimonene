@@ -1330,13 +1330,13 @@ body.home{ background:var(--ink); }
 @media (max-width:640px){
   .carousel-arrow{ width:38px; height:38px; }
   .carousel-arrow svg { 
-  width: 20px; 
-  height: 20px; 
-  flex-shrink: 0; 
-}
+    width: 20px; 
+    height: 20px; 
+    flex-shrink: 0; 
+  }
   .carousel-arrow.prev { left: calc(50vw - 360px); }
   .carousel-arrow.next { right: calc(50vw - 360px); }
-
+} /* <--- ESTA ES LA LLAVE QUE ARREGLA TODO */
 /* ---------- Proyectos inmersivo full-bleed ---------- */
 .full-bleed{
   width:100vw;
@@ -1504,8 +1504,8 @@ body.home{ background:var(--ink); }
 /* ---------- Contacto page uses light nav — helper for non-home pages already exists (.site-header) ---------- */
 
 /* 1. Forzar color claro en Proyectos y centrar Trabajo al hacer click */
-#proyectos, #trabajo, .work-section {
-  background-color: var(--bg-light, #F5F4F0) !important;
+#proyectos, #trabajo, .work-section, .model-section-immersive {
+  background-color: var(--paper-warm) !important;
   scroll-margin-top: 130px !important;
 }
 
