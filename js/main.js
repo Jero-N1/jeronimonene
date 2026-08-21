@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  /* ---------- Reveal on scroll: se repite cada vez que entra/sale de la vista ---------- */
+  /* ---------- Reveal on scroll ---------- */
   var revealEls = document.querySelectorAll('.reveal');
   if (revealEls.length && 'IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
@@ -69,10 +69,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     var hero = document.getElementById('inicio');
-    var proyectos = document.getElementById('proyectos');
-    var modelFrame = document.querySelector('.proyectos-carousel');
 
     function updateNavVisibility() {
+      if (!hero) return;
       var heroBottom = hero.getBoundingClientRect().bottom;
       floatingNav.classList.toggle('visible', heroBottom < 80);
 
@@ -122,116 +121,135 @@ document.addEventListener('DOMContentLoaded', function () {
     onScroll();
     setTimeout(onScroll, 200);
 
-/* ---- Carrusel de proyectos ---- */
-var carousels = document.querySelectorAll('.carousel[data-carousel]');
+  } // <-- Este es el cierre clave que faltaba en tu versión
 
-carousels.forEach(function (carousel) {
-  var track = carousel.querySelector('[data-track]');
-  if (!track) return;
+  /* ============================================
+     CARRUSEL DE PROYECTOS (Infinito, Drag, Autoscroll)
+     ============================================ */
+  var carousels = document.querySelectorAll('.carousel[data-carousel]');
 
-  var originalItems = Array.prototype.slice.call(track.children);
-  var n = originalItems.length;
-  if (n === 0) return;
+  carousels.forEach(function (carousel) {
+    var track = carousel.querySelector('[data-track]');
+    if (!track) return;
 
-  // Clones para que sea infinito
-  var beforeClones = originalItems.map(function (item) { return item.cloneNode(true); });
-  beforeClones.slice().reverse().forEach(function (clone) { track.insertBefore(clone, track.firstChild); });
-  var afterClones = originalItems.map(function (item) { return item.cloneNode(true); });
-  afterClones.forEach(function (clone) { track.appendChild(clone); });
+    var originalItems = Array.prototype.slice.call(track.children);
+    var n = originalItems.length;
+    if (n === 0) return;
 
-  function allItems() { return track.querySelectorAll('.c-item'); }
+    // Clones para que sea infinito
+    var beforeClones = originalItems.map(function (item) { return item.cloneNode(true); });
+    beforeClones.slice().reverse().forEach(function (clone) { track.insertBefore(clone, track.firstChild); });
+    var afterClones = originalItems.map(function (item) { return item.cloneNode(true); });
+    afterClones.forEach(function (clone) { track.appendChild(clone); });
 
-  function updateScale() {
-    var box = carousel.getBoundingClientRect();
-    var center = box.left + box.width / 2;
-    allItems().forEach(function (item) {
-      var r = item.getBoundingClientRect();
-      var itemCenter = r.left + r.width / 2;
-      var dist = Math.abs(center - itemCenter);
-      if (dist < r.width / 2) {
-        item.classList.add('is-center');
-      } else {
-        item.classList.remove('is-center');
+    function allItems() { return track.querySelectorAll('.c-item'); }
+
+    function updateScale() {
+      var box = carousel.getBoundingClientRect();
+      var center = box.left + box.width / 2;
+      allItems().forEach(function (item) {
+        var r = item.getBoundingClientRect();
+        var itemCenter = r.left + r.width / 2;
+        var dist = Math.abs(center - itemCenter);
+        if (dist < r.width / 2) {
+          item.classList.add('is-center');
+        } else {
+          item.classList.remove('is-center');
+        }
+      });
+    }
+
+    var itemWidth = track.children[0].offsetWidth;
+    var setWidth = itemWidth * n;
+
+    function initLoopPosition() {
+      carousel.style.scrollSnapType = 'none';
+      carousel.scrollLeft = setWidth;
+      updateScale();
+      setTimeout(function() { carousel.style.scrollSnapType = 'x mandatory'; }, 100);
+    }
+    
+    setTimeout(initLoopPosition, 300);
+    
+    // Recalcular al cambiar el tamaño de la ventana
+    window.addEventListener('resize', function() {
+        itemWidth = track.children[0].offsetWidth;
+        setWidth = itemWidth * n;
+        initLoopPosition();
+    });
+
+    // Arreglo del Loop al hacer scroll (para que no salte)
+    carousel.addEventListener('scroll', function () {
+      updateScale();
+      if (carousel.scrollLeft <= itemWidth * 0.5) {
+        carousel.style.scrollSnapType = 'none';
+        carousel.scrollLeft += setWidth;
+        setTimeout(function() { carousel.style.scrollSnapType = 'x mandatory'; }, 10);
+      } else if (carousel.scrollLeft >= setWidth * 2 - itemWidth * 0.5) {
+        carousel.style.scrollSnapType = 'none';
+        carousel.scrollLeft -= setWidth;
+        setTimeout(function() { carousel.style.scrollSnapType = 'x mandatory'; }, 10);
       }
     });
-  }
 
-  var itemWidth = track.children[0].offsetWidth;
-  var setWidth = itemWidth * n;
-
-  function initLoopPosition() {
-    carousel.style.scrollSnapType = 'none';
-    carousel.scrollLeft = setWidth;
-    updateScale();
-    setTimeout(function() { carousel.style.scrollSnapType = 'x mandatory'; }, 100);
-  }
-  
-  setTimeout(initLoopPosition, 300);
-
-  // Arreglo del Loop al hacer scroll
-  carousel.addEventListener('scroll', function () {
-    updateScale();
-    if (carousel.scrollLeft <= itemWidth) {
-      carousel.style.scrollSnapType = 'none';
-      carousel.scrollLeft += setWidth;
-      setTimeout(function() { carousel.style.scrollSnapType = 'x mandatory'; }, 10);
-    } else if (carousel.scrollLeft >= setWidth * 2 - itemWidth) {
-      carousel.style.scrollSnapType = 'none';
-      carousel.scrollLeft -= setWidth;
-      setTimeout(function() { carousel.style.scrollSnapType = 'x mandatory'; }, 10);
-    }
-  });
-
-  // Flechas (ahora sí funcionarán)
-  var wrapEl = carousel.closest('.carousel-wrap');
-  if (wrapEl) {
-    wrapEl.querySelectorAll('.carousel-arrow').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var dir = parseInt(btn.getAttribute('data-dir'), 10);
-        carousel.scrollBy({ left: dir * itemWidth, behavior: 'smooth' });
+    // Flechas (clics)
+    var wrapEl = carousel.closest('.carousel-wrap');
+    if (wrapEl) {
+      wrapEl.querySelectorAll('.carousel-arrow').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var dir = parseInt(btn.getAttribute('data-dir'), 10);
+          carousel.scrollBy({ left: dir * itemWidth, behavior: 'smooth' });
+        });
       });
+    }
+
+    // Drag con el mouse
+    var isDragging = false;
+    var startX, startScrollLeft;
+    carousel.addEventListener('mousedown', function(e) {
+      isDragging = true;
+      carousel.classList.add('dragging');
+      startX = e.pageX - carousel.offsetLeft;
+      startScrollLeft = carousel.scrollLeft;
     });
-  }
-
-  // Drag con el mouse
-  var isDragging = false;
-  var startX, startScrollLeft;
-  carousel.addEventListener('mousedown', function(e) {
-    isDragging = true;
-    carousel.classList.add('dragging');
-    startX = e.pageX - carousel.offsetLeft;
-    startScrollLeft = carousel.scrollLeft;
-  });
-  carousel.addEventListener('mouseleave', function() { isDragging = false; carousel.classList.remove('dragging'); });
-  carousel.addEventListener('mouseup', function() { isDragging = false; carousel.classList.remove('dragging'); });
-  carousel.addEventListener('mousemove', function(e) {
-    if (!isDragging) return;
-    e.preventDefault();
-    var x = e.pageX - carousel.offsetLeft;
-    var walk = (x - startX) * 2;
-    carousel.scrollLeft = startScrollLeft - walk;
-  });
-
-  // Click en imagenes para centrar
-  carousel.addEventListener('click', function (e) {
-    var item = e.target.closest('.c-item');
-    if (item && !item.classList.contains('is-center')) {
+    carousel.addEventListener('mouseleave', function() { isDragging = false; carousel.classList.remove('dragging'); });
+    carousel.addEventListener('mouseup', function() { isDragging = false; carousel.classList.remove('dragging'); });
+    carousel.addEventListener('mousemove', function(e) {
+      if (!isDragging) return;
       e.preventDefault();
-      var carouselRect = carousel.getBoundingClientRect();
-      var itemRect = item.getBoundingClientRect();
-      var delta = (itemRect.left + itemRect.width / 2) - (carouselRect.left + carouselRect.width / 2);
-      carousel.scrollBy({ left: delta, behavior: 'smooth' });
-    }
+      var x = e.pageX - carousel.offsetLeft;
+      var walk = (x - startX) * 2;
+      carousel.scrollLeft = startScrollLeft - walk;
+    });
+
+    // Click en imagenes para centrar
+    carousel.addEventListener('click', function (e) {
+      var item = e.target.closest('.c-item');
+      if (item && !item.classList.contains('is-center')) {
+        e.preventDefault();
+        var carouselRect = carousel.getBoundingClientRect();
+        var itemRect = item.getBoundingClientRect();
+        var delta = (itemRect.left + itemRect.width / 2) - (carouselRect.left + carouselRect.width / 2);
+        carousel.scrollBy({ left: delta, behavior: 'smooth' });
+      }
+    });
+
+    // Auto-scroll (Avanza solo, se pausa si pones el mouse y vuelve a arrancar)
+    var autoScrollInterval = setInterval(function() {
+      if (!isDragging) {
+        carousel.scrollBy({ left: itemWidth, behavior: 'smooth' });
+      }
+    }, 3000);
+    
+    carousel.addEventListener('mouseenter', function() { clearInterval(autoScrollInterval); });
+    carousel.addEventListener('mouseleave', function() { 
+      autoScrollInterval = setInterval(function() {
+        if (!isDragging) {
+          carousel.scrollBy({ left: itemWidth, behavior: 'smooth' });
+        }
+      }, 3000);
+    });
+
   });
 
-  // Auto-scroll (Avanza solo, se pausa si pones el mouse)
-  var autoScrollInterval = setInterval(function() {
-    if (!isDragging) {
-      carousel.scrollBy({ left: itemWidth, behavior: 'smooth' });
-    }
-  }, 3000);
-  carousel.addEventListener('mouseenter', function() { clearInterval(autoScrollInterval); });
-});
-
-/* --- ESTA ES LA LLAVE QUE FALTABA PARA QUE TODO EL ARCHIVO VUELVA A LA VIDA --- */
-});
+}); // <-- CIERRE FINAL (Fin del archivo)
