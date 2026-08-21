@@ -75,6 +75,9 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateNavVisibility() {
       var heroBottom = hero.getBoundingClientRect().bottom;
       floatingNav.classList.toggle('visible', heroBottom < 80);
+      var onLight = heroBottom < 60;
+      floatingNav.classList.toggle('on-light', onLight);
+    }
 
       var onLight = false;
       if (proyectos) {
