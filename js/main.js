@@ -75,15 +75,14 @@ document.addEventListener('DOMContentLoaded', function () {
     var alwaysVisible = !hero;
 
     function updateNavVisibility() {
-      if (!heroEl) { floatingNav.classList.add('visible', 'on-light'); return; }
+      if (!heroEl) { floatingNav.classList.add('visible'); return; }
       var heroBottom = heroEl.getBoundingClientRect().bottom;
       floatingNav.classList.toggle('visible', alwaysVisible || heroBottom < 80);
-      floatingNav.classList.toggle('on-light', heroBottom < 60);
     }
 
     var fnLinkEls = document.querySelectorAll('.fn-link[data-section]');
     var indicator = document.getElementById('fnIndicator');
-    var sections = ['inicio', 'trabajo', 'proyectos', 'flipbook']
+    var sections = ['inicio', 'servicios', 'proyectos', 'flipbook']
       .map(function (id) { return document.getElementById(id); })
       .filter(Boolean);
 
