@@ -1601,3 +1601,30 @@ body.home{ background:var(--paper); }
 }
 
 /* ---------- Contacto page uses light nav — helper for non-home pages already exists (.site-header) ---------- */
+
+/* ---------- Lightbox (zoom semi-completo, solo páginas de Trabajo) ---------- */
+.work-carousel .pd-item{ cursor:zoom-in; }
+.lightbox{
+  position:fixed; inset:0; z-index:999;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(20,19,17,0.92);
+  opacity:0; pointer-events:none;
+  transition:opacity .3s ease;
+}
+.lightbox.active{ opacity:1; pointer-events:auto; }
+.lightbox img{
+  max-width:82vw; max-height:82vh;
+  width:auto; height:auto;
+  object-fit:contain;
+  border-radius:6px;
+  box-shadow:0 30px 90px rgba(0,0,0,0.5);
+}
+.lightbox-close{
+  position:absolute; top:24px; right:28px;
+  width:44px; height:44px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.2);
+  color:#fff; font-size:16px; cursor:pointer;
+}
+.lightbox-close:hover{ background:rgba(255,255,255,0.18); }
