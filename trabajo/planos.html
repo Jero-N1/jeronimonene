@@ -3,51 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Planos arquitectónicos — Jerónimo Nene Toro</title>
+<title>Planos — Jerónimo Nene Toro</title>
+<meta name="description" content="Planos — trabajo de Jerónimo Nene Toro.">
 <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
+<body class="project-page">
 
-<header class="site-header">
-  <div class="nav-inner">
-    <a href="../index.html" class="brand">Jerónimo Nene Toro<span>.</span></a>
-    <nav class="main-nav">
-      <ul>
-        <li><a href="../index.html">Inicio</a></li>
-        <li><a href="../index.html#trabajo" class="active">Trabajo</a></li>
-        <li><a href="../index.html#proyectos">Proyectos</a></li>
-        <li><a href="../contacto.html">Contacto</a></li>
-      </ul>
+<nav class="floating-nav" id="floatingNav">
+  <a href="../index.html" class="fn-brand">Jerónimo Nene Toro<span>.</span></a>
+  <div class="fn-links" id="fnLinks">
+    <a href="../index.html" class="fn-link">Inicio</a>
+    <a href="../index.html#trabajo" class="fn-link">Trabajo</a>
+    <a href="../index.html#proyectos" class="fn-link">Proyectos</a>
+    <a href="../index.html#flipbook" class="fn-link">Flipbook</a>
+    <a href="../contacto.html" class="fn-link">Contacto</a>
+  </div>
+  <button class="fn-toggle" id="fnToggle" aria-label="Abrir menú">☰</button>
+</nav>
+
+<main>
+
+  <section class="pd-hero" id="pdHero">
+    <img class="pd-hero-bg" src="../img/tayrona-axo.jpg" alt="Planos">
+    <div class="pd-hero-overlay"></div>
+    <nav class="hero-social" aria-label="Redes sociales">
+      <a href="https://instagram.com/" target="_blank" rel="noopener" class="hn-link hn-small">IG</a>
+      <a href="https://www.linkedin.com/in/jeronimo-nene" target="_blank" rel="noopener" class="hn-link hn-small">LinkedIn</a>
     </nav>
-    <button class="nav-toggle" aria-label="Abrir menú">☰</button>
-  </div>
-</header>
-
-<section class="p-hero">
-  <img src="../img/tayrona-axo.jpg" alt="Axonometría del Pabellón Tayrona">
-  <div class="p-hero-overlay">
-    <div class="p-hero-content">
-      <div class="p-hero-num">Trabajo</div>
-      <h1>Planos arquitectónicos</h1>
+    <div class="pd-hero-content">
+      <span class="pd-eyebrow">Trabajo — Planimetría y documentación técnica</span>
+      <h1 class="pd-title">Planos</h1>
     </div>
-  </div>
-</section>
-
-<main class="wrap">
-  <div class="p-body">
-    <div class="p-label">En construcción</div>
-    <div class="p-text">
-      <p>Esta página va a mostrar el carrusel completo de planos arquitectónicos con tamaños variados, galería y vista ampliada. Está en construcción — muy pronto vas a poder verla acá.</p>
-    </div>
-  </div>
-
-  <div class="p-nav">
-    <a href="../index.html#trabajo">
-      <span class="pn-label">← Volver</span>
-      Todo el trabajo
+    <a href="#galeria" class="hi-scroll" aria-label="Desplazarse hacia abajo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 9l7 7 7-7"/></svg>
     </a>
-  </div>
+  </section>
+
+  <!-- ============ GALERÍA (única sección bajo el hero) ============ -->
+  <section class="pd-block pd-block--tight" id="galeria">
+    <div class="wrap">
+      <div class="corner-head reveal">
+        <h2 class="ch-title">Galería</h2>
+        <span class="ch-bar"></span>
+      </div>
+
+      <div class="pd-carousel-wrap reveal">
+        <button class="pd-arrow pd-arrow--prev" aria-label="Anterior">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <div class="pd-carousel-viewport">
+          <div class="pd-carousel-track pd-carousel work-carousel" data-speed="0.35">
+            <div class="pd-item" style="width:190px;height:330px"><img src="../img/tayrona-hero.jpg" alt="Planos — imagen 1"></div>
+            <div class="pd-item" style="width:170px;height:290px"><img src="../img/tayrona-axo.jpg" alt="Planos — imagen 2"></div>
+            <div class="pd-item" style="width:230px;height:330px"><img src="../img/sol-interior.jpg" alt="Planos — imagen 3"></div>
+            <div class="pd-item" style="width:150px;height:290px"><img src="../img/solfernandez-hero.jpg" alt="Planos — imagen 4"></div>
+            <div class="pd-item" style="width:200px;height:330px"><img src="../img/interwind-hero.jpg" alt="Planos — imagen 5"></div>
+            <div class="pd-item" style="width:190px;height:330px" aria-hidden="true"><img src="../img/tayrona-hero.jpg" alt=""></div>
+            <div class="pd-item" style="width:170px;height:290px" aria-hidden="true"><img src="../img/tayrona-axo.jpg" alt=""></div>
+            <div class="pd-item" style="width:230px;height:330px" aria-hidden="true"><img src="../img/sol-interior.jpg" alt=""></div>
+            <div class="pd-item" style="width:150px;height:290px" aria-hidden="true"><img src="../img/solfernandez-hero.jpg" alt=""></div>
+            <div class="pd-item" style="width:200px;height:330px" aria-hidden="true"><img src="../img/interwind-hero.jpg" alt=""></div>
+          </div>
+        </div>
+        <button class="pd-arrow pd-arrow--next" aria-label="Siguiente">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OTRAS ÁREAS DE TRABAJO ============ -->
+  <section class="pd-block" id="mas-trabajo">
+    <div class="wrap">
+      <div class="corner-head corner-head--nobar reveal">
+        <h2 class="ch-title">Trabajo</h2>
+      </div>
+      <div class="work-tiles reveal">
+        <a href="visualizacion.html" class="work-tile">
+          <img src="../img/tayrona-hero.jpg" alt="Visualización arquitectónica">
+          <span class="wt-label">Visualización</span>
+        </a>
+        <a href="planos.html" class="work-tile">
+          <img src="../img/tayrona-axo.jpg" alt="Planos arquitectónicos">
+          <span class="wt-label">Planos</span>
+        </a>
+        <a href="diseno-interior.html" class="work-tile">
+          <img src="../img/sol-interior.jpg" alt="Diseño interior">
+          <span class="wt-label">Diseño interior</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
 </main>
+
+<!-- Lightbox (zoom semi-completo) — solo en páginas de Trabajo -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" aria-label="Cerrar">✕</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
 
 <footer class="site-footer">
   <div class="wrap">
@@ -68,7 +122,7 @@
       </div>
       <div class="foot-meta">
         <span>© 2026 Jerónimo Nene Toro</span>
-        <span>Bogotá, Colombia</span>
+        <span>Colombia</span>
       </div>
     </div>
   </div>
