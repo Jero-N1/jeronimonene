@@ -73,21 +73,12 @@ document.addEventListener('DOMContentLoaded', function () {
     var hero = document.getElementById('inicio');
     var heroEl = hero || document.querySelector('.pd-hero');
     var alwaysVisible = !hero;
-    var modelFrame = document.querySelector('.proyectos-swiper');
 
     function updateNavVisibility() {
       if (!heroEl) { floatingNav.classList.add('visible', 'on-light'); return; }
       var heroBottom = heroEl.getBoundingClientRect().bottom;
       floatingNav.classList.toggle('visible', alwaysVisible || heroBottom < 80);
-
-      // Claro en cuanto se pasa el hero (Trabajo, Proyectos, Flipbook son claras),
-      // salvo mientras la barra queda sobre las fotos del carrusel de Proyectos.
-      var onLight = heroBottom < 60;
-      if (onLight && modelFrame) {
-        var fRect = modelFrame.getBoundingClientRect();
-        if (fRect.top < 60 && fRect.bottom > 60) onLight = false;
-      }
-      floatingNav.classList.toggle('on-light', onLight);
+      floatingNav.classList.toggle('on-light', heroBottom < 60);
     }
 
     var fnLinkEls = document.querySelectorAll('.fn-link[data-section]');
@@ -130,44 +121,6 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('resize', onScroll);
     onScroll();
     setTimeout(onScroll, 200);
-
-    /* ---- Carrusel de proyectos: Swiper (coverflow) ---- */
-    if (window.Swiper && document.querySelector('.proyectos-swiper')) {
-      new Swiper('.proyectos-swiper', {
-        slidesPerView: 'auto',
-        slidesOffsetBefore: 200,
-        slidesOffsetAfter: 200,
-        initialSlide: 1,
-        centeredSlides: true,
-        centerInsufficientSlides: true,
-        roundLengths: true,
-        slideToClickedSlide: true,
-        loop: true,
-        effect: 'coverflow',
-        coverflowEffect: {
-          rotate: 130,
-          stretch: 120,
-          depth: 320,
-          scale: 0.55,
-          modifier: 0.5
-        },
-        navigation: {
-          nextEl: '.proyectos-swiper .swiper-button-next',
-          prevEl: '.proyectos-swiper .swiper-button-prev'
-        },
-        pagination: {
-          el: '.proyectos-swiper .swiper-pagination',
-          dynamicBullets: true,
-          dynamicMainBullets: 3,
-          hideOnClick: true
-        },
-        autoplay: {
-          delay: 2500,
-          disableOnInteraction: true
-        },
-        keyboard: true
-      });
-    }
   }
 
   /* ============================================
