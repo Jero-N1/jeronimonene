@@ -131,56 +131,78 @@ document.addEventListener('DOMContentLoaded', function () {
   var dragCarousels = document.querySelectorAll('.pd-carousel');
   if (dragCarousels.length) {
     dragCarousels.forEach(function (track) {
-      var speed = parseFloat(track.dataset.speed) || 0.35;
+      var speed = parseFloat(track.dataset.speed) || 0.6;
       var autoplay = true;
       var isDown = false;
       var startX = 0, startScroll = 0, dragged = false;
       var resumeTimer = null;
+      // scrollLeft se redondea a píxel entero en el navegador: si solo sumáramos
+      // el valor fraccionario a track.scrollLeft, cada cuadro se redondearía de
+      // vuelta al mismo entero y el carrusel nunca se movería. Por eso llevamos
+      // la posición exacta en esta variable y solo escribimos el valor redondeado.
+      var pos = track.scrollLeft;
 
       function half() { return track.scrollWidth / 2; }
 
       function pause() { autoplay = false; }
       function resumeLater() {
         clearTimeout(resumeTimer);
-        resumeTimer = setTimeout(function () { autoplay = true; }, 1800);
+        resumeTimer = setTimeout(function () {
+          pos = track.scrollLeft;
+          autoplay = true;
+        }, 1800);
       }
 
       function tick() {
         if (autoplay && !isDown) {
-          track.scrollLeft += speed;
+          pos += speed;
           var h = half();
-          if (h > 0 && track.scrollLeft >= h) track.scrollLeft -= h;
+          if (h > 0 && pos >= h) pos -= h;
+          track.scrollLeft = Math.round(pos);
         }
         requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
+
+      var pointerId = null;
 
       track.addEventListener('pointerdown', function (e) {
         isDown = true;
         dragged = false;
         startX = e.clientX;
         startScroll = track.scrollLeft;
-        track.classList.add('dragging');
-        try { track.setPointerCapture(e.pointerId); } catch (err) {}
+        pointerId = e.pointerId;
         pause();
       });
 
       track.addEventListener('pointermove', function (e) {
         if (!isDown) return;
         var dx = e.clientX - startX;
-        if (Math.abs(dx) > 4) dragged = true;
-        track.scrollLeft = startScroll - dx;
+        if (!dragged && Math.abs(dx) > 4) {
+          dragged = true;
+          track.classList.add('dragging');
+          // Capturamos el puntero SOLO al confirmar que es un arrastre real.
+          // Si se captura desde el pointerdown, el navegador reasigna hasta
+          // el "click" sintético al elemento capturador y el enlace nunca navega,
+          // aunque el usuario solo haya hecho clic sin mover el mouse.
+          try { track.setPointerCapture(pointerId); } catch (err) {}
+        }
+        if (dragged) track.scrollLeft = startScroll - dx;
       });
 
       function endDrag() {
         if (!isDown) return;
         isDown = false;
         track.classList.remove('dragging');
+        if (dragged && pointerId != null) {
+          try { track.releasePointerCapture(pointerId); } catch (err) {}
+        }
         var h = half();
         if (h > 0) {
           if (track.scrollLeft < 0) track.scrollLeft += h;
           if (track.scrollLeft >= h) track.scrollLeft -= h;
         }
+        pos = track.scrollLeft;
         resumeLater();
       }
       track.addEventListener('pointerup', endDrag);
