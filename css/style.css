@@ -1686,17 +1686,30 @@ body.home{ background:var(--paper); }
 
 /* ---------- Contacto page uses light nav — helper for non-home pages already exists (.site-header) ---------- */
 
-/* ---------- Galería de Trabajo — grupos con grid de imágenes ---------- */
-.wg-list{ display:flex; flex-direction:column; }
-.wg-row{
-  display:flex;
-  align-items:flex-start;
-  gap:48px;
-  padding:44px 0;
+/* ---------- Galería de Trabajo — mosaico de tamaños variados ---------- */
+/* ---------- Servicios (reemplaza work-tiles en páginas de trabajo) ---------- */
+.svc-list{ display:flex; flex-direction:column; }
+.svc-row{
+  display:block;
+  padding:34px 0;
   border-top:1px solid var(--line);
+  color:inherit;
+  transition:opacity .25s ease;
 }
-.wg-row:last-child{ border-bottom:1px solid var(--line); }
-.wg-left{ width:240px; flex-shrink:0; padding-top:4px; }
+.svc-row:last-child{ border-bottom:1px solid var(--line); }
+.svc-row:hover{ opacity:0.55; }
+.svc-name{
+  font-family:var(--font-sans);
+  font-weight:600;
+  font-size:clamp(24px,3.4vw,40px);
+  letter-spacing:-0.01em;
+  color:var(--ink);
+}
+
+.gallery-spacer{ height:1px; background:var(--line); margin-bottom:70px; }
+
+.wg-list{ display:flex; flex-direction:column; gap:70px; }
+.wg-title{ margin-bottom:18px; }
 .wg-name{
   font-family:var(--font-sans);
   font-weight:600;
@@ -1704,30 +1717,41 @@ body.home{ background:var(--paper); }
   color:var(--ink);
   letter-spacing:-0.01em;
 }
-.wg-grid{
-  flex:1; min-width:0;
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(180px,1fr));
-  gap:16px;
-}
-.wg-img{
-  aspect-ratio:1/1;
-  overflow:hidden;
-  border-radius:4px;
-  cursor:zoom-in;
-}
+.wg-divider{ height:1px; background:var(--line); margin-bottom:24px; }
+
+.wg-mosaic{ display:grid; gap:18px; width:100%; }
+.wg-img{ overflow:hidden; border-radius:0; cursor:zoom-in; }
 .wg-img img{
   width:100%; height:100%;
   object-fit:cover;
   display:block;
   transition:transform .5s cubic-bezier(.22,1,.36,1);
 }
-.wg-img:hover img{ transform:scale(1.05); }
+.wg-img:hover img{ transform:scale(1.04); }
+
+/* 3 distribuciones distintas — grande + chicas, para que cada grupo se vea distinto */
+.wg-mosaic--1{ grid-template-columns:1.3fr 1fr 1fr; grid-template-rows:260px 260px; }
+.wg-mosaic--1 .p-a{ grid-area:1/1/3/2; }
+.wg-mosaic--1 .p-b{ grid-area:1/2/2/3; }
+.wg-mosaic--1 .p-c{ grid-area:1/3/2/4; }
+.wg-mosaic--1 .p-d{ grid-area:2/2/3/4; }
+
+.wg-mosaic--2{ grid-template-columns:1fr 1fr 1.3fr; grid-template-rows:260px 260px; }
+.wg-mosaic--2 .p-a{ grid-area:1/3/3/4; }
+.wg-mosaic--2 .p-b{ grid-area:1/1/2/2; }
+.wg-mosaic--2 .p-c{ grid-area:1/2/2/3; }
+.wg-mosaic--2 .p-d{ grid-area:2/1/3/3; }
+
+.wg-mosaic--3{ grid-template-columns:1fr 1fr; grid-template-rows:220px 320px; }
+.wg-mosaic--3 .p-a{ grid-area:1/1/2/2; }
+.wg-mosaic--3 .p-b{ grid-area:1/2/2/3; }
+.wg-mosaic--3 .p-c{ grid-area:2/1/3/3; }
+
 @media (max-width:760px){
-  .wg-row{ flex-direction:column; gap:18px; }
-  .wg-left{ width:auto; }
-  .wg-grid{ grid-template-columns:repeat(2,1fr); }
+  .wg-mosaic{ grid-template-columns:1fr !important; grid-template-rows:none !important; }
+  .wg-mosaic .wg-img{ grid-area:auto !important; aspect-ratio:4/3; }
 }
+
 .work-carousel .pd-item{ cursor:zoom-in; }
 .lightbox{
   position:fixed; inset:0; z-index:999;
