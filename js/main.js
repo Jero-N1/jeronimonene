@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function () {
      LIGHTBOX — zoom semi-completo (solo carruseles .work-carousel)
      ============================================ */
   var lb = document.getElementById('lightbox');
-  var wcItems = document.querySelectorAll('.work-carousel .pd-item, .wg-grid .wg-img');
+  var wcItems = document.querySelectorAll('.work-carousel .pd-item, .work-carousel .wg-img');
   if (lb && wcItems.length) {
     var lbImg = document.getElementById('lightboxImg');
     wcItems.forEach(function (item) {
