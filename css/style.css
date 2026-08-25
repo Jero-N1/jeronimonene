@@ -647,8 +647,13 @@ footer .foot-meta{
   color:rgba(255,255,255,0.72);
   max-width:420px;
 }
+body.work-page .pd-hero-content{
+  top:50%; bottom:auto;
+  transform:translateY(-50%);
+}
 @media (max-width:760px){
   .pd-hero-content{ left:24px; right:24px; bottom:90px; }
+  body.work-page .pd-hero-content{ top:50%; bottom:auto; transform:translateY(-50%); }
 }
 
 /* ---------- Bloques genéricos de la página de proyecto ---------- */
@@ -1333,7 +1338,7 @@ body.home{ background:var(--paper); }
 .work-tile{
   position:relative;
   display:block;
-  aspect-ratio:3/4;
+  aspect-ratio:1/1;
   overflow:hidden;
   border-radius:0;
 }
@@ -1681,7 +1686,48 @@ body.home{ background:var(--paper); }
 
 /* ---------- Contacto page uses light nav — helper for non-home pages already exists (.site-header) ---------- */
 
-/* ---------- Lightbox (zoom semi-completo, solo páginas de Trabajo) ---------- */
+/* ---------- Galería de Trabajo — grupos con grid de imágenes ---------- */
+.wg-list{ display:flex; flex-direction:column; }
+.wg-row{
+  display:flex;
+  align-items:flex-start;
+  gap:48px;
+  padding:44px 0;
+  border-top:1px solid var(--line);
+}
+.wg-row:last-child{ border-bottom:1px solid var(--line); }
+.wg-left{ width:240px; flex-shrink:0; padding-top:4px; }
+.wg-name{
+  font-family:var(--font-sans);
+  font-weight:600;
+  font-size:19px;
+  color:var(--ink);
+  letter-spacing:-0.01em;
+}
+.wg-grid{
+  flex:1; min-width:0;
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(180px,1fr));
+  gap:16px;
+}
+.wg-img{
+  aspect-ratio:1/1;
+  overflow:hidden;
+  border-radius:4px;
+  cursor:zoom-in;
+}
+.wg-img img{
+  width:100%; height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .5s cubic-bezier(.22,1,.36,1);
+}
+.wg-img:hover img{ transform:scale(1.05); }
+@media (max-width:760px){
+  .wg-row{ flex-direction:column; gap:18px; }
+  .wg-left{ width:auto; }
+  .wg-grid{ grid-template-columns:repeat(2,1fr); }
+}
 .work-carousel .pd-item{ cursor:zoom-in; }
 .lightbox{
   position:fixed; inset:0; z-index:999;
