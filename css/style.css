@@ -1389,29 +1389,6 @@ body.home{ background:var(--paper); }
 .work-panel{ display:none; }
 .work-panel.active{ display:block; }
 
-/* ---------- Carrusel de proyectos (Swiper — coverflow) ---------- */
-.proyectos-swiper-stage{
-  flex:1;
-  display:flex;
-  align-items:center;
-  min-height:0;
-  width:100%;
-}
-.proyectos-swiper{
-  width:100%;
-  height:100%;
-}
-.proyectos-swiper .swiper-wrapper{
-  height:100%;
-  align-items:center;
-}
-.proyectos-swiper .swiper-slide{
-  width:260px;
-}
-@media (max-width:900px){
-  .proyectos-swiper .swiper-slide{ width:170px; }
-}
-
 .c-item{
   display:block;
   cursor:pointer;
@@ -1428,9 +1405,9 @@ body.home{ background:var(--paper); }
   -webkit-user-drag:none;
   transition:transform .5s cubic-bezier(.22,1,.36,1), box-shadow .5s ease;
 }
-.swiper-slide-active .c-item img{
-  transform:scale(1.06);
-  box-shadow:0 30px 70px rgba(0,0,0,0.4);
+.c-item:hover img{
+  transform:scale(1.05);
+  box-shadow:0 26px 60px rgba(0,0,0,0.38);
 }
 
 .c-item-title{
@@ -1449,33 +1426,7 @@ body.home{ background:var(--paper); }
   transition:opacity .3s ease;
   pointer-events:none;
 }
-.swiper-slide-active .c-item-title{ opacity:1; }
-
-/* Flechas y paginación — mismo estilo "liquid glass" que antes */
-.proyectos-swiper .swiper-button-prev,
-.proyectos-swiper .swiper-button-next{
-  width:48px; height:48px;
-  border-radius:50%;
-  background:rgba(28,27,24,0.06);
-  border:1px solid rgba(28,27,24,0.12);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  color:var(--ink);
-  transition:background .25s ease, color .25s ease;
-}
-.proyectos-swiper .swiper-button-prev:hover,
-.proyectos-swiper .swiper-button-next:hover{ background:var(--ink); color:#fff; }
-.proyectos-swiper .swiper-button-prev::after,
-.proyectos-swiper .swiper-button-next::after{ font-size:18px; }
-@media (max-width:640px){
-  .proyectos-swiper .swiper-button-prev,
-  .proyectos-swiper .swiper-button-next{ width:38px; height:38px; }
-  .proyectos-swiper .swiper-button-prev::after,
-  .proyectos-swiper .swiper-button-next::after{ font-size:14px; }
-}
-
-.proyectos-swiper .swiper-pagination-bullet{ background:var(--ink); opacity:0.25; }
-.proyectos-swiper .swiper-pagination-bullet-active{ opacity:1; }
+.c-item:hover .c-item-title{ opacity:1; }
 
 /* ---------- Proyectos inmersivo full-bleed ---------- */
 .full-bleed{
