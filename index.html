@@ -15,7 +15,7 @@
   <div class="fn-links" id="fnLinks">
     <span class="fn-indicator" id="fnIndicator"></span>
     <a href="#inicio" data-section="inicio" class="fn-link active">Inicio</a>
-    <a href="#trabajo" data-section="trabajo" class="fn-link">Trabajo</a>
+    <a href="#servicios" data-section="servicios" class="fn-link">Servicios</a>
     <a href="#proyectos" data-section="proyectos" class="fn-link">Proyectos</a>
     <a href="#flipbook" data-section="flipbook" class="fn-link">Flipbook</a>
     <a href="contacto.html" class="fn-link">Contacto</a>
@@ -47,9 +47,24 @@
 
     <a href="index.html" class="hi-mark">Jerónimo Nene Toro<span>.</span></a>
 
+    <div class="hi-strip" aria-hidden="true">
+      <div class="hi-strip-track">
+        <img src="img/tayrona-hero.jpg" alt="">
+        <img src="img/solfernandez-hero.jpg" alt="">
+        <img src="img/interwind-hero.jpg" alt="">
+        <img src="img/sol-interior.jpg" alt="">
+        <img src="img/tayrona-axo.jpg" alt="">
+        <img src="img/tayrona-hero.jpg" alt="">
+        <img src="img/solfernandez-hero.jpg" alt="">
+        <img src="img/interwind-hero.jpg" alt="">
+        <img src="img/sol-interior.jpg" alt="">
+        <img src="img/tayrona-axo.jpg" alt="">
+      </div>
+    </div>
+
     <nav class="hero-nav" aria-label="Navegación principal">
       <a href="#inicio" class="hn-link hn-active">Inicio</a>
-      <a href="#trabajo" class="hn-link">Trabajo</a>
+      <a href="#servicios" class="hn-link">Servicios</a>
       <a href="#proyectos" class="hn-link">Proyectos</a>
       <a href="#flipbook" class="hn-link">Flipbook</a>
       <a href="contacto.html" class="hn-link">Contacto</a>
@@ -65,16 +80,16 @@
       <span class="hi-sub">Arquitecto</span>
     </div>
 
-    <a href="#trabajo" class="hi-scroll" aria-label="Desplazarse hacia abajo">
+    <a href="#servicios" class="hi-scroll" aria-label="Desplazarse hacia abajo">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 9l7 7 7-7"/></svg>
     </a>
   </section>
 
   <!-- ============ TRABAJO — 3 imágenes fijas ============ -->
-  <section id="trabajo" class="work-section">
+  <section id="servicios" class="work-section">
     <div class="wrap">
       <div class="corner-head corner-head--nobar reveal">
-        <h2 class="ch-title">Trabajo</h2>
+        <h2 class="ch-title">Servicios</h2>
       </div>
 
       <div class="work-tiles reveal">
@@ -94,77 +109,93 @@
     </div>
   </section>
 
-  <!-- ============ PROYECTOS — carrusel con autoscroll ============ -->
+  <!-- ============ PROYECTOS — lista estilo BIG ============ -->
   <section id="proyectos" class="model-section-immersive">
     <div class="wrap">
-      <div class="corner-head reveal">
+      <div class="corner-head corner-head--nobar reveal">
         <h2 class="ch-title">Proyectos</h2>
-        <span class="ch-bar"></span>
       </div>
 
-      <div class="pd-carousel-wrap reveal">
-        <button class="pd-arrow pd-arrow--prev" aria-label="Anterior">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg>
-        </button>
+      <div class="big-list">
+        <a class="big-row big-row--wide reveal" href="proyectos/tayrona.html">
+          <div class="big-left">
+            <span class="big-logo">T</span>
+            <span class="big-name">Pabellón Tayrona</span>
+          </div>
+          <div class="big-media">
+            <img src="img/tayrona-hero.jpg" alt="Pabellón Tayrona">
+            <div class="big-caption">
+              <span class="cap-title">Pabellón Arqueológico Tayrona</span>
+              <span class="cap-loc">Equipamiento cultural</span>
+            </div>
+          </div>
+        </a>
 
-        <div class="pd-carousel-viewport">
-          <div class="pd-carousel-track pd-carousel" data-speed="0.3">
-            <!-- set 1 -->
-            <a class="c-item pd-item pd-item--uniform" href="proyectos/tayrona.html">
-              <span class="c-frame">
-                <img src="img/tayrona-hero.jpg" alt="Tayrona Archaeological Pavillion">
-                <span class="c-item-title">Pabellón<br>Tayrona</span>
-              </span>
-            </a>
-            <a class="c-item pd-item pd-item--uniform" href="proyectos/sol-fernandez.html">
-              <span class="c-frame">
-                <img src="img/solfernandez-hero.jpg" alt="Sol Fernández High School">
-                <span class="c-item-title">Sol<br>Fernández</span>
-              </span>
-            </a>
-            <a class="c-item pd-item pd-item--uniform" href="proyectos/interwind.html">
-              <span class="c-frame">
-                <img src="img/interwind-hero.jpg" alt="Interwind Pavillion">
-                <span class="c-item-title">Interwind<br>Pavillion</span>
-              </span>
-            </a>
-            <a class="c-item pd-item pd-item--uniform" href="proyectos/genova.html">
-              <span class="c-frame">
-                <img src="img/sol-interior.jpg" alt="Enea's Residential Complex — próximamente">
-                <span class="c-item-title">Enea's<br>Complex</span>
-              </span>
-            </a>
-            <!-- set 2: duplicado idéntico, solo para el loop infinito -->
-            <a class="c-item pd-item pd-item--uniform" href="proyectos/tayrona.html" aria-hidden="true" tabindex="-1">
-              <span class="c-frame">
-                <img src="img/tayrona-hero.jpg" alt="">
-                <span class="c-item-title">Pabellón<br>Tayrona</span>
-              </span>
-            </a>
-            <a class="c-item pd-item pd-item--uniform" href="proyectos/sol-fernandez.html" aria-hidden="true" tabindex="-1">
-              <span class="c-frame">
-                <img src="img/solfernandez-hero.jpg" alt="">
-                <span class="c-item-title">Sol<br>Fernández</span>
-              </span>
-            </a>
-            <a class="c-item pd-item pd-item--uniform" href="proyectos/interwind.html" aria-hidden="true" tabindex="-1">
-              <span class="c-frame">
-                <img src="img/interwind-hero.jpg" alt="">
-                <span class="c-item-title">Interwind<br>Pavillion</span>
-              </span>
-            </a>
-            <a class="c-item pd-item pd-item--uniform" href="proyectos/genova.html" aria-hidden="true" tabindex="-1">
-              <span class="c-frame">
-                <img src="img/sol-interior.jpg" alt="">
-                <span class="c-item-title">Enea's<br>Complex</span>
-              </span>
-            </a>
+        <a class="big-row reveal" href="proyectos/sol-fernandez.html">
+          <div class="big-left">
+            <span class="big-logo">SF</span>
+            <span class="big-name">Sol Fernández</span>
+          </div>
+          <div class="big-media">
+            <img src="img/solfernandez-hero.jpg" alt="Sol Fernández High School">
+            <div class="big-caption">
+              <span class="cap-title">Sol Fernández High School</span>
+              <span class="cap-loc">Equipamiento educativo</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="big-row reveal" href="proyectos/interwind.html">
+          <div class="big-left">
+            <span class="big-logo">IW</span>
+            <span class="big-name">Interwind</span>
+          </div>
+          <div class="big-media">
+            <img src="img/interwind-hero.jpg" alt="Interwind Pavillion">
+            <div class="big-caption">
+              <span class="cap-title">Interwind Pavillion</span>
+              <span class="cap-loc">Pabellón experimental</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="big-row big-row--wide reveal" href="proyectos/genova.html">
+          <div class="big-left">
+            <span class="big-logo">GH</span>
+            <span class="big-name">Genova's Habitability</span>
+          </div>
+          <div class="big-media">
+            <img src="img/sol-interior.jpg" alt="Genova's Habitability — SIIU 2026">
+            <div class="big-caption">
+              <span class="cap-title">Genova's Habitability</span>
+              <span class="cap-loc">Seminario SIIU 2026</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="big-row reveal" href="proyectos/genova.html">
+          <div class="big-left">
+            <span class="big-logo">EC</span>
+            <span class="big-name">Enea's Complex</span>
+          </div>
+          <div class="big-media">
+            <img src="img/tayrona-axo.jpg" alt="Enea's Complex — próximamente">
+            <div class="big-caption">
+              <span class="cap-title">Enea's Complex</span>
+              <span class="cap-loc">Próximamente</span>
+            </div>
+          </div>
+        </a>
+
+        <div class="big-row big-row--empty reveal">
+          <div class="big-left">
+            <span class="big-logo">＋</span>
+            <span class="big-name">Próximo proyecto</span>
+          </div>
+          <div class="big-media">
+            <div class="big-placeholder">Próximamente</div>
           </div>
         </div>
-
-        <button class="pd-arrow pd-arrow--next" aria-label="Siguiente">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg>
-        </button>
       </div>
     </div>
   </section>
