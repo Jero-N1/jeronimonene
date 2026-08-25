@@ -242,4 +242,25 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  /* ============================================
+     LIGHTBOX — zoom semi-completo (solo carruseles .work-carousel)
+     ============================================ */
+  var lb = document.getElementById('lightbox');
+  var wcItems = document.querySelectorAll('.work-carousel .pd-item');
+  if (lb && wcItems.length) {
+    var lbImg = document.getElementById('lightboxImg');
+    wcItems.forEach(function (item) {
+      item.addEventListener('click', function () {
+        var img = item.querySelector('img');
+        lbImg.src = img.src;
+        lbImg.alt = img.alt;
+        lb.classList.add('active');
+      });
+    });
+    lb.addEventListener('click', function () { lb.classList.remove('active'); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') lb.classList.remove('active');
+    });
+  }
+
 });
