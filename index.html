@@ -6,7 +6,6 @@
 <title>Jerónimo Nene Toro — Portafolio de Arquitectura</title>
 <meta name="description" content="Portafolio de arquitectura de Jerónimo Nene Toro. Proyectos residenciales, institucionales y de visualización arquitectónica.">
 <link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 </head>
 <body class="home">
 
@@ -96,56 +95,78 @@
   </section>
 
   <!-- ============ PROYECTOS — carrusel con autoscroll ============ -->
-  <section id="proyectos" class="model-section-immersive full-bleed">
+  <section id="proyectos" class="model-section-immersive">
     <div class="wrap">
       <div class="corner-head reveal">
         <h2 class="ch-title">Proyectos</h2>
         <span class="ch-bar"></span>
       </div>
-    </div>
 
-    <div class="proyectos-swiper-stage">
-    <div class="swiper proyectos-swiper reveal">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <a class="c-item" href="proyectos/tayrona.html">
-            <span class="c-frame">
-              <img src="img/tayrona-hero.jpg" alt="Tayrona Archaeological Pavillion">
-              <span class="c-item-title">Pabellón<br>Tayrona</span>
-            </span>
-          </a>
+      <div class="pd-carousel-wrap reveal">
+        <button class="pd-arrow pd-arrow--prev" aria-label="Anterior">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+
+        <div class="pd-carousel-viewport">
+          <div class="pd-carousel-track pd-carousel" data-speed="0.3">
+            <!-- set 1 -->
+            <a class="c-item pd-item pd-item--uniform" href="proyectos/tayrona.html">
+              <span class="c-frame">
+                <img src="img/tayrona-hero.jpg" alt="Tayrona Archaeological Pavillion">
+                <span class="c-item-title">Pabellón<br>Tayrona</span>
+              </span>
+            </a>
+            <a class="c-item pd-item pd-item--uniform" href="proyectos/sol-fernandez.html">
+              <span class="c-frame">
+                <img src="img/solfernandez-hero.jpg" alt="Sol Fernández High School">
+                <span class="c-item-title">Sol<br>Fernández</span>
+              </span>
+            </a>
+            <a class="c-item pd-item pd-item--uniform" href="proyectos/interwind.html">
+              <span class="c-frame">
+                <img src="img/interwind-hero.jpg" alt="Interwind Pavillion">
+                <span class="c-item-title">Interwind<br>Pavillion</span>
+              </span>
+            </a>
+            <a class="c-item pd-item pd-item--uniform" href="proyectos/genova.html">
+              <span class="c-frame">
+                <img src="img/sol-interior.jpg" alt="Enea's Residential Complex — próximamente">
+                <span class="c-item-title">Enea's<br>Complex</span>
+              </span>
+            </a>
+            <!-- set 2: duplicado idéntico, solo para el loop infinito -->
+            <a class="c-item pd-item pd-item--uniform" href="proyectos/tayrona.html" aria-hidden="true" tabindex="-1">
+              <span class="c-frame">
+                <img src="img/tayrona-hero.jpg" alt="">
+                <span class="c-item-title">Pabellón<br>Tayrona</span>
+              </span>
+            </a>
+            <a class="c-item pd-item pd-item--uniform" href="proyectos/sol-fernandez.html" aria-hidden="true" tabindex="-1">
+              <span class="c-frame">
+                <img src="img/solfernandez-hero.jpg" alt="">
+                <span class="c-item-title">Sol<br>Fernández</span>
+              </span>
+            </a>
+            <a class="c-item pd-item pd-item--uniform" href="proyectos/interwind.html" aria-hidden="true" tabindex="-1">
+              <span class="c-frame">
+                <img src="img/interwind-hero.jpg" alt="">
+                <span class="c-item-title">Interwind<br>Pavillion</span>
+              </span>
+            </a>
+            <a class="c-item pd-item pd-item--uniform" href="proyectos/genova.html" aria-hidden="true" tabindex="-1">
+              <span class="c-frame">
+                <img src="img/sol-interior.jpg" alt="">
+                <span class="c-item-title">Enea's<br>Complex</span>
+              </span>
+            </a>
+          </div>
         </div>
-        <div class="swiper-slide">
-          <a class="c-item" href="proyectos/sol-fernandez.html">
-            <span class="c-frame">
-              <img src="img/solfernandez-hero.jpg" alt="Sol Fernández High School">
-              <span class="c-item-title">Sol<br>Fernández</span>
-            </span>
-          </a>
-        </div>
-        <div class="swiper-slide">
-          <a class="c-item" href="proyectos/interwind.html">
-            <span class="c-frame">
-              <img src="img/interwind-hero.jpg" alt="Interwind Pavillion">
-              <span class="c-item-title">Interwind<br>Pavillion</span>
-            </span>
-          </a>
-        </div>
-        <div class="swiper-slide">
-          <a class="c-item" href="proyectos/genova.html">
-            <span class="c-frame">
-              <img src="img/sol-interior.jpg" alt="Enea's Residential Complex — próximamente">
-              <span class="c-item-title">Enea's<br>Complex</span>
-            </span>
-          </a>
-        </div>
+
+        <button class="pd-arrow pd-arrow--next" aria-label="Siguiente">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
       </div>
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
-      <div class="swiper-pagination"></div>
     </div>
-    </div>
-
   </section>
 
   <!-- ============ FLIPBOOK — sección independiente ============ -->
@@ -186,7 +207,6 @@
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
