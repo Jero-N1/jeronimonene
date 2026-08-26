@@ -1370,13 +1370,14 @@ body.home{ background:var(--paper); }
 .work-tiles{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:24px;
+  gap:16px;
+  width:100%;
   margin:20px 0 20px;
 }
 .work-tile{
   position:relative;
   display:block;
-  aspect-ratio:3/4;
+  aspect-ratio:4/3;
   overflow:hidden;
   border-radius:0;
 }
