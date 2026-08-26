@@ -634,7 +634,7 @@ body.work-page .pd-hero-content{
   font-size:12.5px;
   letter-spacing:0.14em;
   text-transform:uppercase;
-  color:var(--olive);
+  color:#E4DE6A;
   margin-bottom:14px;
 }
 .pd-title{
@@ -647,15 +647,86 @@ body.work-page .pd-hero-content{
   text-transform:uppercase;
 }
 .pd-title--sans{ font-family:var(--font-sans); letter-spacing:-0.02em; }
-.pd-tag{
-  margin-top:18px;
-  font-size:15.5px;
-  color:rgba(255,255,255,0.72);
-  max-width:420px;
+.pd-title--grotesk{ font-family:var(--font-grotesk); font-weight:500; letter-spacing:-0.01em; }
+.pd-meta-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:36px;
+  margin-top:26px;
+}
+.pd-meta-item{ display:flex; flex-direction:column; gap:6px; }
+.pd-meta-label{
+  font-size:11px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.5);
+}
+.pd-meta-value{
+  font-size:14px;
+  font-weight:600;
+  color:#fff;
 }
 @media (max-width:760px){
   .pd-hero-content{ left:24px; right:24px; bottom:90px; }
   body.work-page .pd-hero-content{ top:50%; bottom:auto; transform:translateY(-50%); }
+  .pd-meta-row{ gap:22px; }
+}
+
+/* ---------- Imagen final de cierre (pantalla completa) ---------- */
+.pd-final-hero{ position:relative; height:100vh; overflow:hidden; }
+.pd-final-hero img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+/* ---------- Franja compacta con todos los proyectos ---------- */
+.pd-mini-strip{
+  display:flex;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.pd-mini-item{
+  flex:1;
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:18px 12px;
+  border-right:1px solid var(--line);
+  color:inherit;
+}
+.pd-mini-item:last-child{ border-right:none; }
+.pd-mini-item--static{ cursor:default; }
+.pd-mini-logo{
+  width:26px; height:26px;
+  flex-shrink:0;
+  background:var(--ink);
+  color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-sans);
+  font-weight:700;
+  font-size:10px;
+  overflow:hidden;
+}
+.pd-mini-logo img{ width:100%; height:100%; object-fit:cover; }
+.pd-mini-text{ display:flex; flex-direction:column; min-width:0; gap:2px; }
+.pd-mini-name{
+  font-size:11.5px;
+  font-weight:600;
+  color:var(--ink);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.pd-mini-loc{
+  font-size:10px;
+  letter-spacing:0.03em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+@media (max-width:760px){
+  .pd-mini-strip{ flex-wrap:wrap; }
+  .pd-mini-item{ flex:1 1 50%; border-bottom:1px solid var(--line); }
 }
 
 /* ---------- Bloques genéricos de la página de proyecto ---------- */
