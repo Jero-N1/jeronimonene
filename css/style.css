@@ -4,6 +4,7 @@
    ============================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700;9..144,900&family=Jost:wght@300;400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=general-sans@500,600,700&display=swap');
 
 :root{
   --olive: #B8B802;
@@ -19,6 +20,7 @@
 
   --font-display: 'Fraunces', serif;
   --font-sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-grotesk: 'General Sans', 'Inter', 'Helvetica Neue', Arial, sans-serif;
   --font-body: 'Jost', sans-serif;
 }
 
@@ -623,6 +625,10 @@ footer .foot-meta{
   z-index:2;
   max-width:640px;
 }
+body.work-page .pd-hero-content{
+  top:50%; bottom:auto;
+  transform:translateY(-50%);
+}
 .pd-eyebrow{
   display:block;
   font-size:12.5px;
@@ -646,10 +652,6 @@ footer .foot-meta{
   font-size:15.5px;
   color:rgba(255,255,255,0.72);
   max-width:420px;
-}
-body.work-page .pd-hero-content{
-  top:50%; bottom:auto;
-  transform:translateY(-50%);
 }
 @media (max-width:760px){
   .pd-hero-content{ left:24px; right:24px; bottom:90px; }
@@ -987,41 +989,76 @@ body.home{ background:var(--paper); }
   z-index:0;
   background:linear-gradient(180deg, rgba(17,16,14,0.55) 0%, rgba(17,16,14,0.78) 60%, var(--ink) 100%);
 }
-.hi-grid{ position:absolute; inset:0; z-index:0; }
-.hi-grid svg{ width:100%; height:100%; display:block; }
-.hi-line{
-  stroke:rgba(184,184,2,0.28);
-  stroke-width:1;
-}
-.hi-glow{
+
+
+/* Columna izquierda del hero: nav arriba, nombre en medio, contacto+scroll abajo */
+.hi-left{
   position:absolute;
-  top:-10%; right:-10%;
-  width:60%; height:60%;
-  background:radial-gradient(circle, rgba(190,59,68,0.25) 0%, transparent 70%);
-  filter:blur(40px);
+  inset:0;
+  left:6%; right:auto;
+  z-index:3;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:110px 0 50px;
+  max-width:60%;
+}
+.hi-left .hero-nav{
+  position:static;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:6px;
+  opacity:0;
+  animation:hiFade .8s ease .3s forwards;
+}
+.hi-left-bottom{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:22px;
+}
+.hi-left .hero-social{
+  position:static;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:2px;
+  opacity:0;
+  animation:hiFade .8s ease .5s forwards;
+}
+.hi-left .hi-scroll{
+  position:static;
+  transform:none;
+  animation:hiBounceLeft 2s ease-in-out infinite;
+}
+@keyframes hiBounceLeft{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(6px); }
 }
 
 .hi-content{
   position:relative;
   z-index:2;
-  text-align:center;
+  text-align:left;
   display:flex;
   flex-direction:column;
-  align-items:center;
-  padding:0 24px;
+  align-items:flex-start;
 }
 .hi-name{
-  font-family:var(--font-sans);
-  font-weight:600;
-  font-size:clamp(38px,6vw,72px);
-  line-height:1.05;
+  font-family:var(--font-grotesk);
+  font-weight:400;
+  font-size:clamp(34px,5.2vw,60px);
+  line-height:1.02;
   color:#fff;
-  letter-spacing:-0.02em;
+  letter-spacing:-0.01em;
+  text-transform:uppercase;
   opacity:0;
   animation:hiFade .9s ease .25s forwards;
 }
+.hi-name b{ font-weight:700; }
 .hi-sub{
-  font-size:clamp(14px,1.8vw,18px);
+  font-size:clamp(13px,1.6vw,16px);
   letter-spacing:0.22em;
   text-transform:uppercase;
   color:var(--olive);
@@ -1232,6 +1269,7 @@ body.home{ background:var(--paper); }
   .hi-mark{ top:20px; left:24px; font-size:15px; }
   .hero-nav{ display:none; }
   .hero-social{ display:none; }
+  .hi-left{ max-width:88%; padding:90px 0 40px; }
 }
 
 .hi-scroll{
@@ -1338,7 +1376,7 @@ body.home{ background:var(--paper); }
 .work-tile{
   position:relative;
   display:block;
-  aspect-ratio:1/1;
+  aspect-ratio:3/4;
   overflow:hidden;
   border-radius:0;
 }
@@ -1684,9 +1722,6 @@ body.home{ background:var(--paper); }
   .pin .bubble.show{ opacity:1; transform:translateX(-50%) translateY(0) scale(1); pointer-events:auto; }
 }
 
-/* ---------- Contacto page uses light nav — helper for non-home pages already exists (.site-header) ---------- */
-
-/* ---------- Galería de Trabajo — mosaico de tamaños variados ---------- */
 /* ---------- Servicios (reemplaza work-tiles en páginas de trabajo) ---------- */
 .svc-list{ display:flex; flex-direction:column; }
 .svc-row{
@@ -1752,6 +1787,11 @@ body.home{ background:var(--paper); }
   .wg-mosaic .wg-img{ grid-area:auto !important; aspect-ratio:4/3; }
 }
 
+.work-carousel .pd-item{ cursor:zoom-in; }
+
+/* ---------- Contacto page uses light nav — helper for non-home pages already exists (.site-header) ---------- */
+
+/* ---------- Lightbox (zoom semi-completo, solo páginas de Trabajo) ---------- */
 .work-carousel .pd-item{ cursor:zoom-in; }
 .lightbox{
   position:fixed; inset:0; z-index:999;
