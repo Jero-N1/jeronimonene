@@ -78,6 +78,9 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!heroEl) { floatingNav.classList.add('visible'); return; }
       var heroBottom = heroEl.getBoundingClientRect().bottom;
       floatingNav.classList.toggle('visible', alwaysVisible || heroBottom < 80);
+      // Solo mientras la barra está encima del hero (foto oscura) usamos vidrio oscuro;
+      // en cuanto se pasa, vuelve al vidrio claro consistente del resto del sitio.
+      floatingNav.classList.toggle('on-dark', heroBottom > 60);
     }
 
     var fnLinkEls = document.querySelectorAll('.fn-link[data-section]');
