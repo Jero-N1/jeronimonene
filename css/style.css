@@ -408,7 +408,6 @@ footer.site-footer{
   background:var(--paper);
   border-top:1px solid var(--line);
   padding:60px 0 40px;
-  margin-top:60px;
 }
 footer.site-footer h3{ color:var(--ink); }
 footer.site-footer .foot-meta{ color:var(--gray); }
@@ -731,6 +730,7 @@ body.work-page .pd-hero-content{
 /* ---------- Bloques genéricos de la página de proyecto ---------- */
 .pd-block{ padding:90px 0; scroll-margin-top:100px; }
 .pd-block--tight{ padding-top:0; }
+.pd-block--flush{ padding-bottom:0; }
 .pd-text p{
   font-size:17.5px;
   color:var(--ink-soft);
@@ -1827,23 +1827,28 @@ body.home{ background:var(--paper); }
 }
 
 /* ---------- Servicios (reemplaza work-tiles en páginas de trabajo) ---------- */
-.svc-list{ display:flex; flex-direction:column; }
-.svc-row{
-  display:block;
-  padding:34px 0;
-  border-top:1px solid var(--line);
-  color:inherit;
+.svc-list{
+  width:100vw; position:relative; left:50%; right:50%;
+  margin-left:-50vw; margin-right:-50vw;
+}
+.svc-row{ display:block; border-top:1px solid var(--line); color:inherit; }
+.svc-row:last-child{ border-bottom:1px solid var(--line); }
+.svc-row-inner{
+  max-width:1240px; margin:0 auto;
+  padding:16px 48px;
+  display:flex; align-items:center; justify-content:space-between;
   transition:opacity .25s ease;
 }
-.svc-row:last-child{ border-bottom:1px solid var(--line); }
-.svc-row:hover{ opacity:0.55; }
+.svc-row:hover .svc-row-inner{ opacity:0.55; }
 .svc-name{
   font-family:var(--font-sans);
-  font-weight:600;
-  font-size:clamp(24px,3.4vw,40px);
-  letter-spacing:-0.01em;
+  font-weight:500;
+  font-size:clamp(14px,1.4vw,17px);
+  letter-spacing:0.01em;
   color:var(--ink);
 }
+.svc-arrow{ font-size:15px; color:var(--ink); }
+@media (max-width:760px){ .svc-row-inner{ padding:14px 24px; } }
 
 .gallery-spacer{ height:1px; background:var(--line); margin-bottom:70px; }
 
