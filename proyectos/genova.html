@@ -3,34 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Genova's Habitability — Próximamente — Jerónimo Nene Toro</title>
+<title>Habitabilidad del Espacio Público — Jerónimo Nene Toro</title>
+<meta name="description" content="Habitabilidad del espacio público de Génova — Seminario SIIU 2026 — proyecto de Jerónimo Nene Toro.">
 <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
+<body class="project-page">
 
-<header class="site-header">
-  <div class="nav-inner">
-    <a href="../index.html" class="brand">Jerónimo Nene Toro<span>.</span></a>
-    <nav class="main-nav">
-      <ul>
-        <li><a href="../index.html">Inicio</a></li>
-        <li><a href="../index.html#trabajo">Trabajo</a></li>
-        <li><a href="../index.html#proyectos" class="active">Proyectos</a></li>
-        <li><a href="../contacto.html">Contacto</a></li>
-      </ul>
-    </nav>
-    <button class="nav-toggle" aria-label="Abrir menú">☰</button>
+<!-- Nav flotante — igual que en inicio, visible desde el arranque en páginas interiores -->
+<nav class="floating-nav" id="floatingNav">
+  <a href="../index.html" class="fn-brand">Jerónimo Nene Toro<span>.</span></a>
+  <div class="fn-links" id="fnLinks">
+    <a href="../index.html" class="fn-link">Inicio</a>
+    <a href="../index.html#servicios" class="fn-link">Servicios</a>
+    <a href="../index.html#proyectos" class="fn-link">Proyectos</a>
+    <a href="../index.html#flipbook" class="fn-link">Flipbook</a>
+    <a href="../contacto.html" class="fn-link">Contacto</a>
   </div>
-</header>
+  <button class="fn-toggle" id="fnToggle" aria-label="Abrir menú">☰</button>
+</nav>
 
-<main class="wrap">
-  <section class="contact-hero">
-    <h1>Genova's Habitability</h1>
-    <p>Este proyecto —presentado en el Seminario Internacional de Investigación en Urbanismo (SIIU) 2026, Quito, Ecuador— está en desarrollo. Muy pronto vas a poder ver el proceso completo acá.</p>
-    <div style="margin-top:34px;">
-      <a href="../index.html#proyectos" class="btn">← Volver a proyectos</a>
+<main>
+
+  <!-- ============ HERO DE PROYECTO ============ -->
+  <section class="pd-hero" id="pdHero">
+    <img class="pd-hero-bg" src="../img/sol-interior.jpg" alt="Habitabilidad del espacio público de Génova">
+    <div class="pd-hero-overlay"></div>
+
+    <div class="pd-hero-content">
+      <span class="pd-eyebrow">Urbanismo — Seminario SIIU 2026</span>
+      <h1 class="pd-title pd-title--grotesk">Habitabilidad del<br>Espacio Público</h1>
+      <div class="pd-meta-row">
+        <div class="pd-meta-item">
+          <span class="pd-meta-label">Tipo</span>
+          <span class="pd-meta-value">Trabajo grupal</span>
+        </div>
+        <div class="pd-meta-item">
+          <span class="pd-meta-label">Institución</span>
+          <span class="pd-meta-value">Universidad Nacional de Colombia</span>
+        </div>
+        <div class="pd-meta-item">
+          <span class="pd-meta-label">Ubicación</span>
+          <span class="pd-meta-value">Génova, Quindío, Colombia</span>
+        </div>
+        <div class="pd-meta-item">
+          <span class="pd-meta-label">Año</span>
+          <span class="pd-meta-value">2026</span>
+        </div>
+      </div>
+    </div>
+
+    <a href="#explicacion" class="hi-scroll" aria-label="Desplazarse hacia abajo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 9l7 7 7-7"/></svg>
+    </a>
+  </section>
+
+  <!-- ============ EXPLICACIÓN ============ -->
+  <section class="pd-block" id="explicacion">
+    <div class="wrap">
+      <div class="pd-text reveal">
+        <p>[Párrafo de introducción — contexto del lote, encargo y estrategia general de Habitabilidad del Espacio Público. Reemplazar con el texto real del proyecto.]</p>
+        <p>[Segundo párrafo opcional — materialidad, estructura o proceso de diseño.]</p>
+      </div>
     </div>
   </section>
+
+  <!-- ============ GALERÍA MOSAICO ============ -->
+  <section class="pd-block" id="galeria-mosaico" style="padding-top:20px">
+    <div class="wrap">
+
+      <div class="pd-gallery-row reveal">
+        <figure class="g-tall" id="galeria-1">
+          <img src="../img/sol-interior.jpg" alt="Vista general — Habitabilidad del Espacio Público — Génova">
+          <figcaption class="g-cap">Vista general</figcaption>
+        </figure>
+        <div class="pd-textcard">
+          <span class="tc-label">Textos cortos</span>
+          <p>[Nota breve — un dato del proceso, la materialidad o una cita corta sobre el proyecto.]</p>
+          <figure class="g-wide" id="galeria-2">
+            <img src="../img/sol-interior.jpg" alt="Planta — Habitabilidad del Espacio Público — Génova">
+            <figcaption class="g-cap">Planta</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="pd-gallery-row2 reveal">
+        <figure class="g-big" id="galeria-3">
+          <img src="../img/sol-interior.jpg" alt="Corte — Habitabilidad del Espacio Público — Génova">
+          <figcaption class="g-cap">Corte</figcaption>
+        </figure>
+        <div class="pd-stack">
+          <figure id="galeria-4">
+            <img src="../img/sol-interior.jpg" alt="Fachada — Habitabilidad del Espacio Público — Génova">
+            <figcaption class="g-cap">Fachada</figcaption>
+          </figure>
+          <figure id="galeria-5">
+            <img src="../img/sol-interior.jpg" alt="Detalle constructivo — Habitabilidad del Espacio Público — Génova">
+            <figcaption class="g-cap">Detalle constructivo</figcaption>
+          </figure>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ IMAGEN FINAL DE CIERRE (a pantalla completa) ============ -->
+  <section class="pd-final-hero">
+    <img src="../img/sol-interior.jpg" alt="Habitabilidad del espacio público de Génova — vista de cierre">
+  </section>
+
+  <!-- ============ TODOS LOS PROYECTOS (franja compacta) ============ -->
+  <section class="pd-block" id="otros" style="padding-bottom:36px">
+    <div class="wrap">
+      <div class="pd-mini-strip reveal">
+        <a href="tayrona.html" class="pd-mini-item">
+          <span class="pd-mini-logo">T</span>
+          <span class="pd-mini-text">
+            <span class="pd-mini-name">Pabellón Tayrona</span>
+            <span class="pd-mini-loc">Manizales, Colombia</span>
+          </span>
+        </a>
+        <a href="sol-fernandez.html" class="pd-mini-item">
+          <span class="pd-mini-logo">SF</span>
+          <span class="pd-mini-text">
+            <span class="pd-mini-name">Sol Fernández</span>
+            <span class="pd-mini-loc">[Ciudad, Colombia]</span>
+          </span>
+        </a>
+        <a href="interwind.html" class="pd-mini-item">
+          <span class="pd-mini-logo">IW</span>
+          <span class="pd-mini-text">
+            <span class="pd-mini-name">Interwind</span>
+            <span class="pd-mini-loc">[Ciudad, Colombia]</span>
+          </span>
+        </a>
+        <a href="genova.html" class="pd-mini-item">
+          <span class="pd-mini-logo">GH</span>
+          <span class="pd-mini-text">
+            <span class="pd-mini-name">Habitabilidad del Espacio Público</span>
+            <span class="pd-mini-loc">Génova, Quindío</span>
+          </span>
+        </a>
+        <a href="eneas-complex.html" class="pd-mini-item">
+          <span class="pd-mini-logo">EC</span>
+          <span class="pd-mini-text">
+            <span class="pd-mini-name">Enea's Complex</span>
+            <span class="pd-mini-loc">[Ciudad, Colombia]</span>
+          </span>
+        </a>
+        <a href="malicia-la-paz.html" class="pd-mini-item">
+          <span class="pd-mini-logo">MP</span>
+          <span class="pd-mini-text">
+            <span class="pd-mini-name">Malicia La Paz</span>
+            <span class="pd-mini-loc">Cerritos, Pereira</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="site-footer">
@@ -52,7 +182,7 @@
       </div>
       <div class="foot-meta">
         <span>© 2026 Jerónimo Nene Toro</span>
-        <span>Bogotá, Colombia</span>
+        <span>Colombia</span>
       </div>
     </div>
   </div>
