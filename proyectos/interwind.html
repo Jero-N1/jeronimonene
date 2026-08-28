@@ -3,75 +3,163 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interwind Pavillion — Jerónimo Nene Toro</title>
+<title>Interwind — Jerónimo Nene Toro</title>
+<meta name="description" content="Interwind Pavillion — proyecto de arquitectura de Jerónimo Nene Toro.">
 <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
+<body class="project-page">
 
-<header class="site-header">
-  <div class="nav-inner">
-    <a href="../index.html" class="brand">Jerónimo Nene Toro<span>.</span></a>
-    <nav class="main-nav">
-      <ul>
-        <li><a href="../index.html">Inicio</a></li>
-        <li><a href="../index.html#trabajo">Trabajo</a></li>
-        <li><a href="../index.html#proyectos" class="active">Proyectos</a></li>
-        <li><a href="../contacto.html">Contacto</a></li>
-      </ul>
-    </nav>
-    <button class="nav-toggle" aria-label="Abrir menú">☰</button>
+<!-- Nav flotante — igual que en inicio, visible desde el arranque en páginas interiores -->
+<nav class="floating-nav" id="floatingNav">
+  <a href="../index.html" class="fn-brand">Jerónimo Nene Toro<span>.</span></a>
+  <div class="fn-links" id="fnLinks">
+    <a href="../index.html" class="fn-link">Inicio</a>
+    <a href="../index.html#servicios" class="fn-link">Servicios</a>
+    <a href="../index.html#proyectos" class="fn-link">Proyectos</a>
+    <a href="../index.html#flipbook" class="fn-link">Flipbook</a>
+    <a href="../contacto.html" class="fn-link">Contacto</a>
   </div>
-</header>
+  <button class="fn-toggle" id="fnToggle" aria-label="Abrir menú">☰</button>
+</nav>
 
-<section class="p-hero">
-  <img src="../img/interwind-hero.jpg" alt="Render del Pabellón Interwind en la Plaza de Bellas Artes, Ciudad de México">
-  <div class="p-hero-overlay">
-    <div class="p-hero-content">
-      <div class="p-hero-num">Proyecto 03</div>
-      <h1>Interwind Pavillion</h1>
+<main>
+
+  <!-- ============ HERO DE PROYECTO ============ -->
+  <section class="pd-hero" id="pdHero">
+    <img class="pd-hero-bg" src="../img/interwind-hero.jpg" alt="Interwind Pavillion">
+    <div class="pd-hero-overlay"></div>
+
+    <div class="pd-hero-content">
+      <span class="pd-eyebrow">Pabellón experimental</span>
+      <h1 class="pd-title pd-title--grotesk">Interwind</h1>
+      <div class="pd-meta-row">
+        <div class="pd-meta-item">
+          <span class="pd-meta-label">Tipo</span>
+          <span class="pd-meta-value">[Trabajo individual]</span>
+        </div>
+        <div class="pd-meta-item">
+          <span class="pd-meta-label">Institución</span>
+          <span class="pd-meta-value">Universidad Nacional de Colombia</span>
+        </div>
+        <div class="pd-meta-item">
+          <span class="pd-meta-label">Ubicación</span>
+          <span class="pd-meta-value">[Ciudad, Colombia]</span>
+        </div>
+        <div class="pd-meta-item">
+          <span class="pd-meta-label">Año</span>
+          <span class="pd-meta-value">[20XX]</span>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
 
-<main class="wrap">
+    <a href="#explicacion" class="hi-scroll" aria-label="Desplazarse hacia abajo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 9l7 7 7-7"/></svg>
+    </a>
+  </section>
 
-  <div class="p-meta">
-    <div><span class="m-label">Tipo</span><span class="m-val">Concurso de arquitectura</span></div>
-    <div><span class="m-label">Convocatoria</span><span class="m-val">Arquine Mextrópoli 2026</span></div>
-    <div><span class="m-label">Ubicación</span><span class="m-val">Ciudad de México, México</span></div>
-    <div><span class="m-label">Año</span><span class="m-val">2026</span></div>
-  </div>
-
-  <div class="p-body">
-    <div class="p-label">Entrelazar(se)</div>
-    <div class="p-text">
-      <p>Faced with the scarcity of pause spaces in public areas, the pavilion proposes a refuge of calm that integrates local identity through materiality and morphology inspired by Mexican values. For this reason, the pavilion is conceived from the residues of Mexico City: the plastic sacks that wrap fruits and vegetables in the markets and construction material waste. These elements are transformed into the foundation of a temporary structure that questions waste and proposes a new use for what the city discards.</p>
-      <p>The piece, composed by seven recycled wooden porticos arranged in a radial segment, rests on the plaza as a threshold between the Palacio de Bellas Artes and the Beethoven monument, opening towards them. It presents itself as a respite from the dynamism of the city, a meeting point that invites citizens to contemplate their surroundings, collaborate with one another, and generate community ties and roots. Inside, the weaving is interrupted to facilitate multiple passages and circulation, while on its surface, built with plastic sacks, it encourages users to linger.</p>
-      <p>Its weavings, arranged as a skin that connects the structure, represent a direct link between artisanal tradition and the contemporary life of the city — intertwining materials that are born and die in an attempt to recover their identity.</p>
+  <!-- ============ EXPLICACIÓN ============ -->
+  <section class="pd-block" id="explicacion">
+    <div class="wrap">
+      <div class="pd-text reveal">
+        <p>[Párrafo de introducción — contexto del lote, encargo y estrategia general de Interwind. Reemplazar con el texto real del proyecto.]</p>
+        <p>[Segundo párrafo opcional — materialidad, estructura o proceso de diseño.]</p>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <div class="p-gallery">
-    <figure class="full">
-      <img src="../img/interwind-photos.jpg" alt="Detalle del tejido textil y vista exterior del Pabellón Interwind">
-      <figcaption>Detalle del tejido en sacos plásticos reciclados — vista exterior en la plaza</figcaption>
-    </figure>
-    <figure class="full">
-      <img src="../img/interwind-axo.jpg" alt="Axonometría estructural del Pabellón Interwind">
-      <figcaption>Axonometría estructural — pórticos de madera reciclada</figcaption>
-    </figure>
-  </div>
+  <!-- ============ GALERÍA MOSAICO ============ -->
+  <section class="pd-block" id="galeria-mosaico" style="padding-top:20px">
+    <div class="wrap">
 
-  <div class="p-nav">
-    <a href="sol-fernandez.html">
-      <span class="pn-label">← Proyecto anterior</span>
-      Sol Fernández High School
-    </a>
-    <a href="../index.html#proyectos" class="pn-next">
-      <span class="pn-label">Volver</span>
-      Todos los proyectos →
-    </a>
-  </div>
+      <div class="pd-gallery-row reveal">
+        <figure class="g-tall" id="galeria-1">
+          <img src="../img/interwind-hero.jpg" alt="Vista general — Interwind Pavillion">
+          <figcaption class="g-cap">Vista general</figcaption>
+        </figure>
+        <div class="pd-textcard">
+          <span class="tc-label">Textos cortos</span>
+          <p>[Nota breve — un dato del proceso, la materialidad o una cita corta sobre el proyecto.]</p>
+          <figure class="g-wide" id="galeria-2">
+            <img src="../img/interwind-hero.jpg" alt="Planta — Interwind Pavillion">
+            <figcaption class="g-cap">Planta</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="pd-gallery-row2 reveal">
+        <figure class="g-big" id="galeria-3">
+          <img src="../img/interwind-hero.jpg" alt="Corte — Interwind Pavillion">
+          <figcaption class="g-cap">Corte</figcaption>
+        </figure>
+        <div class="pd-stack">
+          <figure id="galeria-4">
+            <img src="../img/interwind-hero.jpg" alt="Fachada — Interwind Pavillion">
+            <figcaption class="g-cap">Fachada</figcaption>
+          </figure>
+          <figure id="galeria-5">
+            <img src="../img/interwind-hero.jpg" alt="Detalle constructivo — Interwind Pavillion">
+            <figcaption class="g-cap">Detalle constructivo</figcaption>
+          </figure>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ IMAGEN FINAL DE CIERRE (a pantalla completa) ============ -->
+  <section class="pd-final-hero">
+    <img src="../img/interwind-hero.jpg" alt="Interwind Pavillion — vista de cierre">
+  </section>
+
+  <!-- ============ TODOS LOS PROYECTOS (franja compacta) ============ -->
+  <section class="pd-block" id="otros" style="padding-bottom:36px">
+    <div class="wrap">
+      <div class="pd-mini-strip reveal">
+        <a href="tayrona.html" class="pd-mini-item">
+          <span class="pd-mini-logo">T</span>
+          <span class="pd-mini-text">
+            <span class="pd-mini-name">Pabellón Tayrona</span>
+            <span class="pd-mini-loc">Manizales, Colombia</span>
+          </span>
+        </a>
+        <a href="sol-fernandez.html" class="pd-mini-item">
+          <span class="pd-mini-logo">SF</span>
+          <span class="pd-mini-text">
+            <span class="pd-mini-name">Sol Fernández</span>
+            <span class="pd-mini-loc">[Ciudad, Colombia]</span>
+          </span>
+        </a>
+        <a href="interwind.html" class="pd-mini-item">
+          <span class="pd-mini-logo">IW</span>
+          <span class="pd-mini-text">
+            <span class="pd-mini-name">Interwind</span>
+            <span class="pd-mini-loc">[Ciudad, Colombia]</span>
+          </span>
+        </a>
+        <a href="genova.html" class="pd-mini-item">
+          <span class="pd-mini-logo">GH</span>
+          <span class="pd-mini-text">
+            <span class="pd-mini-name">Habitabilidad del Espacio Público</span>
+            <span class="pd-mini-loc">Génova, Quindío</span>
+          </span>
+        </a>
+        <a href="eneas-complex.html" class="pd-mini-item">
+          <span class="pd-mini-logo">EC</span>
+          <span class="pd-mini-text">
+            <span class="pd-mini-name">Enea's Complex</span>
+            <span class="pd-mini-loc">[Ciudad, Colombia]</span>
+          </span>
+        </a>
+        <a href="malicia-la-paz.html" class="pd-mini-item">
+          <span class="pd-mini-logo">MP</span>
+          <span class="pd-mini-text">
+            <span class="pd-mini-name">Malicia La Paz</span>
+            <span class="pd-mini-loc">Cerritos, Pereira</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
 
 </main>
 
@@ -94,7 +182,7 @@
       </div>
       <div class="foot-meta">
         <span>© 2026 Jerónimo Nene Toro</span>
-        <span>Bogotá, Colombia</span>
+        <span>Colombia</span>
       </div>
     </div>
   </div>
