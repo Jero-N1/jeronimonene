@@ -408,7 +408,6 @@ footer.site-footer{
   background:var(--paper);
   border-top:1px solid var(--line);
   padding:60px 0 40px;
-  margin-top:60px;
 }
 footer.site-footer h3{ color:var(--ink); }
 footer.site-footer .foot-meta{ color:var(--gray); }
@@ -1864,7 +1863,11 @@ body.home{ background:var(--paper); }
 }
 .wg-divider{ height:1px; background:var(--line); margin-bottom:24px; }
 
-.wg-mosaic{ display:grid; gap:18px; width:100%; }
+.wg-mosaic{
+  display:grid; gap:18px;
+  width:100vw; position:relative; left:50%; right:50%;
+  margin-left:-50vw; margin-right:-50vw;
+}
 .wg-img{ overflow:hidden; border-radius:0; cursor:zoom-in; }
 .wg-img img{
   width:100%; height:100%;
