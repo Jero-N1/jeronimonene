@@ -1933,36 +1933,41 @@ body.page-contacto{ height:100vh; overflow:hidden; }
 body.page-contacto .floating-nav{ left:28px; right:auto; }
 .contact-split{ display:flex; height:100vh; width:100%; }
 .contact-left{
-  flex:0 0 74%;
+  flex:0 0 68%;
   display:flex;
   align-items:center;
   justify-content:center;
   background:var(--paper);
 }
-.contact-inner{ padding:0 40px; max-width:600px; width:100%; }
+.contact-inner{ padding:0 40px; max-width:620px; width:100%; }
 .contact-title{
   font-family:var(--font-grotesk);
   font-weight:700;
-  font-size:clamp(48px,6.2vw,88px);
+  font-size:clamp(44px,5.6vw,76px);
   line-height:0.92;
   text-transform:uppercase;
   color:var(--ink);
   letter-spacing:-0.02em;
-  margin-bottom:28px;
+  margin-bottom:36px;
 }
-.contact-lead{ font-size:17px; color:var(--ink-soft); max-width:380px; margin-bottom:42px; }
-.contact-links{ display:flex; flex-direction:column; gap:22px; }
+.contact-row{ display:flex; gap:56px; margin-bottom:38px; }
+.contact-lead{ flex:1; max-width:260px; font-size:16px; color:var(--ink-soft); }
+.contact-links{ flex:1; display:flex; flex-direction:column; gap:20px; }
 .contact-link{ display:flex; flex-direction:column; gap:4px; color:inherit; }
 .cl-label{ font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-soft); }
-.cl-value{ font-size:16px; font-weight:600; color:var(--ink); transition:opacity .2s ease; }
+.cl-value{ font-size:15px; font-weight:600; color:var(--ink); transition:opacity .2s ease; }
 .contact-link:hover .cl-value{ opacity:0.55; }
-.contact-services{ margin-top:42px; padding-top:30px; border-top:1px solid var(--line); }
+.contact-services{ padding-top:26px; border-top:1px solid var(--line); }
 .contact-services-links{ display:flex; gap:22px; margin-top:10px; flex-wrap:wrap; }
-.contact-services-links a{ font-size:14.5px; font-weight:500; color:var(--ink); transition:opacity .2s ease; }
+.contact-services-links a{ font-size:14px; font-weight:500; color:var(--ink); transition:opacity .2s ease; }
 .contact-services-links a:hover{ opacity:0.55; }
-.contact-note{ margin-top:34px; font-size:12.5px; color:var(--ink-soft); }
+.contact-note{ margin-top:26px; font-size:12.5px; color:var(--ink-soft); }
 .contact-media{ flex:1; position:relative; overflow:hidden; }
 .contact-media img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+@media (max-width:900px){
+  .contact-row{ flex-direction:column; gap:24px; }
+}
 
 @media (max-width:900px){
   body.page-contacto{ height:auto; overflow:auto; }
