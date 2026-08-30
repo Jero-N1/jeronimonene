@@ -408,6 +408,7 @@ footer.site-footer{
   background:var(--paper);
   border-top:1px solid var(--line);
   padding:60px 0 40px;
+  margin-top:60px;
 }
 footer.site-footer h3{ color:var(--ink); }
 footer.site-footer .foot-meta{ color:var(--gray); }
@@ -729,9 +730,9 @@ body.work-page .pd-hero-content{
 
 /* ---------- Bloques genéricos de la página de proyecto ---------- */
 .pd-block{ padding:90px 0; scroll-margin-top:100px; }
-.pd-block--tight{ padding-top:0; }
 .pd-block--flush{ padding-bottom:0; }
 #mas-trabajo .ch-title{ font-size:clamp(19px,2.5vw,28px); }
+.pd-block--tight{ padding-top:0; }
 .pd-text p{
   font-size:17.5px;
   color:var(--ink-soft);
@@ -1838,7 +1839,6 @@ body.home{ background:var(--paper); }
   max-width:1240px; margin:0 auto;
   padding:16px 48px;
   display:flex; align-items:center; justify-content:space-between;
-  transition:opacity .25s ease;
 }
 .svc-row:hover .svc-row-inner{ opacity:0.55; }
 .svc-name{
@@ -1927,3 +1927,41 @@ body.home{ background:var(--paper); }
   color:#fff; font-size:16px; cursor:pointer;
 }
 .lightbox-close:hover{ background:rgba(255,255,255,0.18); }
+
+/* ---------- Contacto: split a pantalla completa, sin scroll ---------- */
+body.page-contacto{ height:100vh; overflow:hidden; }
+body.page-contacto .floating-nav{ left:28px; right:auto; }
+.contact-split{ display:flex; height:100vh; width:100%; }
+.contact-left{
+  flex:0 0 56%;
+  display:flex;
+  align-items:center;
+  background:var(--paper);
+}
+.contact-inner{ padding:0 8%; max-width:640px; }
+.contact-title{
+  font-family:var(--font-grotesk);
+  font-weight:700;
+  font-size:clamp(72px,9vw,130px);
+  line-height:0.92;
+  text-transform:uppercase;
+  color:var(--ink);
+  letter-spacing:-0.02em;
+  margin-bottom:34px;
+}
+.contact-lead{ font-size:17px; color:var(--ink-soft); max-width:360px; margin-bottom:48px; }
+.contact-links{ display:flex; flex-direction:column; gap:22px; }
+.contact-link{ display:flex; flex-direction:column; gap:4px; color:inherit; }
+.cl-label{ font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-soft); }
+.cl-value{ font-size:16px; font-weight:600; color:var(--ink); transition:opacity .2s ease; }
+.contact-link:hover .cl-value{ opacity:0.55; }
+.contact-media{ flex:1; position:relative; overflow:hidden; }
+.contact-media img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+@media (max-width:900px){
+  body.page-contacto{ height:auto; overflow:auto; }
+  .contact-split{ flex-direction:column; height:auto; min-height:100vh; }
+  .contact-left{ flex:none; padding:110px 24px 40px; }
+  .contact-media{ flex:none; height:42vh; }
+  .contact-title{ font-size:clamp(44px,14vw,64px); }
+}
