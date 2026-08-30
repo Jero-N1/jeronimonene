@@ -731,6 +731,7 @@ body.work-page .pd-hero-content{
 .pd-block{ padding:90px 0; scroll-margin-top:100px; }
 .pd-block--tight{ padding-top:0; }
 .pd-block--flush{ padding-bottom:0; }
+#mas-trabajo .ch-title{ font-size:clamp(19px,2.5vw,28px); }
 .pd-text p{
   font-size:17.5px;
   color:var(--ink-soft);
