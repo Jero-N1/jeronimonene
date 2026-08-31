@@ -412,6 +412,7 @@ footer.site-footer{
 }
 footer.site-footer h3{ color:var(--ink); }
 footer.site-footer .foot-meta{ color:var(--gray); }
+body.work-page footer.site-footer{ margin-top:0; }
 
 /* Mantiene compatibilidad con footer-grid (usado en páginas de proyecto) */
 .footer-grid{
@@ -1940,10 +1941,10 @@ body.page-contacto .floating-nav{ left:28px; right:auto; }
   flex:0 0 68%;
   display:flex;
   align-items:center;
-  justify-content:center;
+  justify-content:flex-start;
   background:var(--paper);
 }
-.contact-inner{ padding:0 40px; max-width:620px; width:100%; }
+.contact-inner{ padding:0 7%; max-width:620px; width:100%; }
 .contact-title{
   font-family:var(--font-grotesk);
   font-weight:700;
