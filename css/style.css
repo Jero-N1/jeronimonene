@@ -408,6 +408,7 @@ footer.site-footer{
   background:var(--paper);
   border-top:1px solid var(--line);
   padding:60px 0 40px;
+  margin-top:60px;
 }
 footer.site-footer h3{ color:var(--ink); }
 footer.site-footer .foot-meta{ color:var(--gray); }
