@@ -411,6 +411,8 @@ footer.site-footer{
   margin-top:60px;
 }
 footer.site-footer h3{ color:var(--ink); }
+footer.site-footer h3 a{ color:inherit; transition:opacity .2s ease; }
+footer.site-footer h3 a:hover{ opacity:0.6; }
 footer.site-footer .foot-meta{ color:var(--gray); }
 body.work-page footer.site-footer{ margin-top:0; }
 
@@ -1429,12 +1431,8 @@ body.home{ background:var(--paper); }
 .work-section{
   background:var(--paper);
   color:var(--ink);
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  padding-top:0;
-  padding-bottom:0;
+  padding-top:110px;
+  padding-bottom:60px;
   scroll-margin-top:20px;
 }
 
@@ -1475,7 +1473,7 @@ body.home{ background:var(--paper); }
 .work-tile{
   position:relative;
   display:block;
-  aspect-ratio:4/3;
+  aspect-ratio:2/3;
   overflow:hidden;
   border-radius:0;
 }
@@ -1503,6 +1501,7 @@ body.home{ background:var(--paper); }
 }
 @media (max-width:760px){
   .work-tiles{ grid-template-columns:1fr; gap:16px; }
+  .work-tile{ aspect-ratio:4/3; }
 }
 
 /* .carousel-title reemplazado por el selector .work-tabs */
@@ -1614,7 +1613,7 @@ body.home{ background:var(--paper); }
 .big-list{ display:flex; flex-direction:column; }
 .big-row{
   display:flex;
-  align-items:flex-end;
+  align-items:flex-start;
   gap:48px;
   padding:26px 0;
   border-top:1px solid var(--line);
@@ -1660,12 +1659,11 @@ body.home{ background:var(--paper); }
   color:var(--ink);
   letter-spacing:-0.01em;
 }
+.big-meta{ display:flex; flex-direction:column; gap:4px; margin-top:2px; }
+.big-meta-item{ font-size:12px; color:var(--ink-soft); }
 .big-media{ flex:1; min-width:0; overflow:hidden; }
 .big-media img{ width:100%; aspect-ratio:16/7; object-fit:cover; display:block; transition:transform .6s cubic-bezier(.22,1,.36,1); }
 .big-row:hover .big-media img{ transform:scale(1.02); }
-.big-caption{ display:flex; flex-direction:column; align-items:flex-end; margin-top:14px; }
-.big-caption .cap-title{ font-size:14.5px; font-weight:600; color:var(--ink); }
-.big-caption .cap-loc{ font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft); margin-top:4px; }
 .big-row--empty{ opacity:0.5; cursor:default; }
 .big-placeholder{
   aspect-ratio:16/7;
