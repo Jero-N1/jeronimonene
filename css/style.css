@@ -1705,14 +1705,13 @@ body.home{ background:var(--paper); }
 .fb-book canvas{display:block;width:100%!important;height:100%!important;}
 .fb-side-arrow{width:42px;height:54px;flex:0 0 42px;border-radius:4px;}
 .fb-side-arrow svg{width:24px;height:24px;}
-.fb-progress-wrap{display:flex;align-items:center;gap:12px;width:min(72vw,700px);margin-top:2px;}
-.fb-progress{appearance:none;width:100%;height:18px;background:transparent;cursor:pointer;}
-.fb-progress::-webkit-slider-runnable-track{height:2px;background:var(--line);}
-.fb-progress::-moz-range-track{height:2px;background:var(--line);}
-.fb-progress::-webkit-slider-thumb{appearance:none;width:12px;height:12px;border-radius:50%;background:var(--ink);margin-top:-5px;border:0;}
-.fb-progress::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:var(--ink);border:0;}
-.fb-progress-label{font-size:11px;color:var(--ink-soft);min-width:18px;text-align:center;}
-.fb-meta{display:flex;justify-content:space-between;align-items:center;width:min(72vw,700px);font-size:12px;letter-spacing:.04em;color:var(--ink-soft);}
+.fb-progress-wrap{position:relative;width:min(72vw,700px);height:18px;margin-top:2px;}
+.fb-progress-track{position:absolute;left:0;right:0;top:8px;height:2px;background:var(--line);border-radius:999px;overflow:visible;}
+.fb-progress-fill{position:absolute;left:0;top:0;height:100%;width:0%;background:var(--ink);border-radius:999px;transition:width .38s cubic-bezier(.22,1,.36,1);}
+.fb-progress-thumb{position:absolute;top:50%;left:0;width:34px;height:9px;border-radius:999px;background:var(--ink);transform:translate(-50%,-50%);transition:left .38s cubic-bezier(.22,1,.36,1),width .28s cubic-bezier(.22,1,.36,1),height .28s ease;box-shadow:0 2px 8px rgba(0,0,0,.10);}
+.fb-progress-wrap:has(.fb-progress-input:active) .fb-progress-thumb{width:42px;height:10px;transition:left .08s linear,width .16s ease,height .16s ease;}
+.fb-progress-input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;z-index:2;}
+.fb-meta{display:flex;justify-content:center;align-items:center;width:min(72vw,700px);font-size:12px;letter-spacing:.04em;color:var(--ink-soft);}
 .fb-meta span:last-child{opacity:.7;}
 .fb-book-row:fullscreen{display:flex;width:100vw;height:100vh;background:rgba(245,244,240,.98);align-items:center;justify-content:center;}
 .fb-book-row:fullscreen .fb-book{
