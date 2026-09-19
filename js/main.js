@@ -266,202 +266,125 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* ============================================
-     FLIPBOOK — motor estable + controles
+     FLIPBOOK — motor StPageFlip
+     El motor gestiona el giro 3D, drag/touch y el retorno.
+     Los controles y la interfaz siguen siendo propios.
      ============================================ */
   var fbEl = document.getElementById('flipbookBook');
-  if (fbEl) {
+  if (fbEl && window.St && window.St.PageFlip) {
     var fbTotal = 52;
-    var fbMaxState = 26;
-    var fbState = 0;
-    var fbAnimating = false;
-    var fbTimer = null;
+    var fbPageWidth = 560;
+    var fbPageHeight = 560;
+    var fbImages = [];
+    for (var i = 1; i <= fbTotal; i++) {
+      fbImages.push('img/flipbook/page-' + String(i).padStart(2,'0') + '.jpg');
+    }
 
-    var leftFrontImg = document.getElementById('fbLeftFrontImg');
-    var leftBackImg = document.getElementById('fbLeftBack');
-    var leftFrontLayer = document.getElementById('fbLeftFront');
-    var rightFrontImg = document.getElementById('fbRightFrontImg');
-    var rightBackImg = document.getElementById('fbRightBack');
-    var rightFrontLayer = document.getElementById('fbRightFront');
+    var pageFlip = new St.PageFlip(fbEl, {
+      width: fbPageWidth,
+      height: fbPageHeight,
+      size: 'stretch',
+      minWidth: 280,
+      maxWidth: 560,
+      minHeight: 280,
+      maxHeight: 560,
+      showCover: true,
+      usePortrait: true,
+      startPage: 0,
+      drawShadow: true,
+      maxShadowOpacity: 0.32,
+      flippingTime: 720,
+      mobileScrollSupport: true,
+      clickEventForward: true,
+      useMouseEvents: true,
+      swipeDistance: 24,
+      showPageCorners: true,
+      disableFlipByClick: false
+    });
+
+    pageFlip.loadFromImages(fbImages);
+
     var fbIndicator = document.getElementById('fbIndicator');
     var fbProgress = document.getElementById('fbProgress');
-    var fbPrevBtn = document.getElementById('fbPrev');
-    var fbNextBtn = document.getElementById('fbNext');
     var fbHomeBtn = document.getElementById('fbHome');
     var fbEndBtn = document.getElementById('fbEnd');
     var fbSidePrev = document.getElementById('fbSidePrev');
     var fbSideNext = document.getElementById('fbSideNext');
     var fbFullscreen = document.getElementById('fbFullscreen');
+    var fbProgressStart = document.getElementById('fbProgressStart');
+    var fbProgressEnd = document.getElementById('fbProgressEnd');
 
-    function fbSrc(n) { return 'img/flipbook/page-' + String(n).padStart(2,'0') + '.jpg'; }
-
-    function fbPagesForState(s) {
-      if (s <= 0) return {mode:'single', page:1};
-      if (s >= fbMaxState) return {mode:'single', page:fbTotal};
-      var left = s * 2;
-      return {mode:'spread', left:left, right:left+1};
-    }
-
-    function fbSetImg(img, page) {
-      if (!img || !page) return;
-      img.src = fbSrc(page);
-      img.alt = 'Página ' + page;
-    }
-
-    function fbSetLeft(page) {
-      fbSetImg(leftFrontImg,page); fbSetImg(leftBackImg,page);
-    }
-    function fbSetRight(page) {
-      fbSetImg(rightFrontImg,page); fbSetImg(rightBackImg,page);
-    }
-    function fbResetLayer(layer) {
-      if (!layer) return;
-      layer.style.transition='none';
-      layer.style.transform='rotateY(0deg)';
-    }
-    function fbForceReflow(layer) { void layer.offsetWidth; }
+    function fbPageIndex() { return pageFlip.getCurrentPageIndex(); }
 
     function fbUpdateUI() {
-      var info=fbPagesForState(fbState);
-      if (fbIndicator) fbIndicator.textContent=info.mode==='single' ? info.page+' / '+fbTotal : info.left+'–'+info.right+' / '+fbTotal;
-      if (fbProgress) fbProgress.value=fbState;
-      var atStart=fbState===0, atEnd=fbState===fbMaxState;
-      [fbPrevBtn,fbSidePrev].forEach(function(b){if(b)b.disabled=atStart||fbAnimating;});
-      [fbNextBtn,fbSideNext].forEach(function(b){if(b)b.disabled=atEnd||fbAnimating;});
-      if (fbHomeBtn) fbHomeBtn.disabled=atStart||fbAnimating;
-      if (fbEndBtn) fbEndBtn.disabled=atEnd||fbAnimating;
+      var current = fbPageIndex();
+      if (fbIndicator) fbIndicator.textContent = (current + 1) + ' / ' + fbTotal;
+      if (fbProgress) fbProgress.value = current;
+      var atStart = current <= 0;
+      var atEnd = current >= fbTotal - 1;
+      [fbSidePrev, fbHomeBtn].forEach(function(b){ if(b) b.disabled = atStart; });
+      [fbSideNext, fbEndBtn].forEach(function(b){ if(b) b.disabled = atEnd; });
     }
 
-    function fbAfterAnimation(callback) {
-      clearTimeout(fbTimer);
-      fbTimer=setTimeout(function(){
-        fbTimer=null;
-        callback();
-        fbAnimating=false;
+    pageFlip.on('flip', function(e) {
+      var current = typeof e.data === 'number' ? e.data : fbPageIndex();
+      if (fbIndicator) fbIndicator.textContent = (current + 1) + ' / ' + fbTotal;
+      if (fbProgress) fbProgress.value = current;
+      fbUpdateUI();
+    });
+
+    pageFlip.on('init', fbUpdateUI);
+    pageFlip.on('changeOrientation', function(){
+      requestAnimationFrame(fbUpdateUI);
+    });
+
+    function fbNext() { pageFlip.flipNext('top'); }
+    function fbPrev() { pageFlip.flipPrev('top'); }
+    function fbHome() { pageFlip.turnToPage(0); fbUpdateUI(); }
+    function fbEnd() { pageFlip.turnToPage(fbTotal - 1); fbUpdateUI(); }
+
+    if (fbSidePrev) fbSidePrev.addEventListener('click', fbPrev);
+    if (fbSideNext) fbSideNext.addEventListener('click', fbNext);
+    if (fbHomeBtn) fbHomeBtn.addEventListener('click', fbHome);
+    if (fbEndBtn) fbEndBtn.addEventListener('click', fbEnd);
+
+    if (fbProgress) {
+      fbProgress.max = fbTotal - 1;
+      fbProgress.value = 0;
+      fbProgress.addEventListener('input', function() {
+        pageFlip.turnToPage(Number(this.value));
         fbUpdateUI();
-      },650);
+      });
     }
+    if (fbProgressStart) fbProgressStart.textContent = '1';
+    if (fbProgressEnd) fbProgressEnd.textContent = String(fbTotal);
 
-    function fbGoNext() {
-      if(fbAnimating||fbState>=fbMaxState)return;
-      fbAnimating=true; fbUpdateUI();
-      var next=fbPagesForState(fbState+1);
+    document.addEventListener('keydown', function(e) {
+      var tag = document.activeElement && document.activeElement.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      var rect = fbEl.getBoundingClientRect();
+      var visible = rect.bottom > 0 && rect.top < window.innerHeight;
+      if (!visible) return;
+      if (e.key === 'ArrowRight') { e.preventDefault(); fbNext(); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); fbPrev(); }
+      if (e.key === 'Home') { e.preventDefault(); fbHome(); }
+      if (e.key === 'End') { e.preventDefault(); fbEnd(); }
+    });
 
-      if(fbState===0){
-        fbEl.classList.add('fb-book--spread');
-        fbSetImg(leftBackImg,next.left); fbSetRight(next.right);
-        leftFrontLayer.style.transition='transform .65s cubic-bezier(.4,.1,.2,1)';
-        leftFrontLayer.style.transform='rotateY(160deg)';
-        fbAfterAnimation(function(){fbState=1;fbSetLeft(next.left);fbResetLayer(leftFrontLayer);});
-        return;
-      }
-
-      if(next.mode==='single'){
-        fbSetImg(rightBackImg,next.page);
-        rightFrontLayer.style.transition='transform .65s cubic-bezier(.4,.1,.2,1)';
-        rightFrontLayer.style.transform='rotateY(-160deg)';
-        fbAfterAnimation(function(){fbState=fbMaxState;fbEl.classList.remove('fb-book--spread');fbSetLeft(fbTotal);fbResetLayer(rightFrontLayer);});
-        return;
-      }
-
-      /* Spread -> spread: the right page turns, then both static pages are synchronized. */
-      fbSetImg(rightBackImg,next.right);
-      rightFrontLayer.style.transition='transform .65s cubic-bezier(.4,.1,.2,1)';
-      rightFrontLayer.style.transform='rotateY(-160deg)';
-      fbAfterAnimation(function(){fbState++;fbSetLeft(next.left);fbSetRight(next.right);fbResetLayer(rightFrontLayer);});
-    }
-
-    function fbGoPrev() {
-      if(fbAnimating||fbState<=0)return;
-      fbAnimating=true; fbUpdateUI();
-      var prev=fbPagesForState(fbState-1);
-
-      if(fbState===1){
-        fbSetImg(leftBackImg,1);
-        leftFrontLayer.style.transition='transform .65s cubic-bezier(.4,.1,.2,1)';
-        leftFrontLayer.style.transform='rotateY(160deg)';
-        fbAfterAnimation(function(){fbState=0;fbEl.classList.remove('fb-book--spread');fbSetLeft(1);fbResetLayer(leftFrontLayer);});
-        return;
-      }
-
-      if(fbState===fbMaxState){
-        fbEl.classList.add('fb-book--spread');
-        fbSetLeft(prev.left); fbSetRight(prev.right);
-        rightFrontLayer.style.transition='none';
-        rightFrontLayer.style.transform='rotateY(-160deg)';
-        fbForceReflow(rightFrontLayer);
-        rightFrontLayer.style.transition='transform .65s cubic-bezier(.4,.1,.2,1)';
-        rightFrontLayer.style.transform='rotateY(0deg)';
-        fbAfterAnimation(function(){fbState--;fbSetLeft(prev.left);fbSetRight(prev.right);});
-        return;
-      }
-
-      fbSetImg(leftBackImg,prev.left);
-      leftFrontLayer.style.transition='none';
-      leftFrontLayer.style.transform='rotateY(160deg)';
-      fbForceReflow(leftFrontLayer);
-      leftFrontLayer.style.transition='transform .65s cubic-bezier(.4,.1,.2,1)';
-      leftFrontLayer.style.transform='rotateY(0deg)';
-      fbAfterAnimation(function(){fbState--;fbSetLeft(prev.left);fbSetRight(prev.right);});
-    }
-
-    function fbGoToState(target,animate){
-      target=Math.max(0,Math.min(fbMaxState,Number(target)||0));
-      if(fbAnimating)return;
-      if(target===fbState)return;
-      if(!animate){
-        fbState=target;
-        var info=fbPagesForState(fbState);
-        fbResetLayer(leftFrontLayer);fbResetLayer(rightFrontLayer);
-        if(info.mode==='single'){
-          fbEl.classList.remove('fb-book--spread');fbSetLeft(info.page);
-        }else{
-          fbEl.classList.add('fb-book--spread');fbSetLeft(info.left);fbSetRight(info.right);
+    if (fbFullscreen) {
+      fbFullscreen.addEventListener('click', function(){
+        var wrapper = fbEl.closest('.fb-book-row') || fbEl;
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        } else if (wrapper.requestFullscreen) {
+          wrapper.requestFullscreen();
+        } else {
+          wrapper.classList.toggle('fb-fullscreen');
         }
-        fbUpdateUI();
-        return;
-      }
-      /* Slider jumps to the closest spread instead of animating through every page. */
-      fbGoToState(target,false);
-    }
-
-    function fbHome(){fbGoToState(0,false);}
-    function fbEnd(){fbGoToState(fbMaxState,false);}
-
-    [fbPrevBtn,fbSidePrev].forEach(function(b){if(b)b.addEventListener('click',fbGoPrev);});
-    [fbNextBtn,fbSideNext].forEach(function(b){if(b)b.addEventListener('click',fbGoNext);});
-    if(fbHomeBtn)fbHomeBtn.addEventListener('click',fbHome);
-    if(fbEndBtn)fbEndBtn.addEventListener('click',fbEnd);
-    if(fbProgress)fbProgress.addEventListener('input',function(){fbGoToState(this.value,false);});
-
-    fbEl.addEventListener('keydown',function(e){
-      if(e.key==='ArrowRight'){e.preventDefault();fbGoNext();}
-      if(e.key==='ArrowLeft'){e.preventDefault();fbGoPrev();}
-      if(e.key==='Home'){e.preventDefault();fbHome();}
-      if(e.key==='End'){e.preventDefault();fbEnd();}
-    });
-
-    document.addEventListener('keydown',function(e){
-      if(!fbEl||document.activeElement===fbEl||document.activeElement===document.body){
-        if(e.key==='ArrowRight')fbGoNext();
-        if(e.key==='ArrowLeft')fbGoPrev();
-      }
-    });
-
-    if(fbFullscreen){
-      fbFullscreen.addEventListener('click',function(){
-        var wrapper=fbEl;
-        if(document.fullscreenElement){document.exitFullscreen();}
-        else if(wrapper.requestFullscreen){wrapper.requestFullscreen();}
-        else wrapper.classList.toggle('fb-fullscreen');
-      });
-      document.addEventListener('fullscreenchange',function(){
-        if(document.fullscreenElement===fbEl) fbEl.classList.add('fb-fullscreen');
-        else fbEl.classList.remove('fb-fullscreen');
       });
     }
 
-    fbEl.classList.remove('fb-book--spread');
-    fbSetLeft(1); fbSetRight(3); fbUpdateUI();
+    fbUpdateUI();
   }
 
 });
