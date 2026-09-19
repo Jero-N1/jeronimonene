@@ -202,18 +202,39 @@
     </div>
   </section>
 
-  <!-- ============ FLIPBOOK — sección independiente ============ -->
+  <!-- ============ FLIPBOOK — visor propio ============ -->
   <section id="flipbook" class="flipbook-section">
     <div class="wrap">
       <div class="corner-head corner-head--nobar reveal">
         <h2 class="ch-title">Flipbook</h2>
       </div>
+
       <div class="fb-wrap reveal">
-        <div class="fb-book-row">
-          <button class="pd-arrow pd-arrow--prev" id="fbPrev" aria-label="Página anterior">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg>
+        <div class="fb-toolbar" aria-label="Controles del flipbook">
+          <button class="fb-control" id="fbHome" type="button" aria-label="Volver al inicio" title="Volver al inicio">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 10.5 12 3l8.5 7.5"/><path d="M5.5 9.5V21h13V9.5M9.5 21v-7h5v7"/></svg>
           </button>
-          <div id="flipbookBook" class="fb-book">
+          <button class="fb-control" id="fbPrev" type="button" aria-label="Página anterior" title="Página anterior">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5 7.5 12l7 7"/></svg>
+          </button>
+          <button class="fb-control" id="fbNext" type="button" aria-label="Página siguiente" title="Página siguiente">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7"/></svg>
+          </button>
+          <button class="fb-control" id="fbEnd" type="button" aria-label="Ir al final" title="Ir al final">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 7 7-7 7"/><path d="M18 5v14"/></svg>
+          </button>
+          <span class="fb-toolbar-divider" aria-hidden="true"></span>
+          <button class="fb-control" id="fbFullscreen" type="button" aria-label="Pantalla completa" title="Pantalla completa">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg>
+          </button>
+        </div>
+
+        <div class="fb-book-row">
+          <button class="fb-side-arrow fb-side-arrow--prev" id="fbSidePrev" type="button" aria-label="Página anterior">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7"/></svg>
+          </button>
+
+          <div id="flipbookBook" class="fb-book" tabindex="0" aria-label="Portafolio interactivo">
             <div class="fb-slot fb-slot--left" id="fbSlotLeft">
               <div class="fb-page fb-page--back"><img id="fbLeftBack" src="img/flipbook/page-01.jpg" alt=""></div>
               <div class="fb-page fb-page--front fb-page--hinge-right" id="fbLeftFront"><img id="fbLeftFrontImg" src="img/flipbook/page-01.jpg" alt="Página 1"></div>
@@ -223,11 +244,21 @@
               <div class="fb-page fb-page--front fb-page--hinge-left" id="fbRightFront"><img id="fbRightFrontImg" src="img/flipbook/page-02.jpg" alt="Página 2"></div>
             </div>
           </div>
-          <button class="pd-arrow pd-arrow--next" id="fbNext" aria-label="Página siguiente">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg>
+
+          <button class="fb-side-arrow fb-side-arrow--next" id="fbSideNext" type="button" aria-label="Página siguiente">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7"/></svg>
           </button>
         </div>
-        <span class="fb-page-indicator" id="fbIndicator">1 / 52</span>
+
+        <div class="fb-progress-wrap">
+          <span class="fb-progress-label" id="fbProgressStart">1</span>
+          <input id="fbProgress" class="fb-progress" type="range" min="0" max="26" step="1" value="0" aria-label="Avanzar por el portafolio">
+          <span class="fb-progress-label" id="fbProgressEnd">52</span>
+        </div>
+        <div class="fb-meta">
+          <span id="fbIndicator">1 / 52</span>
+          <span>Usa ← → para navegar</span>
+        </div>
       </div>
     </div>
   </section>
