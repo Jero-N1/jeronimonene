@@ -265,4 +265,69 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  /* ============================================
+     FLIPBOOK — flip 3D propio (2 capas: front/back), sin librería externa
+     ============================================ */
+  var fbEl = document.getElementById('flipbookBook');
+  if (fbEl) {
+    var fbTotal = 52;
+    var fbCurrent = 1;
+    var fbFront = document.getElementById('fbImgFront');
+    var fbBack = document.getElementById('fbImgBack');
+    var fbFrontLayer = document.getElementById('fbFrontLayer');
+    var fbIndicator = document.getElementById('fbIndicator');
+    var fbAnimating = false;
+
+    function fbSrc(n) {
+      return 'img/flipbook/page-' + (n < 10 ? '0' + n : n) + '.jpg';
+    }
+    function fbUpdateIndicator() {
+      if (fbIndicator) fbIndicator.textContent = fbCurrent + ' / ' + fbTotal;
+    }
+
+    function fbGoNext() {
+      if (fbAnimating || fbCurrent >= fbTotal) return;
+      fbAnimating = true;
+      fbFrontLayer.style.transition = 'transform .65s cubic-bezier(.4,.1,.2,1)';
+      fbFrontLayer.style.transform = 'rotateY(-160deg)';
+      setTimeout(function () {
+        fbCurrent++;
+        fbFront.src = fbSrc(fbCurrent);
+        fbFront.alt = 'Página ' + fbCurrent + ' del portafolio';
+        fbFrontLayer.style.transition = 'none';
+        fbFrontLayer.style.transform = 'rotateY(0deg)';
+        fbBack.src = fbSrc(Math.min(fbCurrent + 1, fbTotal));
+        fbUpdateIndicator();
+        void fbFrontLayer.offsetWidth;
+        fbAnimating = false;
+      }, 650);
+    }
+
+    function fbGoPrev() {
+      if (fbAnimating || fbCurrent <= 1) return;
+      fbAnimating = true;
+      fbBack.src = fbSrc(fbCurrent);
+      fbCurrent--;
+      fbFront.src = fbSrc(fbCurrent);
+      fbFront.alt = 'Página ' + fbCurrent + ' del portafolio';
+      fbFrontLayer.style.transition = 'none';
+      fbFrontLayer.style.transform = 'rotateY(-160deg)';
+      void fbFrontLayer.offsetWidth;
+      fbFrontLayer.style.transition = 'transform .65s cubic-bezier(.4,.1,.2,1)';
+      fbFrontLayer.style.transform = 'rotateY(0deg)';
+      setTimeout(function () {
+        fbBack.src = fbSrc(Math.min(fbCurrent + 1, fbTotal));
+        fbUpdateIndicator();
+        fbAnimating = false;
+      }, 650);
+    }
+
+    var fbPrevBtn = document.getElementById('fbPrev');
+    var fbNextBtn = document.getElementById('fbNext');
+    if (fbPrevBtn) fbPrevBtn.addEventListener('click', fbGoPrev);
+    if (fbNextBtn) fbNextBtn.addEventListener('click', fbGoNext);
+  }
+
 });
+
+
