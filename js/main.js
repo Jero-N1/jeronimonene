@@ -266,57 +266,171 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* ============================================
-     FLIPBOOK — flip 3D propio (2 capas: front/back), sin librería externa
+     FLIPBOOK — libro con portada/contraportada solas y el resto en pares
      ============================================ */
   var fbEl = document.getElementById('flipbookBook');
   if (fbEl) {
     var fbTotal = 52;
-    var fbCurrent = 1;
-    var fbFront = document.getElementById('fbImgFront');
-    var fbBack = document.getElementById('fbImgBack');
-    var fbFrontLayer = document.getElementById('fbFrontLayer');
-    var fbIndicator = document.getElementById('fbIndicator');
+    var fbMaxState = 26; // 0 = portada (1), 1..25 = pares (2,3)..(50,51), 26 = contraportada (52)
+    var fbState = 0;
     var fbAnimating = false;
 
-    function fbSrc(n) {
-      return 'img/flipbook/page-' + (n < 10 ? '0' + n : n) + '.jpg';
-    }
-    function fbUpdateIndicator() {
-      if (fbIndicator) fbIndicator.textContent = fbCurrent + ' / ' + fbTotal;
+    var slotLeft = document.getElementById('fbSlotLeft');
+    var slotRight = document.getElementById('fbSlotRight');
+    var leftFrontImg = document.getElementById('fbLeftFrontImg');
+    var leftBackImg = document.getElementById('fbLeftBack');
+    var leftFrontLayer = document.getElementById('fbLeftFront');
+    var rightFrontImg = document.getElementById('fbRightFrontImg');
+    var rightBackImg = document.getElementById('fbRightBack');
+    var rightFrontLayer = document.getElementById('fbRightFront');
+    var fbIndicator = document.getElementById('fbIndicator');
+
+    function fbSrc(n) { return 'img/flipbook/page-' + (n < 10 ? '0' + n : n) + '.jpg'; }
+
+    function fbPagesForState(s) {
+      if (s <= 0) return { mode: 'single', page: 1 };
+      if (s >= fbMaxState) return { mode: 'single', page: fbTotal };
+      var left = 2 * s;
+      return { mode: 'spread', left: left, right: left + 1 };
     }
 
+    function fbUpdateIndicator() {
+      if (!fbIndicator) return;
+      var info = fbPagesForState(fbState);
+      fbIndicator.textContent = info.mode === 'single'
+        ? info.page + ' / ' + fbTotal
+        : info.left + '-' + info.right + ' / ' + fbTotal;
+    }
+
+    function fbSetLeft(page) {
+      leftFrontImg.src = fbSrc(page);
+      leftFrontImg.alt = 'Página ' + page;
+      leftBackImg.src = fbSrc(page);
+    }
+    function fbSetRight(page) {
+      rightFrontImg.src = fbSrc(page);
+      rightFrontImg.alt = 'Página ' + page;
+      rightBackImg.src = fbSrc(page);
+    }
+    function fbResetLayer(layer) {
+      layer.style.transition = 'none';
+      layer.style.transform = 'rotateY(0deg)';
+      void layer.offsetWidth;
+    }
+
+    // Estado inicial: portada sola
+    fbEl.classList.remove('fb-book--spread');
+    fbSetLeft(1);
+    fbSetRight(3);
+    fbUpdateIndicator();
+
     function fbGoNext() {
-      if (fbAnimating || fbCurrent >= fbTotal) return;
+      if (fbAnimating || fbState >= fbMaxState) return;
       fbAnimating = true;
-      fbFrontLayer.style.transition = 'transform .65s cubic-bezier(.4,.1,.2,1)';
-      fbFrontLayer.style.transform = 'rotateY(-160deg)';
+      var next = fbPagesForState(fbState + 1);
+
+      if (next.mode === 'single') {
+        // Entrando a la contraportada: la página derecha del último par gira y revela la última página sola
+        rightBackImg.src = fbSrc(next.page);
+        rightFrontLayer.style.transition = 'transform .65s cubic-bezier(.4,.1,.2,1)';
+        rightFrontLayer.style.transform = 'rotateY(-160deg)';
+        setTimeout(function () {
+          fbState++;
+          fbEl.classList.remove('fb-book--spread');
+          fbSetLeft(next.page);
+          fbResetLayer(rightFrontLayer);
+          fbUpdateIndicator();
+          fbAnimating = false;
+        }, 650);
+        return;
+      }
+
+      if (fbState === 0) {
+        // Abriendo la portada: se abre revelando el primer par
+        fbEl.classList.add('fb-book--spread');
+        fbSetRight(next.right);
+        leftBackImg.src = fbSrc(next.left);
+        leftFrontLayer.style.transition = 'transform .65s cubic-bezier(.4,.1,.2,1)';
+        leftFrontLayer.style.transform = 'rotateY(160deg)';
+        setTimeout(function () {
+          fbState = 1;
+          fbSetLeft(next.left);
+          fbResetLayer(leftFrontLayer);
+          fbUpdateIndicator();
+          fbAnimating = false;
+        }, 650);
+        return;
+      }
+
+      // Par -> par siguiente: la página derecha gira, la izquierda se actualiza en el mismo instante
+      rightBackImg.src = fbSrc(next.right);
+      rightFrontLayer.style.transition = 'transform .65s cubic-bezier(.4,.1,.2,1)';
+      rightFrontLayer.style.transform = 'rotateY(-160deg)';
       setTimeout(function () {
-        fbCurrent++;
-        fbFront.src = fbSrc(fbCurrent);
-        fbFront.alt = 'Página ' + fbCurrent + ' del portafolio';
-        fbFrontLayer.style.transition = 'none';
-        fbFrontLayer.style.transform = 'rotateY(0deg)';
-        fbBack.src = fbSrc(Math.min(fbCurrent + 1, fbTotal));
+        fbState++;
+        fbSetLeft(next.left);
+        rightFrontImg.src = fbSrc(next.right);
+        rightFrontImg.alt = 'Página ' + next.right;
+        fbResetLayer(rightFrontLayer);
         fbUpdateIndicator();
-        void fbFrontLayer.offsetWidth;
         fbAnimating = false;
       }, 650);
     }
 
     function fbGoPrev() {
-      if (fbAnimating || fbCurrent <= 1) return;
+      if (fbAnimating || fbState <= 0) return;
       fbAnimating = true;
-      fbBack.src = fbSrc(fbCurrent);
-      fbCurrent--;
-      fbFront.src = fbSrc(fbCurrent);
-      fbFront.alt = 'Página ' + fbCurrent + ' del portafolio';
-      fbFrontLayer.style.transition = 'none';
-      fbFrontLayer.style.transform = 'rotateY(-160deg)';
-      void fbFrontLayer.offsetWidth;
-      fbFrontLayer.style.transition = 'transform .65s cubic-bezier(.4,.1,.2,1)';
-      fbFrontLayer.style.transform = 'rotateY(0deg)';
+      var prev = fbPagesForState(fbState - 1);
+
+      if (prev.mode === 'single') {
+        // Volviendo a la portada: la página izquierda del primer par gira y cierra el libro
+        leftBackImg.src = fbSrc(prev.page);
+        leftFrontLayer.style.transition = 'transform .65s cubic-bezier(.4,.1,.2,1)';
+        leftFrontLayer.style.transform = 'rotateY(160deg)';
+        setTimeout(function () {
+          fbState--;
+          fbEl.classList.remove('fb-book--spread');
+          fbSetLeft(prev.page);
+          fbResetLayer(leftFrontLayer);
+          fbUpdateIndicator();
+          fbAnimating = false;
+        }, 650);
+        return;
+      }
+
+      var curInfo = fbPagesForState(fbState);
+      if (curInfo.mode === 'single') {
+        // Saliendo de la contraportada: aparece el último par, la derecha gira hacia adentro
+        fbEl.classList.add('fb-book--spread');
+        fbSetLeft(prev.left);
+        rightFrontImg.src = fbSrc(prev.right);
+        rightFrontImg.alt = 'Página ' + prev.right;
+        rightFrontLayer.style.transition = 'none';
+        rightFrontLayer.style.transform = 'rotateY(-160deg)';
+        void rightFrontLayer.offsetWidth;
+        rightBackImg.src = fbSrc(prev.right);
+        rightFrontLayer.style.transition = 'transform .65s cubic-bezier(.4,.1,.2,1)';
+        rightFrontLayer.style.transform = 'rotateY(0deg)';
+        setTimeout(function () {
+          fbState--;
+          fbUpdateIndicator();
+          fbAnimating = false;
+        }, 650);
+        return;
+      }
+
+      // Par -> par anterior: la página izquierda gira desde el lado contrario, la derecha se actualiza igual
+      leftFrontImg.src = fbSrc(prev.left);
+      leftFrontImg.alt = 'Página ' + prev.left;
+      leftFrontLayer.style.transition = 'none';
+      leftFrontLayer.style.transform = 'rotateY(160deg)';
+      void leftFrontLayer.offsetWidth;
+      leftBackImg.src = fbSrc(prev.left);
+      leftFrontLayer.style.transition = 'transform .65s cubic-bezier(.4,.1,.2,1)';
+      leftFrontLayer.style.transform = 'rotateY(0deg)';
       setTimeout(function () {
-        fbBack.src = fbSrc(Math.min(fbCurrent + 1, fbTotal));
+        fbState--;
+        fbSetRight(prev.right);
         fbUpdateIndicator();
         fbAnimating = false;
       }, 650);
@@ -329,5 +443,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
 });
+
 
 
