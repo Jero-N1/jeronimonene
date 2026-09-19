@@ -325,17 +325,38 @@ document.addEventListener('DOMContentLoaded', function () {
     var fbSidePrev = document.getElementById('fbSidePrev');
     var fbSideNext = document.getElementById('fbSideNext');
     var fbFullscreen = document.getElementById('fbFullscreen');
-    var fbProgressStart = document.getElementById('fbProgressStart');
-    var fbProgressEnd = document.getElementById('fbProgressEnd');
+    var fbProgressTrack = document.querySelector('.fb-progress-track');
+    var fbProgressFill = document.querySelector('.fb-progress-fill');
+    var fbProgressThumb = document.querySelector('.fb-progress-thumb');
 
     function fbPageIndex() { return pageFlip.getCurrentPageIndex(); }
 
+    // 52 imágenes forman 27 estados visuales: portada + 25 dobles páginas + contraportada.
+    function fbSpreadIndex(pageIndex) {
+      if (pageIndex <= 0) return 0;
+      if (pageIndex >= fbTotal - 1) return 26;
+      return Math.ceil(pageIndex / 2);
+    }
+
+    function fbSpreadPageIndex(spreadIndex) {
+      if (spreadIndex <= 0) return 0;
+      if (spreadIndex >= 26) return fbTotal - 1;
+      return spreadIndex * 2;
+    }
+
     function fbUpdateUI() {
       var current = fbPageIndex();
-      if (fbIndicator) fbIndicator.textContent = (current + 1) + ' / ' + fbTotal;
-      if (fbProgress) fbProgress.value = current;
-      var atStart = current <= 0;
-      var atEnd = current >= fbTotal - 1;
+      var spread = fbSpreadIndex(current);
+      var progressMax = 26;
+      var percent = (spread / progressMax) * 100;
+
+      if (fbIndicator) fbIndicator.textContent = (spread + 1) + ' / 27';
+      if (fbProgress) fbProgress.value = spread;
+      if (fbProgressFill) fbProgressFill.style.width = percent + '%';
+      if (fbProgressThumb) fbProgressThumb.style.left = percent + '%';
+
+      var atStart = spread <= 0;
+      var atEnd = spread >= progressMax;
       [fbSidePrev, fbHomeBtn].forEach(function(b){ if(b) b.disabled = atStart; });
       [fbSideNext, fbEndBtn].forEach(function(b){ if(b) b.disabled = atEnd; });
     }
@@ -363,15 +384,14 @@ document.addEventListener('DOMContentLoaded', function () {
     if (fbEndBtn) fbEndBtn.addEventListener('click', fbEnd);
 
     if (fbProgress) {
-      fbProgress.max = fbTotal - 1;
+      fbProgress.max = 26;
       fbProgress.value = 0;
       fbProgress.addEventListener('input', function() {
-        pageFlip.turnToPage(Number(this.value));
+        var spread = Number(this.value);
+        pageFlip.turnToPage(fbSpreadPageIndex(spread));
         fbUpdateUI();
       });
     }
-    if (fbProgressStart) fbProgressStart.textContent = '1';
-    if (fbProgressEnd) fbProgressEnd.textContent = String(fbTotal);
 
     document.addEventListener('keydown', function(e) {
       var tag = document.activeElement && document.activeElement.tagName;
