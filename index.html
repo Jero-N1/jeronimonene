@@ -214,8 +214,14 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg>
           </button>
           <div id="flipbookBook" class="fb-book">
-            <div class="fb-page fb-page--back"><img id="fbImgBack" src="img/flipbook/page-02.jpg" alt=""></div>
-            <div class="fb-page fb-page--front" id="fbFrontLayer"><img id="fbImgFront" src="img/flipbook/page-01.jpg" alt="Página 1 del portafolio"></div>
+            <div class="fb-slot fb-slot--left" id="fbSlotLeft">
+              <div class="fb-page fb-page--back"><img id="fbLeftBack" src="img/flipbook/page-01.jpg" alt=""></div>
+              <div class="fb-page fb-page--front fb-page--hinge-right" id="fbLeftFront"><img id="fbLeftFrontImg" src="img/flipbook/page-01.jpg" alt="Página 1"></div>
+            </div>
+            <div class="fb-slot fb-slot--right" id="fbSlotRight">
+              <div class="fb-page fb-page--back"><img id="fbRightBack" src="img/flipbook/page-03.jpg" alt=""></div>
+              <div class="fb-page fb-page--front fb-page--hinge-left" id="fbRightFront"><img id="fbRightFrontImg" src="img/flipbook/page-02.jpg" alt="Página 2"></div>
+            </div>
           </div>
           <button class="pd-arrow pd-arrow--next" id="fbNext" aria-label="Página siguiente">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg>
