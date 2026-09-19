@@ -214,12 +214,6 @@
           <button class="fb-control" id="fbHome" type="button" aria-label="Volver al inicio" title="Volver al inicio">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 10.5 12 3l8.5 7.5"/><path d="M5.5 9.5V21h13V9.5M9.5 21v-7h5v7"/></svg>
           </button>
-          <button class="fb-control" id="fbPrev" type="button" aria-label="Página anterior" title="Página anterior">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5 7.5 12l7 7"/></svg>
-          </button>
-          <button class="fb-control" id="fbNext" type="button" aria-label="Página siguiente" title="Página siguiente">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7"/></svg>
-          </button>
           <button class="fb-control" id="fbEnd" type="button" aria-label="Ir al final" title="Ir al final">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 7 7-7 7"/><path d="M18 5v14"/></svg>
           </button>
@@ -234,16 +228,7 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7"/></svg>
           </button>
 
-          <div id="flipbookBook" class="fb-book" tabindex="0" aria-label="Portafolio interactivo">
-            <div class="fb-slot fb-slot--left" id="fbSlotLeft">
-              <div class="fb-page fb-page--back"><img id="fbLeftBack" src="img/flipbook/page-01.jpg" alt=""></div>
-              <div class="fb-page fb-page--front fb-page--hinge-right" id="fbLeftFront"><img id="fbLeftFrontImg" src="img/flipbook/page-01.jpg" alt="Página 1"></div>
-            </div>
-            <div class="fb-slot fb-slot--right" id="fbSlotRight">
-              <div class="fb-page fb-page--back"><img id="fbRightBack" src="img/flipbook/page-03.jpg" alt=""></div>
-              <div class="fb-page fb-page--front fb-page--hinge-left" id="fbRightFront"><img id="fbRightFrontImg" src="img/flipbook/page-02.jpg" alt="Página 2"></div>
-            </div>
-          </div>
+          <div id="flipbookBook" class="fb-book" aria-label="Portafolio interactivo"></div>
 
           <button class="fb-side-arrow fb-side-arrow--next" id="fbSideNext" type="button" aria-label="Página siguiente">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7"/></svg>
@@ -257,7 +242,7 @@
         </div>
         <div class="fb-meta">
           <span id="fbIndicator">1 / 52</span>
-          <span>Usa ← → para navegar</span>
+          <span>Arrastra las páginas o usa las flechas</span>
         </div>
       </div>
     </div>
@@ -290,6 +275,7 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
