@@ -266,17 +266,16 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* ============================================
-     FLIPBOOK — libro con portada/contraportada solas y el resto en pares
+     FLIPBOOK — motor estable + controles
      ============================================ */
   var fbEl = document.getElementById('flipbookBook');
   if (fbEl) {
     var fbTotal = 52;
-    var fbMaxState = 26; // 0 = portada (1), 1..25 = pares (2,3)..(50,51), 26 = contraportada (52)
+    var fbMaxState = 26;
     var fbState = 0;
     var fbAnimating = false;
+    var fbTimer = null;
 
-    var slotLeft = document.getElementById('fbSlotLeft');
-    var slotRight = document.getElementById('fbSlotRight');
     var leftFrontImg = document.getElementById('fbLeftFrontImg');
     var leftBackImg = document.getElementById('fbLeftBack');
     var leftFrontLayer = document.getElementById('fbLeftFront');
@@ -284,162 +283,185 @@ document.addEventListener('DOMContentLoaded', function () {
     var rightBackImg = document.getElementById('fbRightBack');
     var rightFrontLayer = document.getElementById('fbRightFront');
     var fbIndicator = document.getElementById('fbIndicator');
+    var fbProgress = document.getElementById('fbProgress');
+    var fbPrevBtn = document.getElementById('fbPrev');
+    var fbNextBtn = document.getElementById('fbNext');
+    var fbHomeBtn = document.getElementById('fbHome');
+    var fbEndBtn = document.getElementById('fbEnd');
+    var fbSidePrev = document.getElementById('fbSidePrev');
+    var fbSideNext = document.getElementById('fbSideNext');
+    var fbFullscreen = document.getElementById('fbFullscreen');
 
-    function fbSrc(n) { return 'img/flipbook/page-' + (n < 10 ? '0' + n : n) + '.jpg'; }
+    function fbSrc(n) { return 'img/flipbook/page-' + String(n).padStart(2,'0') + '.jpg'; }
 
     function fbPagesForState(s) {
-      if (s <= 0) return { mode: 'single', page: 1 };
-      if (s >= fbMaxState) return { mode: 'single', page: fbTotal };
-      var left = 2 * s;
-      return { mode: 'spread', left: left, right: left + 1 };
+      if (s <= 0) return {mode:'single', page:1};
+      if (s >= fbMaxState) return {mode:'single', page:fbTotal};
+      var left = s * 2;
+      return {mode:'spread', left:left, right:left+1};
     }
 
-    function fbUpdateIndicator() {
-      if (!fbIndicator) return;
-      var info = fbPagesForState(fbState);
-      fbIndicator.textContent = info.mode === 'single'
-        ? info.page + ' / ' + fbTotal
-        : info.left + '-' + info.right + ' / ' + fbTotal;
+    function fbSetImg(img, page) {
+      if (!img || !page) return;
+      img.src = fbSrc(page);
+      img.alt = 'Página ' + page;
     }
 
     function fbSetLeft(page) {
-      leftFrontImg.src = fbSrc(page);
-      leftFrontImg.alt = 'Página ' + page;
-      leftBackImg.src = fbSrc(page);
+      fbSetImg(leftFrontImg,page); fbSetImg(leftBackImg,page);
     }
     function fbSetRight(page) {
-      rightFrontImg.src = fbSrc(page);
-      rightFrontImg.alt = 'Página ' + page;
-      rightBackImg.src = fbSrc(page);
+      fbSetImg(rightFrontImg,page); fbSetImg(rightBackImg,page);
     }
     function fbResetLayer(layer) {
-      layer.style.transition = 'none';
-      layer.style.transform = 'rotateY(0deg)';
-      void layer.offsetWidth;
+      if (!layer) return;
+      layer.style.transition='none';
+      layer.style.transform='rotateY(0deg)';
+    }
+    function fbForceReflow(layer) { void layer.offsetWidth; }
+
+    function fbUpdateUI() {
+      var info=fbPagesForState(fbState);
+      if (fbIndicator) fbIndicator.textContent=info.mode==='single' ? info.page+' / '+fbTotal : info.left+'–'+info.right+' / '+fbTotal;
+      if (fbProgress) fbProgress.value=fbState;
+      var atStart=fbState===0, atEnd=fbState===fbMaxState;
+      [fbPrevBtn,fbSidePrev].forEach(function(b){if(b)b.disabled=atStart||fbAnimating;});
+      [fbNextBtn,fbSideNext].forEach(function(b){if(b)b.disabled=atEnd||fbAnimating;});
+      if (fbHomeBtn) fbHomeBtn.disabled=atStart||fbAnimating;
+      if (fbEndBtn) fbEndBtn.disabled=atEnd||fbAnimating;
     }
 
-    // Estado inicial: portada sola
-    fbEl.classList.remove('fb-book--spread');
-    fbSetLeft(1);
-    fbSetRight(3);
-    fbUpdateIndicator();
+    function fbAfterAnimation(callback) {
+      clearTimeout(fbTimer);
+      fbTimer=setTimeout(function(){
+        fbTimer=null;
+        callback();
+        fbAnimating=false;
+        fbUpdateUI();
+      },650);
+    }
 
     function fbGoNext() {
-      if (fbAnimating || fbState >= fbMaxState) return;
-      fbAnimating = true;
-      var next = fbPagesForState(fbState + 1);
+      if(fbAnimating||fbState>=fbMaxState)return;
+      fbAnimating=true; fbUpdateUI();
+      var next=fbPagesForState(fbState+1);
 
-      if (next.mode === 'single') {
-        // Entrando a la contraportada: la página derecha del último par gira y revela la última página sola
-        rightBackImg.src = fbSrc(next.page);
-        rightFrontLayer.style.transition = 'transform .65s cubic-bezier(.4,.1,.2,1)';
-        rightFrontLayer.style.transform = 'rotateY(-160deg)';
-        setTimeout(function () {
-          fbState++;
-          fbEl.classList.remove('fb-book--spread');
-          fbSetLeft(next.page);
-          fbResetLayer(rightFrontLayer);
-          fbUpdateIndicator();
-          fbAnimating = false;
-        }, 650);
-        return;
-      }
-
-      if (fbState === 0) {
-        // Abriendo la portada: se abre revelando el primer par
+      if(fbState===0){
         fbEl.classList.add('fb-book--spread');
-        fbSetRight(next.right);
-        leftBackImg.src = fbSrc(next.left);
-        leftFrontLayer.style.transition = 'transform .65s cubic-bezier(.4,.1,.2,1)';
-        leftFrontLayer.style.transform = 'rotateY(160deg)';
-        setTimeout(function () {
-          fbState = 1;
-          fbSetLeft(next.left);
-          fbResetLayer(leftFrontLayer);
-          fbUpdateIndicator();
-          fbAnimating = false;
-        }, 650);
+        fbSetImg(leftBackImg,next.left); fbSetRight(next.right);
+        leftFrontLayer.style.transition='transform .65s cubic-bezier(.4,.1,.2,1)';
+        leftFrontLayer.style.transform='rotateY(160deg)';
+        fbAfterAnimation(function(){fbState=1;fbSetLeft(next.left);fbResetLayer(leftFrontLayer);});
         return;
       }
 
-      // Par -> par siguiente: la página derecha gira, la izquierda se actualiza en el mismo instante
-      rightBackImg.src = fbSrc(next.right);
-      rightFrontLayer.style.transition = 'transform .65s cubic-bezier(.4,.1,.2,1)';
-      rightFrontLayer.style.transform = 'rotateY(-160deg)';
-      setTimeout(function () {
-        fbState++;
-        fbSetLeft(next.left);
-        rightFrontImg.src = fbSrc(next.right);
-        rightFrontImg.alt = 'Página ' + next.right;
-        fbResetLayer(rightFrontLayer);
-        fbUpdateIndicator();
-        fbAnimating = false;
-      }, 650);
+      if(next.mode==='single'){
+        fbSetImg(rightBackImg,next.page);
+        rightFrontLayer.style.transition='transform .65s cubic-bezier(.4,.1,.2,1)';
+        rightFrontLayer.style.transform='rotateY(-160deg)';
+        fbAfterAnimation(function(){fbState=fbMaxState;fbEl.classList.remove('fb-book--spread');fbSetLeft(fbTotal);fbResetLayer(rightFrontLayer);});
+        return;
+      }
+
+      /* Spread -> spread: the right page turns, then both static pages are synchronized. */
+      fbSetImg(rightBackImg,next.right);
+      rightFrontLayer.style.transition='transform .65s cubic-bezier(.4,.1,.2,1)';
+      rightFrontLayer.style.transform='rotateY(-160deg)';
+      fbAfterAnimation(function(){fbState++;fbSetLeft(next.left);fbSetRight(next.right);fbResetLayer(rightFrontLayer);});
     }
 
     function fbGoPrev() {
-      if (fbAnimating || fbState <= 0) return;
-      fbAnimating = true;
-      var prev = fbPagesForState(fbState - 1);
+      if(fbAnimating||fbState<=0)return;
+      fbAnimating=true; fbUpdateUI();
+      var prev=fbPagesForState(fbState-1);
 
-      if (prev.mode === 'single') {
-        // Volviendo a la portada: la página izquierda del primer par gira y cierra el libro
-        leftBackImg.src = fbSrc(prev.page);
-        leftFrontLayer.style.transition = 'transform .65s cubic-bezier(.4,.1,.2,1)';
-        leftFrontLayer.style.transform = 'rotateY(160deg)';
-        setTimeout(function () {
-          fbState--;
-          fbEl.classList.remove('fb-book--spread');
-          fbSetLeft(prev.page);
-          fbResetLayer(leftFrontLayer);
-          fbUpdateIndicator();
-          fbAnimating = false;
-        }, 650);
+      if(fbState===1){
+        fbSetImg(leftBackImg,1);
+        leftFrontLayer.style.transition='transform .65s cubic-bezier(.4,.1,.2,1)';
+        leftFrontLayer.style.transform='rotateY(160deg)';
+        fbAfterAnimation(function(){fbState=0;fbEl.classList.remove('fb-book--spread');fbSetLeft(1);fbResetLayer(leftFrontLayer);});
         return;
       }
 
-      var curInfo = fbPagesForState(fbState);
-      if (curInfo.mode === 'single') {
-        // Saliendo de la contraportada: aparece el último par, la derecha gira hacia adentro
+      if(fbState===fbMaxState){
         fbEl.classList.add('fb-book--spread');
-        fbSetLeft(prev.left);
-        rightFrontImg.src = fbSrc(prev.right);
-        rightFrontImg.alt = 'Página ' + prev.right;
-        rightFrontLayer.style.transition = 'none';
-        rightFrontLayer.style.transform = 'rotateY(-160deg)';
-        void rightFrontLayer.offsetWidth;
-        rightBackImg.src = fbSrc(prev.right);
-        rightFrontLayer.style.transition = 'transform .65s cubic-bezier(.4,.1,.2,1)';
-        rightFrontLayer.style.transform = 'rotateY(0deg)';
-        setTimeout(function () {
-          fbState--;
-          fbUpdateIndicator();
-          fbAnimating = false;
-        }, 650);
+        fbSetLeft(prev.left); fbSetRight(prev.right);
+        rightFrontLayer.style.transition='none';
+        rightFrontLayer.style.transform='rotateY(-160deg)';
+        fbForceReflow(rightFrontLayer);
+        rightFrontLayer.style.transition='transform .65s cubic-bezier(.4,.1,.2,1)';
+        rightFrontLayer.style.transform='rotateY(0deg)';
+        fbAfterAnimation(function(){fbState--;fbSetLeft(prev.left);fbSetRight(prev.right);});
         return;
       }
 
-      // Par -> par anterior: la página izquierda gira desde el lado contrario, la derecha se actualiza igual
-      leftFrontImg.src = fbSrc(prev.left);
-      leftFrontImg.alt = 'Página ' + prev.left;
-      leftFrontLayer.style.transition = 'none';
-      leftFrontLayer.style.transform = 'rotateY(160deg)';
-      void leftFrontLayer.offsetWidth;
-      leftBackImg.src = fbSrc(prev.left);
-      leftFrontLayer.style.transition = 'transform .65s cubic-bezier(.4,.1,.2,1)';
-      leftFrontLayer.style.transform = 'rotateY(0deg)';
-      setTimeout(function () {
-        fbState--;
-        fbSetRight(prev.right);
-        fbUpdateIndicator();
-        fbAnimating = false;
-      }, 650);
+      fbSetImg(leftBackImg,prev.left);
+      leftFrontLayer.style.transition='none';
+      leftFrontLayer.style.transform='rotateY(160deg)';
+      fbForceReflow(leftFrontLayer);
+      leftFrontLayer.style.transition='transform .65s cubic-bezier(.4,.1,.2,1)';
+      leftFrontLayer.style.transform='rotateY(0deg)';
+      fbAfterAnimation(function(){fbState--;fbSetLeft(prev.left);fbSetRight(prev.right);});
     }
 
-    var fbPrevBtn = document.getElementById('fbPrev');
-    var fbNextBtn = document.getElementById('fbNext');
-    if (fbPrevBtn) fbPrevBtn.addEventListener('click', fbGoPrev);
-    if (fbNextBtn) fbNextBtn.addEventListener('click', fbGoNext);
+    function fbGoToState(target,animate){
+      target=Math.max(0,Math.min(fbMaxState,Number(target)||0));
+      if(fbAnimating)return;
+      if(target===fbState)return;
+      if(!animate){
+        fbState=target;
+        var info=fbPagesForState(fbState);
+        fbResetLayer(leftFrontLayer);fbResetLayer(rightFrontLayer);
+        if(info.mode==='single'){
+          fbEl.classList.remove('fb-book--spread');fbSetLeft(info.page);
+        }else{
+          fbEl.classList.add('fb-book--spread');fbSetLeft(info.left);fbSetRight(info.right);
+        }
+        fbUpdateUI();
+        return;
+      }
+      /* Slider jumps to the closest spread instead of animating through every page. */
+      fbGoToState(target,false);
+    }
+
+    function fbHome(){fbGoToState(0,false);}
+    function fbEnd(){fbGoToState(fbMaxState,false);}
+
+    [fbPrevBtn,fbSidePrev].forEach(function(b){if(b)b.addEventListener('click',fbGoPrev);});
+    [fbNextBtn,fbSideNext].forEach(function(b){if(b)b.addEventListener('click',fbGoNext);});
+    if(fbHomeBtn)fbHomeBtn.addEventListener('click',fbHome);
+    if(fbEndBtn)fbEndBtn.addEventListener('click',fbEnd);
+    if(fbProgress)fbProgress.addEventListener('input',function(){fbGoToState(this.value,false);});
+
+    fbEl.addEventListener('keydown',function(e){
+      if(e.key==='ArrowRight'){e.preventDefault();fbGoNext();}
+      if(e.key==='ArrowLeft'){e.preventDefault();fbGoPrev();}
+      if(e.key==='Home'){e.preventDefault();fbHome();}
+      if(e.key==='End'){e.preventDefault();fbEnd();}
+    });
+
+    document.addEventListener('keydown',function(e){
+      if(!fbEl||document.activeElement===fbEl||document.activeElement===document.body){
+        if(e.key==='ArrowRight')fbGoNext();
+        if(e.key==='ArrowLeft')fbGoPrev();
+      }
+    });
+
+    if(fbFullscreen){
+      fbFullscreen.addEventListener('click',function(){
+        var wrapper=fbEl;
+        if(document.fullscreenElement){document.exitFullscreen();}
+        else if(wrapper.requestFullscreen){wrapper.requestFullscreen();}
+        else wrapper.classList.toggle('fb-fullscreen');
+      });
+      document.addEventListener('fullscreenchange',function(){
+        if(document.fullscreenElement===fbEl) fbEl.classList.add('fb-fullscreen');
+        else fbEl.classList.remove('fb-fullscreen');
+      });
+    }
+
+    fbEl.classList.remove('fb-book--spread');
+    fbSetLeft(1); fbSetRight(3); fbUpdateUI();
   }
 
 });
