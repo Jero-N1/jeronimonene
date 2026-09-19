@@ -205,11 +205,24 @@
   <!-- ============ FLIPBOOK — sección independiente ============ -->
   <section id="flipbook" class="flipbook-section">
     <div class="wrap">
-      <div class="corner-head reveal">
+      <div class="corner-head corner-head--nobar reveal">
         <h2 class="ch-title">Flipbook</h2>
-        <span class="ch-bar"></span>
       </div>
-      <div class="flipbook-placeholder reveal">Próximamente</div>
+      <div class="fb-wrap reveal">
+        <div class="fb-book-row">
+          <button class="pd-arrow pd-arrow--prev" id="fbPrev" aria-label="Página anterior">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <div id="flipbookBook" class="fb-book">
+            <div class="fb-page fb-page--back"><img id="fbImgBack" src="img/flipbook/page-02.jpg" alt=""></div>
+            <div class="fb-page fb-page--front" id="fbFrontLayer"><img id="fbImgFront" src="img/flipbook/page-01.jpg" alt="Página 1 del portafolio"></div>
+          </div>
+          <button class="pd-arrow pd-arrow--next" id="fbNext" aria-label="Página siguiente">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+        <span class="fb-page-indicator" id="fbIndicator">1 / 52</span>
+      </div>
     </div>
   </section>
 
