@@ -953,18 +953,40 @@ figure:hover .g-cap{ opacity:1; transform:translateY(0); }
 
 body.home{ background:var(--paper); }
 
-/* ---------- Nav flotante "isla" liquid glass ----------
+/* ---------- Marca — siempre visible, aparte de la nav central ---------- */
+.fn-mark{
+  position:fixed;
+  top:22px; left:28px;
+  z-index:301;
+  display:flex; align-items:center;
+  padding:12px 20px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.72);
+  border:1px solid rgba(28,27,24,0.08);
+  backdrop-filter:blur(22px) saturate(180%);
+  -webkit-backdrop-filter:blur(22px) saturate(180%);
+  box-shadow:0 8px 24px rgba(28,27,24,0.1);
+  font-family:var(--font-sans);
+  font-weight:600;
+  font-size:15px;
+  color:var(--ink);
+  white-space:nowrap;
+  letter-spacing:-0.01em;
+}
+.fn-mark span{ color:var(--olive); }
+
+/* ---------- Nav flotante centrada: links equidistantes + botón Contacto ----------
    Siempre con apariencia de vidrio sobre fondo blanco (ficticio),
    así el contraste nunca cambia según lo que haya detrás. */
 .floating-nav{
   position:fixed;
   top:22px;
-  right:28px;
+  left:50%;
   z-index:300;
   display:flex;
   align-items:center;
-  gap:28px;
-  padding:12px 14px 12px 22px;
+  gap:24px;
+  padding:10px 10px 10px 28px;
   border-radius:999px;
   background:rgba(255,255,255,0.72);
   border:1px solid rgba(28,27,24,0.08);
@@ -973,39 +995,29 @@ body.home{ background:var(--paper); }
   box-shadow:0 8px 24px rgba(28,27,24,0.1);
   opacity:0;
   pointer-events:none;
-  transform:translateY(-90px);
+  transform:translateX(-50%) translateY(-90px);
   transition:opacity .5s ease, transform .5s cubic-bezier(.22,1,.36,1), background .35s ease, border-color .35s ease;
 }
 .floating-nav.visible{
   opacity:1;
   pointer-events:auto;
-  transform:translateY(0);
+  transform:translateX(-50%) translateY(0);
 }
 .floating-nav.on-dark{
   background:rgba(20,19,17,0.32);
   border-color:rgba(255,255,255,0.16);
 }
-.floating-nav.on-dark .fn-brand,
 .floating-nav.on-dark .fn-link{ color:rgba(255,255,255,0.78); }
 .floating-nav.on-dark .fn-link:hover,
 .floating-nav.on-dark .fn-link.active{ color:#fff; }
 .floating-nav.on-dark .fn-toggle{ color:#fff; }
 .floating-nav.on-dark .fn-indicator{ background:rgba(255,255,255,0.14); }
-.fn-brand{
-  font-family:var(--font-sans);
-  font-weight:600;
-  font-size:15px;
-  color:var(--ink);
-  white-space:nowrap;
-  letter-spacing:-0.01em;
-}
-.fn-brand span{ color:var(--olive); }
 
 .fn-links{
   position:relative;
   display:flex;
   align-items:center;
-  gap:4px;
+  gap:34px;
 }
 .fn-indicator{
   position:absolute;
@@ -1020,7 +1032,7 @@ body.home{ background:var(--paper); }
 .fn-link{
   position:relative;
   z-index:1;
-  padding:9px 16px;
+  padding:9px 4px;
   font-size:12.5px;
   letter-spacing:0.05em;
   text-transform:uppercase;
@@ -1032,6 +1044,20 @@ body.home{ background:var(--paper); }
 }
 .fn-link:hover, .fn-link.active{ color:var(--ink); }
 
+.fn-contact{
+  background:var(--ink);
+  color:#fff;
+  padding:11px 22px;
+  border-radius:999px;
+  font-size:12px;
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+  font-weight:600;
+  white-space:nowrap;
+  transition:opacity .2s ease;
+}
+.fn-contact:hover{ opacity:0.8; }
+
 .fn-toggle{
   display:none;
   background:none;
@@ -1040,9 +1066,11 @@ body.home{ background:var(--paper); }
   color:var(--ink);
   cursor:pointer;
 }
+.floating-nav.on-dark .fn-contact{ background:#fff; color:var(--ink); }
 
-@media (max-width:760px){
-  .floating-nav{ left:16px; right:16px; transform:translateY(-90px); width:auto; padding:12px 16px; }
+@media (max-width:900px){
+  .fn-mark{ top:16px; left:16px; font-size:14px; padding:10px 16px; }
+  .floating-nav{ left:16px; right:16px; transform:translateY(-90px); width:auto; }
   .floating-nav.visible{ transform:translateY(0); }
   .fn-links{
     position:fixed;
@@ -1060,6 +1088,7 @@ body.home{ background:var(--paper); }
   .fn-indicator{ display:none; }
   .fn-link{ color:rgba(255,255,255,0.85); text-align:left; padding:12px 14px; }
   .fn-toggle{ display:block; }
+  .fn-contact{ margin-left:auto; }
 }
 
 /* ---------- Hero inmersivo ---------- */
@@ -1100,7 +1129,7 @@ body.home{ background:var(--paper); }
   display:flex;
   flex-direction:column;
   justify-content:space-between;
-  padding:110px 0 50px;
+  padding:150px 0 50px;
   max-width:60%;
 }
 .hi-left .hero-nav{
@@ -1457,6 +1486,12 @@ body.home{ background:var(--paper); }
   display:none;
 }
 .corner-head--nobar{ padding-bottom:40px; }
+.corner-head--flush{ padding-bottom:0; }
+.ch-title--big{
+  font-weight:800;
+  font-size:clamp(34px,5.6vw,68px);
+  letter-spacing:-0.01em;
+}
 @media (max-width:640px){
   .corner-head{ gap:16px; padding:10px 0 30px; }
   .ch-bar{ height:4px; }
@@ -1468,7 +1503,7 @@ body.home{ background:var(--paper); }
   grid-template-columns:repeat(3,1fr);
   gap:16px;
   width:100%;
-  margin:20px 0 20px;
+  margin:0 0 20px;
 }
 .work-tile{
   position:relative;
@@ -1485,19 +1520,22 @@ body.home{ background:var(--paper); }
 .work-tile::after{
   content:"";
   position:absolute; inset:0;
-  background:linear-gradient(180deg, transparent 45%, rgba(0,0,0,0.6) 100%);
+  background:radial-gradient(ellipse at center, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.12) 55%, rgba(0,0,0,0.45) 100%);
   transition:opacity .3s ease;
 }
 .work-tile:hover img{ transform:scale(1.06); }
 .wt-label{
   position:absolute;
-  left:22px; bottom:22px;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
   z-index:2;
   color:#fff;
   font-family:var(--font-sans);
   font-weight:600;
   font-size:clamp(18px,2vw,24px);
   letter-spacing:-0.01em;
+  text-align:center;
+  white-space:nowrap;
 }
 @media (max-width:760px){
   .work-tiles{ grid-template-columns:1fr; gap:16px; }
@@ -1600,13 +1638,9 @@ body.home{ background:var(--paper); }
 
 .model-section-immersive{
   background:var(--paper);
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  padding-top:0;
-  padding-bottom:0;
-  scroll-margin-top:20px;
+  padding-top:110px;
+  padding-bottom:60px;
+  scroll-margin-top:-20px;
 }
 
 /* ---------- Lista de proyectos estilo BIG ---------- */
@@ -1616,10 +1650,8 @@ body.home{ background:var(--paper); }
   align-items:flex-start;
   gap:48px;
   padding:26px 0;
-  border-top:1px solid var(--line);
   color:inherit;
 }
-.big-row:last-child{ border-bottom:1px solid var(--line); }
 .big-left{
   width:240px;
   flex-shrink:0;
