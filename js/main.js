@@ -124,19 +124,6 @@ document.addEventListener('DOMContentLoaded', function () {
     onScroll();
     setTimeout(onScroll, 200);
 
-    // El enlace del menú debe llevar directamente al visor, no al inicio
-    // de la sección. Así el libro queda centrado en la ventana sin reducir
-    // el tamaño de la sección ni alterar el layout.
-    var flipbookNavLink = document.querySelector('.fn-link[data-section=\"flipbook\"]');
-    var flipbookSection = document.getElementById('flipbook');
-    var flipbookBookTarget = document.getElementById('flipbookBook');
-    if (flipbookNavLink && flipbookSection && flipbookBookTarget) {
-      flipbookNavLink.addEventListener('click', function (e) {
-        e.preventDefault();
-        flipbookBookTarget.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-        if (history.pushState) history.pushState(null, '', '#flipbook');
-      });
-    }
   }
 
   /* ============================================
