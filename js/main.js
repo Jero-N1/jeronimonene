@@ -139,6 +139,56 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* ============================================
+     TRANSICIONES DE SECCIONES — home
+     Servicios y Proyectos comparten un título fijo. El contenido
+     se desplaza por debajo mientras el título cambia de nombre.
+     Al llegar al Flipbook el título desaparece y el visor queda
+     centrado antes de continuar hacia el footer.
+     ============================================ */
+  var scrollTitle = document.getElementById('scrollSectionTitle');
+  var servicesSection = document.getElementById('servicios');
+  var projectsSection = document.getElementById('proyectos');
+  var flipbookSection = document.getElementById('flipbook');
+  if (scrollTitle && servicesSection && projectsSection && flipbookSection && document.body.classList.contains('home')) {
+    function updateSectionTransition() {
+      var y = window.scrollY;
+      var vh = window.innerHeight;
+      var servicesTop = servicesSection.offsetTop;
+      var projectsTop = projectsSection.offsetTop;
+      var flipbookTop = flipbookSection.offsetTop;
+
+      // El título entra al comenzar Servicios, cuando ya hemos abandonado el hero.
+      var enter = servicesTop - Math.min(90, vh * 0.10);
+      // Cambiamos a Proyectos cuando esa sección empieza a ocupar la zona de lectura.
+      var projectSwitch = projectsTop - vh * 0.16;
+      // Antes de entrar al escenario del flipbook, el título se retira.
+      var exit = flipbookTop - vh * 0.18;
+
+      var visible = y >= enter && y < exit;
+      scrollTitle.classList.toggle('is-visible', visible);
+      scrollTitle.classList.toggle('is-projects', y >= projectSwitch && y < exit);
+
+      // El visor se convierte en la escena principal al llegar a su sección.
+      flipbookSection.classList.toggle('is-focus', y >= flipbookTop - vh * 0.22);
+    }
+
+    var sectionTicking = false;
+    function onSectionScroll() {
+      if (sectionTicking) return;
+      sectionTicking = true;
+      window.requestAnimationFrame(function () {
+        updateSectionTransition();
+        sectionTicking = false;
+      });
+    }
+    window.addEventListener('scroll', onSectionScroll, { passive:true });
+    window.addEventListener('resize', onSectionScroll);
+    window.addEventListener('load', updateSectionTransition);
+    updateSectionTransition();
+    setTimeout(updateSectionTransition, 250);
+  }
+
+  /* ============================================
      CARRUSELES ARRASTRABLES (páginas de proyecto)
      Autoscroll + drag + click, sin tocar la rueda
      (el wheel solo pausa/reanuda, nunca hace scroll horizontal)
