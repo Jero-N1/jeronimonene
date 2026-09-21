@@ -74,15 +74,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var heroEl = hero || document.querySelector('.pd-hero');
     var alwaysVisible = !hero;
 
-    function updateNavVisibility() {
-      if (!heroEl) { floatingNav.classList.add('visible'); return; }
-      var heroBottom = heroEl.getBoundingClientRect().bottom;
-      floatingNav.classList.toggle('visible', alwaysVisible || heroBottom < 80);
-      // Solo mientras la barra está encima del hero (foto oscura) usamos vidrio oscuro;
-      // en cuanto se pasa, vuelve al vidrio claro consistente del resto del sitio.
-      floatingNav.classList.toggle('on-dark', heroBottom > 60);
-    }
-
     var fnLinkEls = document.querySelectorAll('.fn-link[data-section]');
     var indicator = document.getElementById('fnIndicator');
     var sections = ['inicio', 'servicios', 'proyectos', 'flipbook']
@@ -108,12 +99,120 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
+    var lastScrollY = window.scrollY || 0;
+    var navDirectionThreshold = 8;
+
+    function updateNavVisibility() {
+      if (alwaysVisible) {
+        floatingNav.classList.add('visible');
+        return;
+      }
+      if (!heroEl) {
+        floatingNav.classList.add('visible');
+        return;
+      }
+
+      var heroBottom = heroEl.getBoundingClientRect().bottom;
+      var pastHero = heroBottom < 80;
+      var y = window.scrollY || 0;
+      var delta = y - lastScrollY;
+
+      // Dentro del hero la navegación flotante permanece fuera.
+      if (!pastHero) {
+        floatingNav.classList.remove('visible');
+      } else if (Math.abs(delta) >= navDirectionThreshold) {
+        // Hacia abajo: desaparece. Hacia arriba: vuelve a aparecer.
+        floatingNav.classList.toggle('visible', delta < 0);
+      }
+
+      floatingNav.classList.toggle('on-dark', heroBottom > 60);
+      lastScrollY = y;
+    }
+
+    function updateScrollMotion() {
+      if (!document.body.classList.contains('home')) return;
+
+      var y = window.scrollY || 0;
+      var vh = window.innerHeight;
+      var heroRect = heroEl ? heroEl.getBoundingClientRect() : null;
+
+      // HERO — parallax muy contenido, para que la imagen parezca una escena
+      // y no un efecto independiente.
+      if (heroRect) {
+        var heroProgress = Math.max(0, Math.min(1, -heroRect.top / Math.max(1, heroRect.height)));
+        heroEl.style.setProperty('--hero-bg-y', (heroProgress * -34).toFixed(1) + 'px');
+        heroEl.style.setProperty('--hero-bg-scale', (1 + heroProgress * 0.055).toFixed(4));
+        heroEl.style.setProperty('--hero-strip-y', (heroProgress * 26).toFixed(1) + 'px');
+        heroEl.style.setProperty('--hero-content-y', (heroProgress * -52).toFixed(1) + 'px');
+        heroEl.style.setProperty('--hero-content-opacity', (1 - heroProgress * 0.72).toFixed(3));
+      }
+
+      // SERVICIOS — las tarjetas entran como una secuencia, no todas a la vez.
+      var tiles = document.querySelectorAll('#servicios .work-tile');
+      tiles.forEach(function(tile, index) {
+        var r = tile.getBoundingClientRect();
+        var enter = Math.max(0, Math.min(1, (vh * 0.92 - r.top) / (vh * 0.58)));
+        var leave = Math.max(0, Math.min(1, (r.bottom - vh * 0.12) / (vh * 0.72)));
+        var stagger = Math.max(0, Math.min(1, enter * 1.35 - index * 0.18));
+        var yIn = (1 - stagger) * 72;
+        var yOut = Math.max(0, (1 - leave)) * 0;
+        tile.style.setProperty('--tile-y', (yIn + yOut).toFixed(1) + 'px');
+        tile.style.setProperty('--tile-scale', (0.94 + stagger * 0.06).toFixed(4));
+        tile.style.setProperty('--tile-opacity', Math.max(0.18, Math.min(1, stagger)).toFixed(3));
+      });
+
+      // PROYECTOS — texto lateral se mueve en sentido contrario al desplazamiento
+      // del conjunto. Cuando la imagen sube, la ficha primero cae y luego sube.
+      var rows = document.querySelectorAll('#proyectos .big-row');
+      rows.forEach(function(row) {
+        var rr = row.getBoundingClientRect();
+        var center = rr.top + rr.height * 0.5;
+        var distance = center - vh * 0.5;
+        var textY = Math.max(-82, Math.min(82, distance * 0.22));
+        var imgProgress = Math.max(0, Math.min(1, (vh - rr.top) / (vh * 0.95)));
+        var imgScale = 1 + Math.sin(imgProgress * Math.PI) * 0.008;
+        var imgY = Math.max(-8, Math.min(8, distance * -0.025));
+        row.style.setProperty('--project-text-y', textY.toFixed(1) + 'px');
+        row.style.setProperty('--project-img-scale', imgScale.toFixed(4));
+        row.style.setProperty('--project-img-y', imgY.toFixed(1) + 'px');
+      });
+
+      // Título fijo: permanece en la misma coordenada y cambia de estado
+      // entre Servicios y Proyectos. Flipbook lo libera.
+      var titleStage = document.getElementById('scrollSectionTitle');
+      var titleText = document.getElementById('scrollSectionTitleText');
+      var services = document.getElementById('servicios');
+      var projects = document.getElementById('proyectos');
+      var flipbook = document.getElementById('flipbook');
+      if (titleStage && titleText && services && projects && flipbook) {
+        var sy = services.getBoundingClientRect();
+        var py = projects.getBoundingClientRect();
+        var fy = flipbook.getBoundingClientRect();
+        var active = null;
+
+        if (sy.top < vh * 0.58 && py.top > vh * 0.22) active = 'Servicios';
+        if (py.top <= vh * 0.58 && fy.top > vh * 0.30) active = 'Proyectos';
+
+        var nextText = active || '';
+        if (titleText.textContent !== nextText) {
+          titleStage.classList.add('is-changing');
+          window.clearTimeout(titleStage._titleTimer);
+          titleStage._titleTimer = window.setTimeout(function(){
+            titleText.textContent = nextText;
+            titleStage.classList.remove('is-changing');
+          }, 110);
+        }
+        titleStage.classList.toggle('is-visible', !!active);
+      }
+    }
+
     var ticking = false;
     function onScroll() {
       if (!ticking) {
         window.requestAnimationFrame(function () {
           updateNavVisibility();
           updateActiveSection();
+          updateScrollMotion();
           ticking = false;
         });
         ticking = true;
@@ -136,56 +235,6 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-  }
-
-  /* ============================================
-     TRANSICIONES DE SECCIONES — home
-     Servicios y Proyectos comparten un título fijo. El contenido
-     se desplaza por debajo mientras el título cambia de nombre.
-     Al llegar al Flipbook el título desaparece y el visor queda
-     centrado antes de continuar hacia el footer.
-     ============================================ */
-  var scrollTitle = document.getElementById('scrollSectionTitle');
-  var servicesSection = document.getElementById('servicios');
-  var projectsSection = document.getElementById('proyectos');
-  var flipbookSection = document.getElementById('flipbook');
-  if (scrollTitle && servicesSection && projectsSection && flipbookSection && document.body.classList.contains('home')) {
-    function updateSectionTransition() {
-      var y = window.scrollY;
-      var vh = window.innerHeight;
-      var servicesTop = servicesSection.offsetTop;
-      var projectsTop = projectsSection.offsetTop;
-      var flipbookTop = flipbookSection.offsetTop;
-
-      // El título entra al comenzar Servicios, cuando ya hemos abandonado el hero.
-      var enter = servicesTop - Math.min(90, vh * 0.10);
-      // Cambiamos a Proyectos cuando esa sección empieza a ocupar la zona de lectura.
-      var projectSwitch = projectsTop - vh * 0.16;
-      // Antes de entrar al escenario del flipbook, el título se retira.
-      var exit = flipbookTop - vh * 0.18;
-
-      var visible = y >= enter && y < exit;
-      scrollTitle.classList.toggle('is-visible', visible);
-      scrollTitle.classList.toggle('is-projects', y >= projectSwitch && y < exit);
-
-      // El visor se convierte en la escena principal al llegar a su sección.
-      flipbookSection.classList.toggle('is-focus', y >= flipbookTop - vh * 0.22);
-    }
-
-    var sectionTicking = false;
-    function onSectionScroll() {
-      if (sectionTicking) return;
-      sectionTicking = true;
-      window.requestAnimationFrame(function () {
-        updateSectionTransition();
-        sectionTicking = false;
-      });
-    }
-    window.addEventListener('scroll', onSectionScroll, { passive:true });
-    window.addEventListener('resize', onSectionScroll);
-    window.addEventListener('load', updateSectionTransition);
-    updateSectionTransition();
-    setTimeout(updateSectionTransition, 250);
   }
 
   /* ============================================
