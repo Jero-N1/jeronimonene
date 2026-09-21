@@ -156,7 +156,6 @@ document.addEventListener('DOMContentLoaded', function () {
         var enter = Math.max(0, Math.min(1, (vh * 0.92 - r.top) / (vh * 0.62)));
         var stagger = Math.max(0, Math.min(1, enter * 1.55 - index * 0.28));
         var yIn = (1 - stagger) * (145 + index * 70);
-        var yOut = Math.max(0, (1 - leave)) * 0;
         tile.style.setProperty('--tile-y', (yIn + yOut).toFixed(1) + 'px');
         tile.style.setProperty('--tile-scale', (0.90 + stagger * 0.10).toFixed(4));
         tile.style.setProperty('--tile-opacity', Math.max(0.12, Math.min(1, stagger)).toFixed(3));
