@@ -2040,117 +2040,95 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
   .contact-title{ font-size:clamp(44px,14vw,64px); }
 }
 
-
 /* ============================================
-   SCROLL TRANSITIONS — home
-   El título permanece en la misma posición mientras
-   el contenido de Servicios/Proyectos pasa por debajo.
+   HOME — SISTEMA DE TRANSICIONES POR SCROLL
    ============================================ */
-.home .scroll-section-title{
+.scroll-section-title{
   position:fixed;
-  top:92px;
-  left:0;
-  right:0;
-  z-index:120;
+  top:88px;
+  left:max(6vw, calc((100vw - 1240px) / 2));
+  z-index:250;
   pointer-events:none;
-  padding:0 48px;
-  opacity:0;
-  transform:translateY(10px);
-  transition:opacity .55s cubic-bezier(.22,1,.36,1),
-             transform .65s cubic-bezier(.22,1,.36,1);
-}
-.home .scroll-section-title::after{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  top:-28px;
-  height:105px;
-  z-index:-1;
-  background:linear-gradient(180deg,
-    rgba(245,244,240,.98) 0%,
-    rgba(245,244,240,.94) 58%,
-    rgba(245,244,240,0) 100%);
-}
-.home .scroll-section-title.is-visible{
-  opacity:1;
-  transform:translateY(0);
-}
-.home .scroll-section-title span{
-  display:block;
-  max-width:1240px;
-  margin:0 auto;
+  padding:12px 0 10px;
+  background:var(--paper);
+  color:var(--ink);
   font-family:var(--font-body);
   font-weight:700;
   font-size:clamp(28px,4.4vw,52px);
   line-height:.92;
   letter-spacing:-.01em;
   text-transform:uppercase;
-  color:var(--ink);
-}
-.home .scroll-section-title .sst-next{
-  position:absolute;
-  left:48px;
-  right:48px;
-  top:0;
-  max-width:none;
-  text-align:left;
   opacity:0;
-  transform:translateY(9px);
+  transform:translateY(-10px);
+  transition:opacity .35s ease, transform .45s cubic-bezier(.22,1,.36,1);
 }
-.home .scroll-section-title.is-projects .sst-current{
-  opacity:0;
-  transform:translateY(-9px);
-  transition:opacity .42s ease,transform .55s cubic-bezier(.22,1,.36,1);
-}
-.home .scroll-section-title.is-projects .sst-next{
-  opacity:1;
-  transform:translateY(0);
-  transition:opacity .42s ease,transform .55s cubic-bezier(.22,1,.36,1);
-}
-/* Los títulos originales siguen ocupando su espacio, pero el título visual
-   se controla desde la capa fija superior. */
-.home #servicios > .wrap > .corner-head,
-.home #proyectos > .wrap > .corner-head,
-.home #flipbook > .wrap > .corner-head{
+.scroll-section-title.is-visible{ opacity:1; transform:translateY(0); }
+.scroll-section-title.is-changing{ opacity:.15; transform:translateY(-3px); }
+
+/* Los títulos originales siguen ocupando su espacio para no alterar el contenido,
+   pero el título fijo es el que se ve durante el recorrido. */
+body.home #servicios > .wrap > .corner-head,
+body.home #proyectos > .wrap > .corner-head{
   visibility:hidden;
 }
 
-/* El flipbook funciona como una escena propia: al llegar a él,
-   el visor ocupa el centro de la ventana antes de continuar al footer. */
-.home .flipbook-section{
-  min-height:100vh;
-  padding:0 0 90px;
-}
-.home .flipbook-section > .wrap{
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-.home .flipbook-section .fb-wrap{
-  margin-top:0;
+/* Servicios: entrada escalonada guiada por el scroll. */
+body.home .work-tile{
+  opacity:var(--tile-opacity,1);
+  transform:translate3d(0,var(--tile-y,0px),0) scale(var(--tile-scale,1));
+  will-change:transform,opacity;
 }
 
-@media (max-width:900px){
-  .home .scroll-section-title{
-    top:78px;
-    padding:0 24px;
+/* Proyectos: la imagen sigue el scroll normal; la ficha lateral tiene
+   un movimiento de contra-parallax suave. */
+body.home .big-row{
+  position:relative;
+}
+body.home .big-left{
+  transform:translate3d(0,var(--project-text-y,0px),0);
+  will-change:transform;
+}
+body.home .big-media img{
+  transform:scale(var(--project-img-scale,1)) translate3d(0,var(--project-img-y,0px),0);
+  will-change:transform;
+}
+body.home .big-row:hover .big-media img{
+  transform:scale(calc(1.02 * var(--project-img-scale,1))) translate3d(0,var(--project-img-y,0px),0);
+}
+
+/* Hero: el fondo avanza lentamente mientras el contenido se retira. */
+body.home .hi-bg{
+  transform:translate3d(0,var(--hero-bg-y,0px),0) scale(var(--hero-bg-scale,1));
+  will-change:transform;
+}
+body.home .hi-strip{
+  transform:translate3d(0,var(--hero-strip-y,0px),0);
+  will-change:transform;
+}
+body.home .hi-left{
+  transform:translate3d(0,var(--hero-content-y,0px),0);
+  opacity:var(--hero-content-opacity,1);
+  will-change:transform,opacity;
+}
+
+@media (max-width:760px){
+  .scroll-section-title{
+    top:72px;
+    left:16px;
+    font-size:clamp(26px,8vw,38px);
   }
-  .home .scroll-section-title .sst-next{
-    left:24px;
-    right:24px;
-  }
-  .home .scroll-section-title::after{
-    top:-22px;
-    height:88px;
-  }
+  body.home .big-left{ transform:none; }
 }
 
 @media (prefers-reduced-motion:reduce){
-  .home .scroll-section-title,
-  .home .scroll-section-title span,
-  .home .scroll-section-title .sst-next{
-    transition:none!important;
+  .scroll-section-title{ transition:none; }
+  body.home .hi-bg,
+  body.home .hi-strip,
+  body.home .hi-left,
+  body.home .work-tile,
+  body.home .big-left,
+  body.home .big-media img{
+    transform:none!important;
+    opacity:1!important;
   }
 }
