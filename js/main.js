@@ -126,6 +126,8 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       floatingNav.classList.toggle('on-dark', heroBottom > 60);
+      var titleStage = document.getElementById('scrollSectionTitle');
+      if (titleStage) titleStage.classList.toggle('nav-offset', floatingNav.classList.contains('visible'));
       lastScrollY = y;
     }
 
@@ -151,34 +153,56 @@ document.addEventListener('DOMContentLoaded', function () {
       var tiles = document.querySelectorAll('#servicios .work-tile');
       tiles.forEach(function(tile, index) {
         var r = tile.getBoundingClientRect();
-        var enter = Math.max(0, Math.min(1, (vh * 0.92 - r.top) / (vh * 0.58)));
-        var leave = Math.max(0, Math.min(1, (r.bottom - vh * 0.12) / (vh * 0.72)));
-        var stagger = Math.max(0, Math.min(1, enter * 1.35 - index * 0.18));
-        var yIn = (1 - stagger) * 72;
+        var enter = Math.max(0, Math.min(1, (vh * 0.92 - r.top) / (vh * 0.62)));
+        var stagger = Math.max(0, Math.min(1, enter * 1.55 - index * 0.28));
+        var yIn = (1 - stagger) * (145 + index * 70);
         var yOut = Math.max(0, (1 - leave)) * 0;
         tile.style.setProperty('--tile-y', (yIn + yOut).toFixed(1) + 'px');
-        tile.style.setProperty('--tile-scale', (0.94 + stagger * 0.06).toFixed(4));
-        tile.style.setProperty('--tile-opacity', Math.max(0.18, Math.min(1, stagger)).toFixed(3));
+        tile.style.setProperty('--tile-scale', (0.90 + stagger * 0.10).toFixed(4));
+        tile.style.setProperty('--tile-opacity', Math.max(0.12, Math.min(1, stagger)).toFixed(3));
       });
 
-      // PROYECTOS — texto lateral se mueve en sentido contrario al desplazamiento
-      // del conjunto. Cuando la imagen sube, la ficha primero cae y luego sube.
+      // PROYECTOS — la ficha lateral tiene un recorrido propio.
+      // Mientras la imagen asciende, el texto primero baja hasta quedar
+      // apoyado en el borde inferior de la imagen; a partir de ahí acompaña
+      // a la imagen y sale con ella.
       var rows = document.querySelectorAll('#proyectos .big-row');
       rows.forEach(function(row) {
         var rr = row.getBoundingClientRect();
-        var center = rr.top + rr.height * 0.5;
-        var distance = center - vh * 0.5;
-        var textY = Math.max(-82, Math.min(82, distance * 0.22));
-        var imgProgress = Math.max(0, Math.min(1, (vh - rr.top) / (vh * 0.95)));
-        var imgScale = 1 + Math.sin(imgProgress * Math.PI) * 0.008;
-        var imgY = Math.max(-8, Math.min(8, distance * -0.025));
-        row.style.setProperty('--project-text-y', textY.toFixed(1) + 'px');
+        var media = row.querySelector('.big-media');
+        var left = row.querySelector('.big-left');
+        var mediaRect = media ? media.getBoundingClientRect() : rr;
+        var leftRect = left ? left.getBoundingClientRect() : rr;
+        var imageH = mediaRect.height || rr.height;
+        var textH = leftRect.height || 120;
+
+        // Cuando el proyecto entra, el texto parte arriba y desciende.
+        // El recorrido termina exactamente cuando su borde inferior toca
+        // el borde inferior de la imagen.
+        var entry = Math.max(0, Math.min(1, (vh * 0.82 - rr.top) / Math.max(1, vh * 0.55)));
+        var maxDrop = Math.max(0, imageH - textH);
+        var drop = maxDrop * entry;
+
+        // Una vez alcanzado el borde inferior, el texto acompaña el movimiento
+        // de la fila para que ambos desaparezcan juntos.
+        var follow = Math.max(0, Math.min(1, (vh * 0.34 - rr.top) / Math.max(1, imageH * 0.8)));
+        var followOffset = Math.max(0, (rr.top - vh * 0.34));
+        if (rr.top < vh * 0.34) drop = maxDrop + followOffset;
+
+        // Limita el movimiento para evitar que una fila muy alejada altere
+        // visualmente la siguiente.
+        drop = Math.max(0, Math.min(maxDrop + imageH, drop));
+
+        var imgProgress = Math.max(0, Math.min(1, (vh - rr.top) / Math.max(1, vh * 0.9)));
+        var imgScale = 1 + Math.sin(imgProgress * Math.PI) * 0.012;
+        row.style.setProperty('--project-text-y', drop.toFixed(1) + 'px');
         row.style.setProperty('--project-img-scale', imgScale.toFixed(4));
-        row.style.setProperty('--project-img-y', imgY.toFixed(1) + 'px');
+        row.style.setProperty('--project-img-y', '0px');
       });
 
-      // Título fijo: permanece en la misma coordenada y cambia de estado
-      // entre Servicios y Proyectos. Flipbook lo libera.
+      // Título fijo: solo entra cuando la sección realmente ha llegado al
+      // borde superior del viewport. Así nunca aparece mientras todavía se
+      // está abandonando el Hero. Flipbook libera el título.
       var titleStage = document.getElementById('scrollSectionTitle');
       var titleText = document.getElementById('scrollSectionTitleText');
       var services = document.getElementById('servicios');
@@ -190,8 +214,8 @@ document.addEventListener('DOMContentLoaded', function () {
         var fy = flipbook.getBoundingClientRect();
         var active = null;
 
-        if (sy.top < vh * 0.58 && py.top > vh * 0.22) active = 'Servicios';
-        if (py.top <= vh * 0.58 && fy.top > vh * 0.30) active = 'Proyectos';
+        if (sy.top <= 1 && py.top > 1) active = 'Servicios';
+        if (py.top <= 1 && fy.top > 1) active = 'Proyectos';
 
         var nextText = active || '';
         if (titleText.textContent !== nextText) {
@@ -203,6 +227,7 @@ document.addEventListener('DOMContentLoaded', function () {
           }, 110);
         }
         titleStage.classList.toggle('is-visible', !!active);
+        titleStage.classList.toggle('nav-offset', floatingNav.classList.contains('visible'));
       }
     }
 
