@@ -2262,58 +2262,9 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
 .work-tiles::after{display:none;}
 
 
-/* Transición ligera entre hero y servicios */
-.hi-bg{
-  animation:none;
-  opacity:.5;
-  transform:none;
-}
-.work-section::before{
-  content:"";
-  position:absolute;
-  z-index:4;
-  top:0;
-  left:0;
-  width:100%;
-  height:1px;
-  pointer-events:none;
-  background:linear-gradient(90deg, transparent 4%, var(--olive) 28%, rgba(255,255,255,.75) 50%, var(--red) 72%, transparent 96%);
-  transform:scaleX(var(--services-p, 0));
-  transform-origin:left center;
-  opacity:calc(.25 + var(--services-p, 0) * .75);
-}
-.services-title{
-  padding-top:64px;
-  transform:translateY(calc((1 - var(--services-p, 0)) * 14px));
-  opacity:calc(.35 + var(--services-p, 0) * .65);
-}
-.services-title .ch-title{
-  transform:none;
-}
-.services-title .services-kicker{
-  display:none;
-}
-.work-tile,
-.work-tile:nth-child(2),
-.work-tile:nth-child(3){
-  transform:translateY(calc((1 - var(--services-p, 0)) * 22px)) scale(1);
-}
-@media (prefers-reduced-motion: reduce){
-  .work-section::before{
-    transform:none;
-    opacity:1;
-  }
-  .services-title,
-  .work-tile,
-  .work-tile:nth-child(2),
-  .work-tile:nth-child(3){
-    transform:none !important;
-    opacity:1 !important;
-  }
-}
 
 
-/* Movimiento reservado a transiciones principales */
+/* Transición principal: Servicios sube y cubre el hero */
 .hero-immersive{
   position:sticky;
   top:0;
@@ -2325,80 +2276,50 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
   position:relative;
   z-index:1;
 }
-.hi-name,
-.hi-sub,
-.hi-contact,
-.hi-left .hero-nav,
-.hi-left .hero-nav .hn-link,
-.hi-left .hero-social,
-.hi-left .hi-scroll,
-.hi-strip,
-.hi-strip-track{
-  animation:none !important;
-  opacity:1 !important;
-  transform:none !important;
-  visibility:visible !important;
-}
-.hi-strip-track{
-  margin:0 !important;
-}
+
+/* El título se mantiene estable mientras las tarjetas se revelan */
 .services-title,
 .services-title .ch-title{
   opacity:1;
   transform:none;
 }
-.work-tile,
-.work-tile:nth-child(1),
-.work-tile:nth-child(2),
-.work-tile:nth-child(3){
-  --card-progress:clamp(0, calc((var(--services-p, 0) - var(--card-start, 0)) / .28), 1);
-  opacity:var(--card-progress);
-  transform:translate3d(0, calc((1 - var(--card-progress)) * 72px), 0);
-  clip-path:none;
+.services-title{
+  padding-top:64px;
 }
-.work-tile:nth-child(1){ --card-start:.02; }
-.work-tile:nth-child(2){ --card-start:.27; }
-.work-tile:nth-child(3){ --card-start:.52; }
+
+/* Aparición escalonada al entrar en la sección */
+#servicios.cards-motion-ready .work-tile{
+  animation:serviceCardEnter .86s cubic-bezier(.2,.78,.18,1) both;
+}
+#servicios.cards-motion-ready .work-tile:nth-child(1){ animation-delay:0s; }
+#servicios.cards-motion-ready .work-tile:nth-child(2){ animation-delay:.18s; }
+#servicios.cards-motion-ready .work-tile:nth-child(3){ animation-delay:.36s; }
+@keyframes serviceCardEnter{
+  0%{
+    opacity:0;
+    transform:translate3d(0,72px,0) scale(.91);
+  }
+  72%{
+    opacity:1;
+    transform:translate3d(0,-5px,0) scale(1.015);
+  }
+  100%{
+    opacity:1;
+    transform:translate3d(0,0,0) scale(1);
+  }
+}
+
+/* Evita microanimaciones en las imágenes de servicio; el movimiento está en su entrada */
 .work-tile img,
 .work-tile:hover img{
   transition:none;
   transform:none;
 }
 @media (prefers-reduced-motion: reduce){
-  .hero-immersive{
-    position:relative;
-  }
-  .work-tile,
-  .work-tile:nth-child(1),
-  .work-tile:nth-child(2),
-  .work-tile:nth-child(3){
-    opacity:1;
-    transform:none;
-  }
-}
-
-
-/* Las tarjetas permanecen visibles si el navegador no ejecuta JavaScript */
-.work-tile,
-.work-tile:nth-child(1),
-.work-tile:nth-child(2),
-.work-tile:nth-child(3){
-  opacity:1;
-  transform:none;
-}
-#servicios.cards-motion-ready .work-tile,
-#servicios.cards-motion-ready .work-tile:nth-child(1),
-#servicios.cards-motion-ready .work-tile:nth-child(2),
-#servicios.cards-motion-ready .work-tile:nth-child(3){
-  --card-progress:clamp(0, calc((var(--services-p, 0) - var(--card-start, 0)) / .28), 1);
-  opacity:var(--card-progress);
-  transform:translate3d(0, calc((1 - var(--card-progress)) * 72px), 0);
-}
-@media (prefers-reduced-motion: reduce){
-  #servicios.cards-motion-ready .work-tile,
-  #servicios.cards-motion-ready .work-tile:nth-child(1),
-  #servicios.cards-motion-ready .work-tile:nth-child(2),
-  #servicios.cards-motion-ready .work-tile:nth-child(3){
+  .hero-immersive{ position:relative; }
+  .hi-strip-track{ animation:none !important; }
+  #servicios.cards-motion-ready .work-tile{
+    animation:none;
     opacity:1;
     transform:none;
   }
