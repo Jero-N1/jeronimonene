@@ -2332,3 +2332,128 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
   }
   .work-tile img{ transition:none; }
 }
+
+
+/* Servicios: proporción más cercana a la referencia y acceso directo a su cabecera */
+#servicios{
+  scroll-margin-top:115px;
+}
+.work-section{ padding-top:42px; }
+.services-title{ padding:38px 0 36px; }
+.work-tile{ aspect-ratio:7/8; }
+
+/* Proyectos: cabecera fija y una escena de scroll para cada imagen */
+#proyectos{
+  scroll-margin-top:76px;
+  padding-top:110px;
+}
+#proyectos .project-section-heading{
+  position:sticky;
+  top:76px;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  min-height:64px;
+  padding:10px 0 20px;
+  margin:0;
+  background:var(--paper);
+  opacity:1;
+  transform:none;
+}
+#proyectos .big-list{ display:block; }
+#proyectos .project-stage{
+  position:relative;
+  display:block;
+  height:168vh;
+  min-height:168vh;
+  margin:0;
+  padding:0;
+  color:inherit;
+}
+#proyectos .project-stage .big-media{
+  position:sticky;
+  top:18vh;
+  z-index:1;
+  display:block;
+  width:100%;
+  height:60vh;
+  overflow:hidden;
+  order:initial;
+}
+#proyectos .project-stage .big-media img{
+  width:100%;
+  height:100%;
+  aspect-ratio:auto;
+  object-fit:cover;
+}
+#proyectos .project-stage .big-left{
+  position:sticky;
+  top:78vh;
+  z-index:2;
+  display:block;
+  width:100%;
+  margin:0;
+  padding:16px 0 20px;
+  background:var(--paper);
+  transform:translate3d(0, calc((1 - var(--caption-progress, 0)) * -14vh), 0);
+}
+#proyectos .project-stage .big-left-row{
+  width:min(64%, 720px);
+}
+#proyectos .project-stage .big-meta{
+  position:absolute;
+  right:0;
+  bottom:20px;
+  align-items:flex-end;
+  margin:0;
+  text-align:right;
+}
+#proyectos .project-stage .big-tag{
+  display:block;
+  margin:0 0 4px;
+}
+@media (max-width:760px){
+  #proyectos{ padding-top:84px; }
+  #proyectos .project-section-heading{ top:64px; min-height:58px; }
+  #proyectos .project-stage{
+    height:145vh;
+    min-height:145vh;
+  }
+  #proyectos .project-stage .big-media{
+    top:14vh;
+    height:48vh;
+  }
+  #proyectos .project-stage .big-left{
+    top:62vh;
+    transform:translate3d(0, calc((1 - var(--caption-progress, 0)) * -12vh), 0);
+  }
+  #proyectos .project-stage .big-left-row{ width:100%; }
+  #proyectos .project-stage .big-meta{
+    position:static;
+    align-items:flex-start;
+    margin-top:10px;
+    text-align:left;
+  }
+}
+@media (prefers-reduced-motion: reduce){
+  #proyectos .project-section-heading{
+    position:relative;
+    top:auto;
+  }
+  #proyectos .project-stage{
+    height:auto;
+    min-height:0;
+    padding:30px 0;
+  }
+  #proyectos .project-stage .big-media,
+  #proyectos .project-stage .big-left{
+    position:relative;
+    top:auto;
+    transform:none;
+  }
+  #proyectos .project-stage .big-media{ height:auto; }
+  #proyectos .project-stage .big-media img{
+    aspect-ratio:16/7;
+    height:auto;
+  }
+}
