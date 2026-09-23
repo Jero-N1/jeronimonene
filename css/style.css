@@ -2350,6 +2350,7 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
   margin-top:-110px;
   padding-top:110px;
   top:calc(var(--projects-panel-progress, 0) * -14vh);
+  margin-bottom:calc(var(--projects-panel-progress, 0) * -14vh);
   background:var(--paper);
   scroll-margin-top:76px;
 }
