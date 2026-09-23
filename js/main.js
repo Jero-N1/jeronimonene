@@ -140,12 +140,26 @@ document.addEventListener('DOMContentLoaded', function () {
       if (heroStrip) heroStrip.style.transform = 'translateY(' + (-scrolled * 0.4) + 'px)';
     }
 
+    function updateServicesTransition() {
+      var services = document.getElementById('servicios');
+      if (!services) return;
+      var r = services.getBoundingClientRect();
+      var h = window.innerHeight || 1;
+
+      // 0 = aún fuera de escena; 1 = composición completamente ensamblada.
+      // La transición empieza antes de que el título entre en pantalla.
+      var p = (h - r.top) / Math.max(h * 0.72, 1);
+      p = Math.max(0, Math.min(1, p));
+      services.style.setProperty('--services-p', p.toFixed(3));
+    }
+
     function onScroll() {
       if (!ticking) {
         window.requestAnimationFrame(function () {
           updateNavVisibility();
           updateActiveSection();
           updateHeroHandoff();
+          updateServicesTransition();
           ticking = false;
         });
         ticking = true;
