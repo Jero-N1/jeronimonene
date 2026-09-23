@@ -112,6 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var servicesSection = document.getElementById('servicios');
     var serviceTiles = servicesSection && servicesSection.querySelector('.work-tiles');
+    var projectStages = document.querySelectorAll('#proyectos .project-stage');
 
     function updateServicesPanel() {
       if (!servicesSection) return;
@@ -122,6 +123,21 @@ document.addEventListener('DOMContentLoaded', function () {
       var progress = (height - top) / (height * 0.75);
       progress = Math.max(0, Math.min(1, progress));
       servicesSection.style.setProperty('--panel-progress', progress.toFixed(3));
+    }
+
+    function updateProjectCaptions() {
+      if (!projectStages.length) return;
+      var height = window.innerHeight || 1;
+      var mobile = window.matchMedia && window.matchMedia('(max-width: 760px)').matches;
+      var imageTop = height * (mobile ? 0.14 : 0.18);
+      var travel = height * (mobile ? 0.22 : 0.26);
+
+      projectStages.forEach(function (stage) {
+        var top = stage.getBoundingClientRect().top;
+        var progress = (imageTop - top) / travel;
+        progress = Math.max(0, Math.min(1, progress));
+        stage.style.setProperty('--caption-progress', progress.toFixed(3));
+      });
     }
 
     if (serviceTiles && 'IntersectionObserver' in window) {
@@ -141,6 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
           updateNavVisibility();
           updateActiveSection();
           updateServicesPanel();
+          updateProjectCaptions();
           ticking = false;
         });
         ticking = true;
