@@ -109,20 +109,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     var ticking = false;
-    var heroNavList = hero ? hero.querySelector('.hi-left .hero-nav') : null;
-    var heroContentBlock = hero ? hero.querySelector('.hi-content') : null;
-    var heroFlipLink = hero ? hero.querySelector('.hn-flipbook') : null;
-    var heroStrip = hero ? document.getElementById('hiStrip') : null;
-
-    // La animación de entrada (hiFade, con fill-mode forwards) gana sobre cualquier
-    // opacity que le pongamos por JS mientras esté activa. La liberamos una vez
-    // termina, para que el scroll pueda controlar la opacidad desde ahí.
-    if (heroNavList) setTimeout(function () { heroNavList.style.animation = 'none'; }, 1200);
-
     function updateServicesTransition() {
       var services = document.getElementById('servicios');
       var tiles = services && services.querySelector('.work-tiles');
       if (!tiles) return;
+      services.classList.add('cards-motion-ready');
       var rect = tiles.getBoundingClientRect();
       var height = window.innerHeight || 1;
 
