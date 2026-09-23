@@ -95,6 +95,15 @@ document.addEventListener('DOMContentLoaded', function () {
       indicator.style.transform = 'translateX(' + link.offsetLeft + 'px)';
     }
 
+    var homeLink = document.querySelector('.fn-link[data-section="inicio"]');
+    if (homeLink) {
+      homeLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (fnLinks) fnLinks.classList.remove('open');
+      });
+    }
+
     function updateActiveSection() {
       var scrollPos = window.scrollY + window.innerHeight * 0.4;
       var currentId = sections[0] ? sections[0].id : 'inicio';
@@ -148,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (mobile) {
         if (projectsSection) projectsSection.classList.remove('projects-motion-ready', 'project-handoff-active');
         projectStages.forEach(function (stage) {
-          stage.classList.remove('project-stage-active', 'project-caption-active');
+          stage.classList.remove('project-stage-active', 'project-caption-active', 'project-image-obscured');
         });
         return;
       }
@@ -188,6 +197,10 @@ document.addEventListener('DOMContentLoaded', function () {
           stage: stage,
           imageTop: imageTop,
           imageHeight: imageHeight,
+          mediaTop: mediaRect.top,
+          mediaBottom: mediaRect.bottom,
+          mediaLeft: mediaRect.left,
+          mediaRight: mediaRect.right,
           captionHeight: captionHeight,
           captionTravel: captionTravel,
           exitDistance: exitDistance,
@@ -253,6 +266,26 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         active.stage.style.setProperty('--project-image-top-active', imageTop.toFixed(1) + 'px');
         active.stage.style.setProperty('--project-caption-top', captionTop.toFixed(1) + 'px');
+
+        var fixedLeft = parseFloat(active.stage.style.getPropertyValue('--project-image-left')) || 0;
+        var fixedRight = fixedLeft + (parseFloat(active.stage.style.getPropertyValue('--project-image-width')) || 0);
+        var fixedBottom = imageTop + active.imageHeight;
+        metrics.forEach(function (item) {
+          if (item === active) {
+            item.stage.classList.remove('project-image-obscured');
+            return;
+          }
+          var overlapsActive =
+            item.mediaLeft < fixedRight &&
+            item.mediaRight > fixedLeft &&
+            item.mediaTop < fixedBottom &&
+            item.mediaBottom > imageTop;
+          item.stage.classList.toggle('project-image-obscured', Boolean(overlapsActive));
+        });
+      } else {
+        projectStages.forEach(function (stage) {
+          stage.classList.remove('project-image-obscured');
+        });
       }
     }
 
