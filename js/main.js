@@ -173,7 +173,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Micro-parallax del hero: el fondo y la franja responden suavemente al cursor.
     // No altera el desplazamiento vertical de las imágenes y se desactiva en touch.
     if (hero && window.matchMedia && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matchMedia('(pointer: fine)').matches) {
-      var heroBg = hero.querySelector('.hi-bg');
       var heroStripEl = hero.querySelector('.hi-strip');
       var heroLeft = hero.querySelector('.hi-left');
       var parallaxX = 0, parallaxY = 0;
@@ -183,8 +182,6 @@ document.addEventListener('DOMContentLoaded', function () {
       function animateHeroParallax() {
         parallaxX += (parallaxTargetX - parallaxX) * 0.07;
         parallaxY += (parallaxTargetY - parallaxY) * 0.07;
-        if (heroBg) heroBg.style.marginLeft = parallaxX.toFixed(2) + 'px';
-        if (heroBg) heroBg.style.marginTop = parallaxY.toFixed(2) + 'px';
         if (heroLeft) heroLeft.style.marginLeft = (parallaxX * -0.22).toFixed(2) + 'px';
         if (heroStripEl) heroStripEl.style.marginLeft = (parallaxX * -0.55).toFixed(2) + 'px';
         parallaxFrame = requestAnimationFrame(animateHeroParallax);
