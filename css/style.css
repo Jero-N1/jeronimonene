@@ -2456,6 +2456,8 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
 }
 .hero-nav .hn-link:hover,
 .hi-content .hi-contact:hover{
+  animation:none;
+  opacity:1;
   transform:scale(1.07);
   font-weight:700;
   color:#fff;
