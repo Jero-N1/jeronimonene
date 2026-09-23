@@ -106,7 +106,9 @@ document.addEventListener('DOMContentLoaded', function () {
         link.classList.toggle('active', isActive);
         if (isActive) moveIndicator(link);
       });
-      floatingNav.classList.toggle('projects-section-active', currentId === 'proyectos');
+      var projectsRect = projectsSection && projectsSection.getBoundingClientRect();
+      var projectsNavActive = projectsRect && projectsRect.top <= 76 && projectsRect.bottom > 76;
+      floatingNav.classList.toggle('projects-section-active', Boolean(projectsNavActive));
     }
 
     var ticking = false;
