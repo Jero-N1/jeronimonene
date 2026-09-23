@@ -106,12 +106,14 @@ document.addEventListener('DOMContentLoaded', function () {
         link.classList.toggle('active', isActive);
         if (isActive) moveIndicator(link);
       });
+      floatingNav.classList.toggle('projects-section-active', currentId === 'proyectos');
     }
 
     var ticking = false;
 
     var servicesSection = document.getElementById('servicios');
     var serviceTiles = servicesSection && servicesSection.querySelector('.work-tiles');
+    var projectsSection = document.getElementById('proyectos');
     var projectStages = document.querySelectorAll('#proyectos .project-stage');
 
     function updateServicesPanel() {
@@ -128,40 +130,67 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateProjectCaptions() {
       if (!projectStages.length) return;
       var height = window.innerHeight || 1;
+      var scrollY = window.scrollY || window.pageYOffset || 0;
       var mobile = window.matchMedia && window.matchMedia('(max-width: 760px)').matches;
 
+      if (mobile) {
+        if (projectsSection) projectsSection.classList.remove('projects-motion-ready');
+        projectStages.forEach(function (stage) {
+          stage.classList.remove('project-stage-active');
+        });
+        return;
+      }
+
+      var metrics = [];
       projectStages.forEach(function (stage) {
         var media = stage.querySelector('.big-media');
         var caption = stage.querySelector('.big-left');
         if (!media || !caption) return;
 
-        if (mobile) {
-          stage.style.setProperty('--project-image-top', '0px');
-          stage.style.setProperty('--project-caption-top', '0px');
-          stage.style.setProperty('--caption-offset', '0px');
-          stage.style.setProperty('--project-hold-distance', '0px');
-          return;
-        }
-
-        var imageHeight = media.getBoundingClientRect().height;
+        var stageRect = stage.getBoundingClientRect();
+        var mediaRect = media.getBoundingClientRect();
+        var stageStyle = window.getComputedStyle(stage);
+        var rowInset = parseFloat(stageStyle.paddingTop) || 0;
+        var rowGap = parseFloat(stageStyle.columnGap || stageStyle.gap) || 48;
+        var imageWidth = mediaRect.width;
+        var imageHeight = mediaRect.height;
         var imageTop = Math.max(76, (height - imageHeight) / 2);
-        // Mantiene la imagen fija exactamente un alto de imagen; la siguiente
-        // entra cuando esta termina su recorrido.
         var hold = imageHeight;
-        var captionTop = imageTop + imageHeight;
-        var captionTravel = imageHeight;
-        var rowInset = parseFloat(window.getComputedStyle(stage).paddingTop) || 0;
-        var naturalMediaTop = stage.getBoundingClientRect().top + rowInset;
+        var imageLeft = stageRect.left;
+        var captionLeft = imageLeft + imageWidth + rowGap;
+        var captionWidth = parseFloat(window.getComputedStyle(caption).width) || 240;
+        var startY = scrollY + stageRect.top + rowInset - imageTop;
 
-        var progress = (imageTop - naturalMediaTop) / hold;
-        progress = Math.max(0, Math.min(1, progress));
-        var offset = captionTravel * (1 - progress);
-
+        stage.style.setProperty('--project-image-left', imageLeft.toFixed(1) + 'px');
         stage.style.setProperty('--project-image-top', imageTop.toFixed(1) + 'px');
-        stage.style.setProperty('--project-caption-top', captionTop.toFixed(1) + 'px');
-        stage.style.setProperty('--caption-offset', (-offset).toFixed(1) + 'px');
+        stage.style.setProperty('--project-image-width', imageWidth.toFixed(1) + 'px');
+        stage.style.setProperty('--project-image-height', imageHeight.toFixed(1) + 'px');
+        stage.style.setProperty('--project-caption-left', captionLeft.toFixed(1) + 'px');
+        stage.style.setProperty('--project-caption-width', captionWidth.toFixed(1) + 'px');
+        stage.style.setProperty('--project-caption-top', imageTop.toFixed(1) + 'px');
         stage.style.setProperty('--project-hold-distance', hold.toFixed(1) + 'px');
         stage.style.setProperty('--project-overlap', (-hold).toFixed(1) + 'px');
+        metrics.push({ stage: stage, startY: startY, hold: hold, imageTop: imageTop, imageHeight: imageHeight });
+      });
+
+      if (projectsSection) projectsSection.classList.add('projects-motion-ready');
+
+      // Activa una sola fila: así los rótulos nunca se apilan entre proyectos.
+      var active = null;
+      metrics.forEach(function (item) {
+        if (scrollY >= item.startY && scrollY < item.startY + item.hold) active = item;
+      });
+
+      metrics.forEach(function (item) {
+        var isActive = active && active.stage === item.stage;
+        item.stage.classList.toggle('project-stage-active', Boolean(isActive));
+        if (isActive) {
+          var progress = Math.max(0, Math.min(1, (scrollY - item.startY) / item.hold));
+          item.stage.style.setProperty(
+            '--project-caption-top',
+            (item.imageTop + progress * item.imageHeight).toFixed(1) + 'px'
+          );
+        }
       });
     }
 
