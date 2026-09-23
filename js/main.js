@@ -280,11 +280,25 @@ document.addEventListener('DOMContentLoaded', function () {
             item.mediaRight > fixedLeft &&
             item.mediaTop < fixedBottom &&
             item.mediaBottom > imageTop;
-          item.stage.classList.toggle('project-image-obscured', Boolean(overlapsActive));
+          if (overlapsActive) {
+            var coveredTop = Math.max(0, Math.min(item.imageHeight, imageTop + active.imageHeight - item.mediaTop));
+            var coveredBottom = Math.max(0, Math.min(item.imageHeight, item.mediaBottom - imageTop));
+            if (item.mediaTop < imageTop) coveredTop = 0;
+            else coveredBottom = 0;
+            item.stage.style.setProperty('--project-clip-top', coveredTop.toFixed(1) + 'px');
+            item.stage.style.setProperty('--project-clip-bottom', coveredBottom.toFixed(1) + 'px');
+            item.stage.classList.add('project-image-obscured');
+          } else {
+            item.stage.classList.remove('project-image-obscured');
+            item.stage.style.removeProperty('--project-clip-top');
+            item.stage.style.removeProperty('--project-clip-bottom');
+          }
         });
       } else {
         projectStages.forEach(function (stage) {
           stage.classList.remove('project-image-obscured');
+          stage.style.removeProperty('--project-clip-top');
+          stage.style.removeProperty('--project-clip-bottom');
         });
       }
     }
