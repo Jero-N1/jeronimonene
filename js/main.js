@@ -118,8 +118,8 @@ document.addEventListener('DOMContentLoaded', function () {
       var height = window.innerHeight || 1;
       var top = servicesSection.getBoundingClientRect().top;
 
-      // El panel empieza a levantarse antes de tocar el hero y termina cubriéndolo.
-      var progress = (height * 0.92 - top) / (height * 0.75);
+      // A medida que Servicios cruza el viewport, su avance supera el scroll normal.
+      var progress = (height - top) / (height * 0.75);
       progress = Math.max(0, Math.min(1, progress));
       servicesSection.style.setProperty('--panel-progress', progress.toFixed(3));
     }
