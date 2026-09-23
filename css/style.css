@@ -2348,7 +2348,8 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
   position:relative;
   z-index:2;
   margin-top:-110px;
-  padding-top:242px;
+  padding-top:110px;
+  top:calc(var(--projects-panel-progress, 0) * -14vh);
   background:var(--paper);
   scroll-margin-top:76px;
 }
@@ -2435,29 +2436,31 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
 @media (max-width:760px){
   #proyectos{
     margin-top:-40px;
-    padding-top:172px;
+    padding-top:40px;
   }
   #proyectos::before{ top:-40px; height:40px; }
-  #proyectos .projects-transition{ top:40px; height:132px; }
   #proyectos .project-stage{
-    padding:26px 0;
+    padding:18px 0;
     margin-bottom:0;
   }
   #proyectos .project-stage:first-child{ padding-top:0; }
 }
 
 
-/* Reutiliza la misma banda de transición al entrar a Proyectos. */
-#proyectos .projects-transition{
-  display:flex;
-  position:absolute;
-  top:110px;
-  left:0;
-  right:0;
-  z-index:1;
-  height:132px;
-  --services-p:var(--projects-progress, 0);
+
+
+/* Hero navigation hover: clear emphasis without a pill or bounce. */
+.hero-nav .hn-link,
+.hi-content .hi-contact{
+  transition:transform .22s ease,font-weight .22s ease,color .22s ease;
 }
-@media (max-width:760px){
-  #proyectos .projects-transition{ top:40px; }
+.hero-nav .hn-link:hover,
+.hi-content .hi-contact:hover{
+  transform:scale(1.07);
+  font-weight:700;
+  color:#fff;
+  background:transparent;
+  border-color:transparent;
+  -webkit-backdrop-filter:none;
+  backdrop-filter:none;
 }
