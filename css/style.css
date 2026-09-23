@@ -2356,7 +2356,7 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
 #proyectos .project-stage{
   position:relative;
   align-items:flex-start;
-  padding-bottom:80vh;
+  padding-bottom:52vh;
 }
 #proyectos .project-stage .big-media{
   position:sticky;
