@@ -74,6 +74,15 @@ document.addEventListener('DOMContentLoaded', function () {
     var heroEl = hero || document.querySelector('.pd-hero');
     var alwaysVisible = !hero;
 
+    function updateNavVisibility() {
+      if (!heroEl) { floatingNav.classList.add('visible'); return; }
+      var heroBottom = heroEl.getBoundingClientRect().bottom;
+      floatingNav.classList.toggle('visible', alwaysVisible || heroBottom < 80);
+      // Solo mientras la barra está encima del hero (foto oscura) usamos vidrio oscuro;
+      // en cuanto se pasa, vuelve al vidrio claro consistente del resto del sitio.
+      floatingNav.classList.toggle('on-dark', heroBottom > 60);
+    }
+
     var fnLinkEls = document.querySelectorAll('.fn-link[data-section]');
     var indicator = document.getElementById('fnIndicator');
     var sections = ['inicio', 'servicios', 'proyectos', 'flipbook']
@@ -99,144 +108,44 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    var lastScrollY = window.scrollY || 0;
-    var navDirectionThreshold = 8;
-
-    function updateNavVisibility() {
-      if (alwaysVisible) {
-        floatingNav.classList.add('visible');
-        return;
-      }
-      if (!heroEl) {
-        floatingNav.classList.add('visible');
-        return;
-      }
-
-      var heroBottom = heroEl.getBoundingClientRect().bottom;
-      var pastHero = heroBottom < 80;
-      var y = window.scrollY || 0;
-      var delta = y - lastScrollY;
-
-      // Dentro del hero la navegación flotante permanece fuera.
-      if (!pastHero) {
-        floatingNav.classList.remove('visible');
-      } else if (Math.abs(delta) >= navDirectionThreshold) {
-        // Hacia abajo: desaparece. Hacia arriba: vuelve a aparecer.
-        floatingNav.classList.toggle('visible', delta < 0);
-      }
-
-      floatingNav.classList.toggle('on-dark', heroBottom > 60);
-      var titleStage = document.getElementById('scrollSectionTitle');
-      if (titleStage) titleStage.classList.toggle('nav-offset', floatingNav.classList.contains('visible'));
-      lastScrollY = y;
-    }
-
-    function updateScrollMotion() {
-      if (!document.body.classList.contains('home')) return;
-
-      var y = window.scrollY || 0;
-      var vh = window.innerHeight;
-      var heroRect = heroEl ? heroEl.getBoundingClientRect() : null;
-
-      // HERO — parallax muy contenido, para que la imagen parezca una escena
-      // y no un efecto independiente.
-      if (heroRect) {
-        var heroProgress = Math.max(0, Math.min(1, -heroRect.top / Math.max(1, heroRect.height)));
-        heroEl.style.setProperty('--hero-bg-y', (heroProgress * -34).toFixed(1) + 'px');
-        heroEl.style.setProperty('--hero-bg-scale', (1 + heroProgress * 0.055).toFixed(4));
-        heroEl.style.setProperty('--hero-strip-y', (heroProgress * 26).toFixed(1) + 'px');
-        heroEl.style.setProperty('--hero-content-y', (heroProgress * -52).toFixed(1) + 'px');
-        heroEl.style.setProperty('--hero-content-opacity', (1 - heroProgress * 0.72).toFixed(3));
-      }
-
-      // SERVICIOS — las tarjetas entran como una secuencia, no todas a la vez.
-      var tiles = document.querySelectorAll('#servicios .work-tile');
-      tiles.forEach(function(tile, index) {
-        var r = tile.getBoundingClientRect();
-        var enter = Math.max(0, Math.min(1, (vh * 0.92 - r.top) / (vh * 0.62)));
-        var stagger = Math.max(0, Math.min(1, enter * 1.55 - index * 0.28));
-        var yIn = (1 - stagger) * (145 + index * 70);
-        tile.style.setProperty('--tile-y', (yIn + yOut).toFixed(1) + 'px');
-        tile.style.setProperty('--tile-scale', (0.90 + stagger * 0.10).toFixed(4));
-        tile.style.setProperty('--tile-opacity', Math.max(0.12, Math.min(1, stagger)).toFixed(3));
-      });
-
-      // PROYECTOS — la ficha lateral tiene un recorrido propio.
-      // Mientras la imagen asciende, el texto primero baja hasta quedar
-      // apoyado en el borde inferior de la imagen; a partir de ahí acompaña
-      // a la imagen y sale con ella.
-      var rows = document.querySelectorAll('#proyectos .big-row');
-      rows.forEach(function(row) {
-        var rr = row.getBoundingClientRect();
-        var media = row.querySelector('.big-media');
-        var left = row.querySelector('.big-left');
-        var mediaRect = media ? media.getBoundingClientRect() : rr;
-        var leftRect = left ? left.getBoundingClientRect() : rr;
-        var imageH = mediaRect.height || rr.height;
-        var textH = leftRect.height || 120;
-
-        // Cuando el proyecto entra, el texto parte arriba y desciende.
-        // El recorrido termina exactamente cuando su borde inferior toca
-        // el borde inferior de la imagen.
-        var entry = Math.max(0, Math.min(1, (vh * 0.82 - rr.top) / Math.max(1, vh * 0.55)));
-        var maxDrop = Math.max(0, imageH - textH);
-        var drop = maxDrop * entry;
-
-        // Una vez alcanzado el borde inferior, el texto acompaña el movimiento
-        // de la fila para que ambos desaparezcan juntos.
-        var follow = Math.max(0, Math.min(1, (vh * 0.34 - rr.top) / Math.max(1, imageH * 0.8)));
-        var followOffset = Math.max(0, (rr.top - vh * 0.34));
-        if (rr.top < vh * 0.34) drop = maxDrop + followOffset;
-
-        // Limita el movimiento para evitar que una fila muy alejada altere
-        // visualmente la siguiente.
-        drop = Math.max(0, Math.min(maxDrop + imageH, drop));
-
-        var imgProgress = Math.max(0, Math.min(1, (vh - rr.top) / Math.max(1, vh * 0.9)));
-        var imgScale = 1 + Math.sin(imgProgress * Math.PI) * 0.012;
-        row.style.setProperty('--project-text-y', drop.toFixed(1) + 'px');
-        row.style.setProperty('--project-img-scale', imgScale.toFixed(4));
-        row.style.setProperty('--project-img-y', '0px');
-      });
-
-      // Título fijo: solo entra cuando la sección realmente ha llegado al
-      // borde superior del viewport. Así nunca aparece mientras todavía se
-      // está abandonando el Hero. Flipbook libera el título.
-      var titleStage = document.getElementById('scrollSectionTitle');
-      var titleText = document.getElementById('scrollSectionTitleText');
-      var services = document.getElementById('servicios');
-      var projects = document.getElementById('proyectos');
-      var flipbook = document.getElementById('flipbook');
-      if (titleStage && titleText && services && projects && flipbook) {
-        var sy = services.getBoundingClientRect();
-        var py = projects.getBoundingClientRect();
-        var fy = flipbook.getBoundingClientRect();
-        var active = null;
-
-        if (sy.top <= 1 && py.top > 1) active = 'Servicios';
-        if (py.top <= 1 && fy.top > 1) active = 'Proyectos';
-
-        var nextText = active || '';
-        if (titleText.textContent !== nextText) {
-          titleStage.classList.add('is-changing');
-          window.clearTimeout(titleStage._titleTimer);
-          titleStage._titleTimer = window.setTimeout(function(){
-            titleText.textContent = nextText;
-            titleStage.classList.remove('is-changing');
-          }, 110);
-        }
-        titleStage.classList.toggle('is-visible', !!active);
-        titleStage.classList.toggle('nav-offset', floatingNav.classList.contains('visible'));
-      }
-    }
-
     var ticking = false;
+    var heroNavList = hero ? hero.querySelector('.hi-left .hero-nav') : null;
+    var heroContentBlock = hero ? hero.querySelector('.hi-content') : null;
+    var heroFlipLink = hero ? hero.querySelector('.hn-flipbook') : null;
+    var heroStrip = hero ? document.getElementById('hiStrip') : null;
+
+    // La animación de entrada (hiFade, con fill-mode forwards) gana sobre cualquier
+    // opacity que le pongamos por JS mientras esté activa. La liberamos una vez
+    // termina, para que el scroll pueda controlar la opacidad desde ahí.
+    if (heroNavList) setTimeout(function () { heroNavList.style.animation = 'none'; }, 1200);
+
+    function updateHeroHandoff() {
+      if (!hero) return;
+      var rect = hero.getBoundingClientRect();
+      var heroH = hero.offsetHeight || 1;
+      var scrolled = Math.max(0, -rect.top);
+      var p = Math.max(0, Math.min(1, scrolled / (heroH * 0.65)));
+      var fade = 1 - p;
+      var lift = p * 60;
+      if (heroNavList) {
+        heroNavList.style.opacity = fade;
+        heroNavList.style.transform = 'translateY(' + (-lift) + 'px)';
+      }
+      if (heroContentBlock) {
+        heroContentBlock.style.opacity = fade;
+        heroContentBlock.style.transform = 'translateY(' + (-lift) + 'px)';
+      }
+      if (heroFlipLink) heroFlipLink.style.opacity = p;
+      // Las fotos laterales suben más rápido que el resto del hero al hacer scroll
+      if (heroStrip) heroStrip.style.transform = 'translateY(' + (-scrolled * 0.4) + 'px)';
+    }
+
     function onScroll() {
       if (!ticking) {
         window.requestAnimationFrame(function () {
           updateNavVisibility();
           updateActiveSection();
-          updateScrollMotion();
+          updateHeroHandoff();
           ticking = false;
         });
         ticking = true;
