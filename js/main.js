@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateNavVisibility() {
       if (!heroEl) { floatingNav.classList.add('visible'); return; }
       var heroBottom = heroEl.getBoundingClientRect().bottom;
-      floatingNav.classList.toggle('visible', alwaysVisible || heroBottom < 80);
+      floatingNav.classList.toggle('visible', alwaysVisible || heroBottom < 80 || window.scrollY > 40);
       // Solo mientras la barra está encima del hero (foto oscura) usamos vidrio oscuro;
       // en cuanto se pasa, vuelve al vidrio claro consistente del resto del sitio.
       floatingNav.classList.toggle('on-dark', heroBottom > 60);
@@ -139,28 +139,31 @@ document.addEventListener('DOMContentLoaded', function () {
           stage.style.setProperty('--project-image-top', '0px');
           stage.style.setProperty('--project-caption-top', '0px');
           stage.style.setProperty('--caption-offset', '0px');
+          stage.style.setProperty('--project-hold-distance', '0px');
           return;
         }
 
-        var mediaRect = media.getBoundingClientRect();
-        var imageHeight = mediaRect.height;
+        var imageHeight = media.getBoundingClientRect().height;
         var imageTop = Math.max(76, (height - imageHeight) / 2);
+        // Reserva solo el tramo necesario para que el texto recorra la parte baja
+        // de la imagen mientras esta permanece fija en el centro.
+        var hold = Math.min(300, Math.max(180, imageHeight * 0.62));
         var captionTop = imageTop + imageHeight;
+        var captionTravel = imageHeight * 0.62;
         var rowInset = parseFloat(window.getComputedStyle(stage).paddingTop) || 0;
         var naturalMediaTop = stage.getBoundingClientRect().top + rowInset;
 
-        // El progreso sigue el contenedor: inicia cuando la imagen queda fija
-        // y continúa mientras esta permanece en su sitio.
-        var travel = Math.max(1, height * 0.52);
-        var progress = (imageTop - naturalMediaTop) / travel;
+        var progress = (imageTop - naturalMediaTop) / hold;
         progress = Math.max(0, Math.min(1, progress));
-        var offset = Math.max(0, captionTop - naturalMediaTop) * (1 - progress);
+        var offset = captionTravel * (1 - progress);
 
         stage.style.setProperty('--project-image-top', imageTop.toFixed(1) + 'px');
         stage.style.setProperty('--project-caption-top', captionTop.toFixed(1) + 'px');
         stage.style.setProperty('--caption-offset', (-offset).toFixed(1) + 'px');
+        stage.style.setProperty('--project-hold-distance', hold.toFixed(1) + 'px');
       });
     }
+
     if (serviceTiles && 'IntersectionObserver' in window) {
       servicesSection.classList.add('cards-motion-enhanced');
       var serviceCardObserver = new IntersectionObserver(function (entries) {
