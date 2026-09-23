@@ -125,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var servicesSection = document.getElementById('servicios');
     var serviceTiles = servicesSection && servicesSection.querySelector('.work-tiles');
     var projectsSection = document.getElementById('proyectos');
-    var projectsTransition = projectsSection && projectsSection.querySelector('.projects-transition');
     var projectStages = document.querySelectorAll('#proyectos .project-stage');
 
     function updateServicesPanel() {
@@ -139,13 +138,15 @@ document.addEventListener('DOMContentLoaded', function () {
       servicesSection.style.setProperty('--panel-progress', progress.toFixed(3));
     }
 
-    function updateProjectsTransition() {
-      if (!projectsTransition || !projectsSection) return;
+    function updateProjectsPanel() {
+      if (!projectsSection) return;
       var height = window.innerHeight || 1;
-      var top = projectsTransition.getBoundingClientRect().top;
-      var progress = (height - top) / (height * 0.75);
+      var currentTop = projectsSection.getBoundingClientRect().top;
+      var panelOffset = parseFloat(window.getComputedStyle(projectsSection).top) || 0;
+      var naturalTop = currentTop - panelOffset;
+      var progress = (height - naturalTop) / (height * 0.75);
       progress = Math.max(0, Math.min(1, progress));
-      projectsTransition.style.setProperty('--services-p', progress.toFixed(3));
+      projectsSection.style.setProperty('--projects-panel-progress', progress.toFixed(3));
     }
 
     function updateProjectCaptions() {
@@ -180,7 +181,8 @@ document.addEventListener('DOMContentLoaded', function () {
         var captionWidth = parseFloat(window.getComputedStyle(caption).width) || 240;
         var imageTop = Math.max(76, (height - imageHeight) / 2);
         var captionTravel = Math.max(0, imageHeight - captionHeight);
-        var exitDistance = imageTop + imageHeight;
+        var projectGap = 44;
+        var exitDistance = Math.max(1, imageHeight + projectGap - captionTravel);
         var duration = captionTravel + exitDistance;
         var imageLeft = stageRect.left;
         var captionLeft = imageLeft + imageWidth + rowGap;
@@ -260,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function () {
             (elapsed - active.captionTravel) / active.exitDistance
           );
           var exitShift = exitProgress *
-            (active.imageTop + active.imageHeight + active.captionTravel);
+            (active.captionTravel + active.exitDistance);
           imageTop = active.imageTop - exitShift;
           captionTop = imageTop + active.imageHeight - active.captionHeight;
         }
@@ -320,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function () {
           updateNavVisibility();
           updateActiveSection();
           updateServicesPanel();
-          updateProjectsTransition();
+          updateProjectsPanel();
           updateProjectCaptions();
           ticking = false;
         });
