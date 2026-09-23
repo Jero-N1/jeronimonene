@@ -156,6 +156,39 @@ document.addEventListener('DOMContentLoaded', function () {
     onScroll();
     setTimeout(onScroll, 200);
 
+    // Micro-parallax del hero: el fondo y la franja responden suavemente al cursor.
+    // No altera el desplazamiento vertical de las imágenes y se desactiva en touch.
+    if (hero && window.matchMedia && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matchMedia('(pointer: fine)').matches) {
+      var heroBg = hero.querySelector('.hi-bg');
+      var heroStripEl = hero.querySelector('.hi-strip');
+      var heroLeft = hero.querySelector('.hi-left');
+      var parallaxX = 0, parallaxY = 0;
+      var parallaxTargetX = 0, parallaxTargetY = 0;
+      var parallaxFrame = null;
+
+      function animateHeroParallax() {
+        parallaxX += (parallaxTargetX - parallaxX) * 0.07;
+        parallaxY += (parallaxTargetY - parallaxY) * 0.07;
+        if (heroBg) heroBg.style.marginLeft = parallaxX.toFixed(2) + 'px';
+        if (heroBg) heroBg.style.marginTop = parallaxY.toFixed(2) + 'px';
+        if (heroLeft) heroLeft.style.marginLeft = (parallaxX * -0.22).toFixed(2) + 'px';
+        if (heroStripEl) heroStripEl.style.marginLeft = (parallaxX * -0.55).toFixed(2) + 'px';
+        parallaxFrame = requestAnimationFrame(animateHeroParallax);
+      }
+      hero.addEventListener('pointermove', function(e) {
+        var r = hero.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5;
+        var y = (e.clientY - r.top) / r.height - 0.5;
+        parallaxTargetX = x * 10;
+        parallaxTargetY = y * 6;
+      }, { passive:true });
+      hero.addEventListener('pointerleave', function() {
+        parallaxTargetX = 0;
+        parallaxTargetY = 0;
+      }, { passive:true });
+      animateHeroParallax();
+    }
+
     // El enlace del menú lleva directo al visor (no al inicio de la sección),
     // para que el libro quede centrado en la ventana con buen zoom.
     var flipbookNavLink = document.querySelector('.fn-link[data-section="flipbook"]');
