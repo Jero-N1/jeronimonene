@@ -182,8 +182,8 @@ document.addEventListener('DOMContentLoaded', function () {
         var imageTop = Math.max(76, (height - imageHeight) / 2);
         var captionTravel = Math.max(0, imageHeight - captionHeight);
         var projectGap = 44;
-        var exitDistance = Math.max(1, imageHeight + projectGap - captionTravel);
-        var duration = captionTravel + exitDistance;
+        var duration = imageTop + imageHeight + projectGap;
+        var exitDistance = Math.max(1, duration - captionTravel);
         var imageLeft = stageRect.left;
         var captionLeft = imageLeft + imageWidth + rowGap;
         var docImageTop = scrollY + stageRect.top + rowInset;
