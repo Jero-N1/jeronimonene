@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // de la imagen mientras esta permanece fija en el centro.
         var hold = Math.min(300, Math.max(180, imageHeight * 0.62));
         var captionTop = imageTop + imageHeight;
-        var captionTravel = imageHeight * 0.62;
+        var captionTravel = hold;
         var rowInset = parseFloat(window.getComputedStyle(stage).paddingTop) || 0;
         var naturalMediaTop = stage.getBoundingClientRect().top + rowInset;
 
