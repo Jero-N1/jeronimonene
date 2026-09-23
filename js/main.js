@@ -113,36 +113,34 @@ document.addEventListener('DOMContentLoaded', function () {
     var servicesSection = document.getElementById('servicios');
     var serviceTiles = servicesSection && servicesSection.querySelector('.work-tiles');
 
-    if ('IntersectionObserver' in window) {
-      if (servicesSection) {
-        var servicePanelObserver = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            if (!entry.isIntersecting) return;
-            entry.target.classList.add('services-panel-entered');
-            servicePanelObserver.unobserve(entry.target);
-          });
-        }, { threshold: 0.02 });
-        servicePanelObserver.observe(servicesSection);
-      }
+    function updateServicesPanel() {
+      if (!servicesSection) return;
+      var height = window.innerHeight || 1;
+      var top = servicesSection.getBoundingClientRect().top;
 
-      if (serviceTiles) {
-        var serviceCardObserver = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            var services = entry.target.closest('#servicios');
-            if (services) {
-              services.classList.toggle('cards-motion-ready', entry.isIntersecting);
-            }
-          });
-        }, { threshold: 0.08, rootMargin: '0px 0px -80px 0px' });
-        serviceCardObserver.observe(serviceTiles);
-      }
+      // El panel empieza a levantarse antes de tocar el hero y termina cubriéndolo.
+      var progress = (height * 0.92 - top) / (height * 0.75);
+      progress = Math.max(0, Math.min(1, progress));
+      servicesSection.style.setProperty('--panel-progress', progress.toFixed(3));
     }
+
+    if (serviceTiles && 'IntersectionObserver' in window) {
+      servicesSection.classList.add('cards-motion-enhanced');
+      var serviceCardObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          servicesSection.classList.toggle('cards-motion-visible', entry.isIntersecting);
+        });
+      }, { threshold: 0.08 });
+      serviceCardObserver.observe(serviceTiles);
+    }
+
 
     function onScroll() {
       if (!ticking) {
         window.requestAnimationFrame(function () {
           updateNavVisibility();
           updateActiveSection();
+          updateServicesPanel();
           ticking = false;
         });
         ticking = true;
