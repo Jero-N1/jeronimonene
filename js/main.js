@@ -139,29 +139,25 @@ document.addEventListener('DOMContentLoaded', function () {
           stage.style.setProperty('--project-image-top', '0px');
           stage.style.setProperty('--project-caption-top', '0px');
           stage.style.setProperty('--caption-offset', '0px');
-          stage.style.setProperty('--caption-progress', '1');
           return;
         }
 
-        // Mantiene el tamaño original de la imagen y la centra en el viewport.
-        var imageHeight = media.getBoundingClientRect().height;
+        var mediaRect = media.getBoundingClientRect();
+        var imageHeight = mediaRect.height;
         var imageTop = Math.max(76, (height - imageHeight) / 2);
         var captionTop = imageTop + imageHeight;
-        var stageTop = stage.getBoundingClientRect().top;
-        var rowInset = parseFloat(window.getComputedStyle(stage).paddingTop) || 0;
-        var naturalCaptionTop = stageTop + rowInset;
-        var travel = Math.max(1, height * 0.22);
-        var progress = (imageTop - naturalCaptionTop) / travel;
+
+        // La animación solo empieza cuando la imagen ya alcanzó su posición sticky.
+        var travel = Math.max(1, height * 0.52);
+        var progress = (imageTop - mediaRect.top) / travel;
         progress = Math.max(0, Math.min(1, progress));
-        var offset = Math.max(0, captionTop - naturalCaptionTop) * (1 - progress);
+        var offset = Math.max(0, captionTop - mediaRect.top) * (1 - progress);
 
         stage.style.setProperty('--project-image-top', imageTop.toFixed(1) + 'px');
         stage.style.setProperty('--project-caption-top', captionTop.toFixed(1) + 'px');
         stage.style.setProperty('--caption-offset', (-offset).toFixed(1) + 'px');
-        stage.style.setProperty('--caption-progress', progress.toFixed(3));
       });
     }
-
     if (serviceTiles && 'IntersectionObserver' in window) {
       servicesSection.classList.add('cards-motion-enhanced');
       var serviceCardObserver = new IntersectionObserver(function (entries) {
