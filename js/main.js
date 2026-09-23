@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var mobile = window.matchMedia && window.matchMedia('(max-width: 760px)').matches;
 
       if (mobile) {
-        if (projectsSection) projectsSection.classList.remove('projects-motion-ready');
+        if (projectsSection) projectsSection.classList.remove('projects-motion-ready', 'project-handoff-active');
         projectStages.forEach(function (stage) {
           stage.classList.remove('project-stage-active', 'project-caption-active');
         });
@@ -192,7 +192,8 @@ document.addEventListener('DOMContentLoaded', function () {
           captionTravel: captionTravel,
           exitDistance: exitDistance,
           duration: duration,
-          docImageTop: docImageTop
+          docImageTop: docImageTop,
+          rowInset: rowInset
         });
       });
 
@@ -207,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (index < metrics.length - 1) {
           var next = metrics[index + 1];
           var desiredDocumentGap = next.startY + next.imageTop - (item.startY + item.imageTop);
-          runway = desiredDocumentGap - item.imageHeight - 40;
+          runway = desiredDocumentGap - item.imageHeight - next.rowInset;
         } else {
           runway = item.duration - item.imageTop - item.imageHeight;
         }
@@ -223,6 +224,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (scrollY >= item.startY && scrollY < item.startY + item.duration) active = item;
       });
 
+      projectsSection.classList.toggle('project-handoff-active', Boolean(active));
       metrics.forEach(function (item) {
         var isActive = active && active.stage === item.stage;
         item.stage.classList.toggle('project-stage-active', Boolean(isActive));
