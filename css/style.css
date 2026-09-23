@@ -1110,13 +1110,12 @@ body.home{ background:var(--paper); }
 .hi-left{
   position:absolute;
   inset:0;
-  left:6%; right:auto;
+  left:30%; right:auto;
   z-index:3;
   display:flex;
   flex-direction:column;
-  justify-content:space-between;
-  padding:150px 0 50px;
-  max-width:60%;
+  padding:150px 0 80px;
+  max-width:50%;
 }
 .hi-left .hero-nav{
   position:static;
@@ -1159,6 +1158,8 @@ body.home{ background:var(--paper); }
   display:flex;
   flex-direction:column;
   align-items:flex-start;
+  margin-top:auto;
+  margin-bottom:auto;
 }
 .hi-name{
   font-family:var(--font-grotesk);
@@ -1181,6 +1182,15 @@ body.home{ background:var(--paper); }
   opacity:0;
   animation:hiFade .8s ease .5s forwards;
 }
+.hi-contact{
+  margin-top:22px;
+  padding:0;
+  font-size:12px;
+  color:rgba(255,255,255,0.65);
+  opacity:0;
+  animation:hiFade .8s ease .65s forwards;
+}
+.hn-flipbook{ opacity:0; }
 @keyframes hiFade{
   from{ opacity:0; transform:translateY(18px); }
   to{ opacity:1; transform:translateY(0); }
@@ -1244,6 +1254,7 @@ body.home{ background:var(--paper); }
 .hi-strip-track{
   display:flex;
   flex-direction:column;
+  gap:8px;
   width:100%;
   animation:hiStripLoop 36s linear infinite;
 }
@@ -2038,113 +2049,4 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
   .contact-left{ flex:none; padding:110px 24px 40px; }
   .contact-media{ flex:none; height:42vh; }
   .contact-title{ font-size:clamp(44px,14vw,64px); }
-}
-
-/* ============================================
-   HOME — SISTEMA DE TRANSICIONES POR SCROLL
-   ============================================ */
-.scroll-section-title{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:112px;
-  box-sizing:border-box;
-  z-index:250;
-  pointer-events:none;
-  display:flex;
-  align-items:flex-end;
-  padding:0 max(24px, calc((100vw - 1240px) / 2 + 48px)) 18px;
-  background:var(--paper);
-  color:var(--ink);
-  font-family:var(--font-body);
-  font-weight:700;
-  font-size:clamp(28px,4.4vw,52px);
-  line-height:.92;
-  letter-spacing:-.01em;
-  text-transform:uppercase;
-  opacity:0;
-  transform:none;
-  transition:opacity .35s ease;
-}
-.scroll-section-title span{
-  display:block;
-  transform:translateY(-18px);
-  transition:transform .5s cubic-bezier(.22,1,.36,1), opacity .25s ease;
-}
-.scroll-section-title.is-visible{ opacity:1; }
-.scroll-section-title.is-visible span{ transform:translateY(0); }
-.scroll-section-title.is-changing span{ opacity:.12; transform:translateY(-3px); }
-.scroll-section-title.nav-offset span{ transform:translateY(64px); }
-.scroll-section-title.nav-offset.is-changing span{ transform:translateY(61px); }
-
-/* Los encabezados originales siguen ocupando su espacio para no alterar el contenido,
-   pero el título fijo es el que se ve durante el recorrido. */
-body.home #servicios > .wrap > .corner-head,
-body.home #proyectos > .wrap > .corner-head{
-  visibility:hidden;
-}
-
-/* Servicios: entrada escalonada claramente perceptible. */
-body.home .work-tile{
-  opacity:var(--tile-opacity,1);
-  transform:translate3d(0,var(--tile-y,0px),0) scale(var(--tile-scale,1));
-  will-change:transform,opacity;
-}
-
-/* Proyectos: la imagen mantiene su recorrido normal; la ficha lateral
-   desciende hasta el borde inferior de la imagen y luego la acompaña. */
-body.home .big-row{
-  position:relative;
-}
-body.home .big-left{
-  transform:translate3d(0,var(--project-text-y,0px),0);
-  will-change:transform;
-}
-body.home .big-media img{
-  transform:scale(var(--project-img-scale,1));
-  will-change:transform;
-}
-body.home .big-row:hover .big-media img{
-  transform:scale(calc(1.02 * var(--project-img-scale,1)));
-}
-
-/* Hero: el fondo avanza lentamente mientras el contenido se retira. */
-body.home .hi-bg{
-  transform:translate3d(0,var(--hero-bg-y,0px),0) scale(var(--hero-bg-scale,1));
-  will-change:transform;
-}
-body.home .hi-strip{
-  transform:translate3d(0,var(--hero-strip-y,0px),0);
-  will-change:transform;
-}
-body.home .hi-left{
-  transform:translate3d(0,var(--hero-content-y,0px),0);
-  opacity:var(--hero-content-opacity,1);
-  will-change:transform,opacity;
-}
-
-@media (max-width:760px){
-  .scroll-section-title{
-    height:84px;
-    padding:0 24px 14px;
-    font-size:clamp(26px,8vw,38px);
-  }
-  .scroll-section-title span{ transform:translateY(-12px); }
-  .scroll-section-title.nav-offset span{ transform:translateY(52px); }
-  .scroll-section-title.nav-offset.is-changing span{ transform:translateY(49px); }
-  body.home .big-left{ transform:none; }
-}
-
-@media (prefers-reduced-motion:reduce){
-  .scroll-section-title{ transition:none; }
-  body.home .hi-bg,
-  body.home .hi-strip,
-  body.home .hi-left,
-  body.home .work-tile,
-  body.home .big-left,
-  body.home .big-media img{
-    transform:none!important;
-    opacity:1!important;
-  }
 }
