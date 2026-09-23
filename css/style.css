@@ -2277,7 +2277,8 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
   z-index:1;
 }
 #servicios{
-  transform:translate3d(0, calc(var(--panel-progress, 0) * -32vh), 0);
+  transform:translate3d(0, calc(var(--panel-progress, 0) * -14vh), 0) scale(calc(.97 + var(--panel-progress, 0) * .03));
+  transform-origin:50% 0;
 }
 
 /* El título se mantiene estable mientras las tarjetas se revelan */
