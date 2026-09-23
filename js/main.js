@@ -110,19 +110,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var ticking = false;
 
-    var serviceTiles = document.querySelector('#servicios .work-tiles');
-    if (serviceTiles && 'IntersectionObserver' in window) {
-      var serviceCardObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          var services = entry.target.closest('#servicios');
-          if (services) services.classList.add('cards-motion-ready');
-          serviceCardObserver.unobserve(entry.target);
-        });
-      }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
-      serviceCardObserver.observe(serviceTiles);
-    } else if (serviceTiles) {
-      serviceTiles.closest('#servicios').classList.add('cards-motion-ready');
+    var servicesSection = document.getElementById('servicios');
+    var serviceTiles = servicesSection && servicesSection.querySelector('.work-tiles');
+
+    if ('IntersectionObserver' in window) {
+      if (servicesSection) {
+        var servicePanelObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('services-panel-entered');
+            servicePanelObserver.unobserve(entry.target);
+          });
+        }, { threshold: 0.02 });
+        servicePanelObserver.observe(servicesSection);
+      }
+
+      if (serviceTiles) {
+        var serviceCardObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            var services = entry.target.closest('#servicios');
+            if (services) {
+              services.classList.toggle('cards-motion-ready', entry.isIntersecting);
+            }
+          });
+        }, { threshold: 0.08, rootMargin: '0px 0px -80px 0px' });
+        serviceCardObserver.observe(serviceTiles);
+      }
     }
 
     function onScroll() {
