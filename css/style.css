@@ -2311,3 +2311,68 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
     opacity:1 !important;
   }
 }
+
+
+/* Movimiento reservado a transiciones principales */
+.hero-immersive{
+  position:sticky;
+  top:0;
+  z-index:0;
+}
+#servicios,
+.model-section-immersive,
+.flipbook-section{
+  position:relative;
+  z-index:1;
+}
+.hi-name,
+.hi-sub,
+.hi-contact,
+.hi-left .hero-nav,
+.hi-left .hero-nav .hn-link,
+.hi-left .hero-social,
+.hi-left .hi-scroll,
+.hi-strip,
+.hi-strip-track{
+  animation:none !important;
+  opacity:1 !important;
+  transform:none !important;
+  visibility:visible !important;
+}
+.hi-strip-track{
+  margin:0 !important;
+}
+.services-title,
+.services-title .ch-title{
+  opacity:1;
+  transform:none;
+}
+.work-tile,
+.work-tile:nth-child(1),
+.work-tile:nth-child(2),
+.work-tile:nth-child(3){
+  --card-progress:clamp(0, calc((var(--services-p, 0) - var(--card-start, 0)) / .28), 1);
+  opacity:var(--card-progress);
+  transform:translate3d(0, calc((1 - var(--card-progress)) * 72px), 0);
+  clip-path:none;
+}
+.work-tile:nth-child(1){ --card-start:.02; }
+.work-tile:nth-child(2){ --card-start:.27; }
+.work-tile:nth-child(3){ --card-start:.52; }
+.work-tile img,
+.work-tile:hover img{
+  transition:none;
+  transform:none;
+}
+@media (prefers-reduced-motion: reduce){
+  .hero-immersive{
+    position:relative;
+  }
+  .work-tile,
+  .work-tile:nth-child(1),
+  .work-tile:nth-child(2),
+  .work-tile:nth-child(3){
+    opacity:1;
+    transform:none;
+  }
+}
