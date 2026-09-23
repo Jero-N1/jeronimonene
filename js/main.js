@@ -119,38 +119,17 @@ document.addEventListener('DOMContentLoaded', function () {
     // termina, para que el scroll pueda controlar la opacidad desde ahí.
     if (heroNavList) setTimeout(function () { heroNavList.style.animation = 'none'; }, 1200);
 
-    function updateHeroHandoff() {
-      if (!hero) return;
-      var rect = hero.getBoundingClientRect();
-      var heroH = hero.offsetHeight || 1;
-      var scrolled = Math.max(0, -rect.top);
-      var p = Math.max(0, Math.min(1, scrolled / (heroH * 0.65)));
-      var fade = 1 - p;
-      var lift = p * 60;
-      if (heroNavList) {
-        heroNavList.style.opacity = fade;
-        heroNavList.style.transform = 'translateY(' + (-lift) + 'px)';
-      }
-      if (heroContentBlock) {
-        heroContentBlock.style.opacity = fade;
-        heroContentBlock.style.transform = 'translateY(' + (-lift) + 'px)';
-      }
-      if (heroFlipLink) heroFlipLink.style.opacity = p;
-      // Las fotos laterales suben más rápido que el resto del hero al hacer scroll
-      if (heroStrip) heroStrip.style.transform = 'translateY(' + (-scrolled * 0.4) + 'px)';
-    }
-
     function updateServicesTransition() {
       var services = document.getElementById('servicios');
-      if (!services) return;
-      var r = services.getBoundingClientRect();
-      var h = window.innerHeight || 1;
+      var tiles = services && services.querySelector('.work-tiles');
+      if (!tiles) return;
+      var rect = tiles.getBoundingClientRect();
+      var height = window.innerHeight || 1;
 
-      // 0 = aún fuera de escena; 1 = composición completamente ensamblada.
-      // La transición empieza antes de que el título entre en pantalla.
-      var p = (h - r.top) / Math.max(h * 0.72, 1);
-      p = Math.max(0, Math.min(1, p));
-      services.style.setProperty('--services-p', p.toFixed(3));
+      // Progresión ligada al recorrido visible de las tarjetas.
+      var progress = (height - rect.top) / Math.max(height * 1.35, 1);
+      progress = Math.max(0, Math.min(1, progress));
+      services.style.setProperty('--services-p', progress.toFixed(3));
     }
 
     function onScroll() {
@@ -158,7 +137,6 @@ document.addEventListener('DOMContentLoaded', function () {
         window.requestAnimationFrame(function () {
           updateNavVisibility();
           updateActiveSection();
-          updateHeroHandoff();
           updateServicesTransition();
           ticking = false;
         });
@@ -169,36 +147,6 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('resize', onScroll);
     onScroll();
     setTimeout(onScroll, 200);
-
-    // Micro-parallax del hero: el fondo y la franja responden suavemente al cursor.
-    // No altera el desplazamiento vertical de las imágenes y se desactiva en touch.
-    if (hero && window.matchMedia && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matchMedia('(pointer: fine)').matches) {
-      var heroStripEl = hero.querySelector('.hi-strip');
-      var heroLeft = hero.querySelector('.hi-left');
-      var parallaxX = 0, parallaxY = 0;
-      var parallaxTargetX = 0, parallaxTargetY = 0;
-      var parallaxFrame = null;
-
-      function animateHeroParallax() {
-        parallaxX += (parallaxTargetX - parallaxX) * 0.07;
-        parallaxY += (parallaxTargetY - parallaxY) * 0.07;
-        if (heroLeft) heroLeft.style.marginLeft = (parallaxX * -0.22).toFixed(2) + 'px';
-        if (heroStripEl) heroStripEl.style.marginLeft = (parallaxX * -0.55).toFixed(2) + 'px';
-        parallaxFrame = requestAnimationFrame(animateHeroParallax);
-      }
-      hero.addEventListener('pointermove', function(e) {
-        var r = hero.getBoundingClientRect();
-        var x = (e.clientX - r.left) / r.width - 0.5;
-        var y = (e.clientY - r.top) / r.height - 0.5;
-        parallaxTargetX = x * 10;
-        parallaxTargetY = y * 6;
-      }, { passive:true });
-      hero.addEventListener('pointerleave', function() {
-        parallaxTargetX = 0;
-        parallaxTargetY = 0;
-      }, { passive:true });
-      animateHeroParallax();
-    }
 
     // El enlace del menú lleva directo al visor (no al inicio de la sección),
     // para que el libro quede centrado en la ventana con buen zoom.
