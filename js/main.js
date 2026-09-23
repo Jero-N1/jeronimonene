@@ -145,11 +145,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var imageHeight = media.getBoundingClientRect().height;
         var imageTop = Math.max(76, (height - imageHeight) / 2);
-        // Reserva solo el tramo necesario para que el texto recorra la parte baja
-        // de la imagen mientras esta permanece fija en el centro.
-        var hold = Math.min(300, Math.max(180, imageHeight * 0.62));
+        // Mantiene la imagen fija exactamente un alto de imagen; la siguiente
+        // entra cuando esta termina su recorrido.
+        var hold = imageHeight;
         var captionTop = imageTop + imageHeight;
-        var captionTravel = hold;
+        var captionTravel = imageHeight;
         var rowInset = parseFloat(window.getComputedStyle(stage).paddingTop) || 0;
         var naturalMediaTop = stage.getBoundingClientRect().top + rowInset;
 
@@ -161,6 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
         stage.style.setProperty('--project-caption-top', captionTop.toFixed(1) + 'px');
         stage.style.setProperty('--caption-offset', (-offset).toFixed(1) + 'px');
         stage.style.setProperty('--project-hold-distance', hold.toFixed(1) + 'px');
+        stage.style.setProperty('--project-overlap', (-hold).toFixed(1) + 'px');
       });
     }
 
