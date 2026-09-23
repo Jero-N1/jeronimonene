@@ -2376,3 +2376,30 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
     transform:none;
   }
 }
+
+
+/* Las tarjetas permanecen visibles si el navegador no ejecuta JavaScript */
+.work-tile,
+.work-tile:nth-child(1),
+.work-tile:nth-child(2),
+.work-tile:nth-child(3){
+  opacity:1;
+  transform:none;
+}
+#servicios.cards-motion-ready .work-tile,
+#servicios.cards-motion-ready .work-tile:nth-child(1),
+#servicios.cards-motion-ready .work-tile:nth-child(2),
+#servicios.cards-motion-ready .work-tile:nth-child(3){
+  --card-progress:clamp(0, calc((var(--services-p, 0) - var(--card-start, 0)) / .28), 1);
+  opacity:var(--card-progress);
+  transform:translate3d(0, calc((1 - var(--card-progress)) * 72px), 0);
+}
+@media (prefers-reduced-motion: reduce){
+  #servicios.cards-motion-ready .work-tile,
+  #servicios.cards-motion-ready .work-tile:nth-child(1),
+  #servicios.cards-motion-ready .work-tile:nth-child(2),
+  #servicios.cards-motion-ready .work-tile:nth-child(3){
+    opacity:1;
+    transform:none;
+  }
+}
