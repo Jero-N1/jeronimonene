@@ -2324,3 +2324,46 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
     transform:none;
   }
 }
+
+
+/* Las tarjetas repiten su entrada cada vez que vuelven a entrar en pantalla */
+.work-tile,
+.work-tile:nth-child(1),
+.work-tile:nth-child(2),
+.work-tile:nth-child(3){
+  opacity:1;
+  transform:none;
+  clip-path:none;
+}
+#servicios.cards-motion-ready .work-tile{
+  animation:serviceCardEnter .86s cubic-bezier(.2,.78,.18,1) both;
+}
+#servicios.cards-motion-ready .work-tile:nth-child(1){ animation-delay:0s; }
+#servicios.cards-motion-ready .work-tile:nth-child(2){ animation-delay:.18s; }
+#servicios.cards-motion-ready .work-tile:nth-child(3){ animation-delay:.36s; }
+
+/* Recupera el movimiento sutil de las imágenes al pasar el cursor */
+.work-tile img{
+  transition:transform .7s cubic-bezier(.22,1,.36,1);
+}
+.work-tile:hover img{
+  transform:scale(1.06);
+}
+
+/* Entrada visible del panel Servicios desde la parte inferior del hero */
+#servicios.services-panel-entered{
+  animation:servicesPanelRise 1.15s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes servicesPanelRise{
+  from{ transform:translate3d(0,68vh,0); }
+  to{ transform:translate3d(0,0,0); }
+}
+@media (prefers-reduced-motion: reduce){
+  #servicios.services-panel-entered{ animation:none; }
+  #servicios.cards-motion-ready .work-tile{
+    animation:none;
+    opacity:1;
+    transform:none;
+  }
+  .work-tile img{ transition:none; }
+}
