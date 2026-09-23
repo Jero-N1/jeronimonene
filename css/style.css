@@ -2345,6 +2345,11 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
 
 /* Proyectos: conservar la composición y animar su recorrido */
 #proyectos{
+  position:relative;
+  z-index:2;
+  margin-top:-110px;
+  padding-top:220px;
+  background:var(--paper);
   scroll-margin-top:76px;
 }
 #proyectos .project-section-heading{
@@ -2356,7 +2361,7 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
 #proyectos .project-stage{
   position:relative;
   align-items:flex-start;
-  padding-bottom:52vh;
+  padding-bottom:var(--project-hold-distance, 240px);
 }
 #proyectos .project-stage .big-media{
   position:sticky;
