@@ -2392,7 +2392,7 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
   object-fit:cover;
 }
 #proyectos.projects-motion-ready .project-stage.project-image-obscured .big-media img{
-  visibility:hidden;
+  clip-path:inset(var(--project-clip-top, 0px) 0 var(--project-clip-bottom, 0px) 0);
 }
 #proyectos.projects-motion-ready .project-stage.project-stage-active .big-media img{
   position:fixed;
