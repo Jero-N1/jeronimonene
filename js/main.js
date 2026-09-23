@@ -146,12 +146,15 @@ document.addEventListener('DOMContentLoaded', function () {
         var imageHeight = mediaRect.height;
         var imageTop = Math.max(76, (height - imageHeight) / 2);
         var captionTop = imageTop + imageHeight;
+        var rowInset = parseFloat(window.getComputedStyle(stage).paddingTop) || 0;
+        var naturalMediaTop = stage.getBoundingClientRect().top + rowInset;
 
-        // La animación solo empieza cuando la imagen ya alcanzó su posición sticky.
+        // El progreso sigue el contenedor: inicia cuando la imagen queda fija
+        // y continúa mientras esta permanece en su sitio.
         var travel = Math.max(1, height * 0.52);
-        var progress = (imageTop - mediaRect.top) / travel;
+        var progress = (imageTop - naturalMediaTop) / travel;
         progress = Math.max(0, Math.min(1, progress));
-        var offset = Math.max(0, captionTop - mediaRect.top) * (1 - progress);
+        var offset = Math.max(0, captionTop - naturalMediaTop) * (1 - progress);
 
         stage.style.setProperty('--project-image-top', imageTop.toFixed(1) + 'px');
         stage.style.setProperty('--project-caption-top', captionTop.toFixed(1) + 'px');
