@@ -2369,7 +2369,7 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
   top:var(--project-caption-top, 70vh);
   align-self:flex-start;
   z-index:2;
-  transform:translate3d(0, calc((1 - var(--caption-progress, 0)) * -14vh), 0);
+  transform:translate3d(0, var(--caption-offset, 0px), 0);
 }
 @media (max-width:760px){
   #proyectos .project-stage{ padding-bottom:26px; }
