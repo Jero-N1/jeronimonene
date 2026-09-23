@@ -109,18 +109,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     var ticking = false;
-    function updateServicesTransition() {
-      var services = document.getElementById('servicios');
-      var tiles = services && services.querySelector('.work-tiles');
-      if (!tiles) return;
-      services.classList.add('cards-motion-ready');
-      var rect = tiles.getBoundingClientRect();
-      var height = window.innerHeight || 1;
 
-      // Progresión ligada al recorrido visible de las tarjetas.
-      var progress = (height - rect.top) / Math.max(height * 1.35, 1);
-      progress = Math.max(0, Math.min(1, progress));
-      services.style.setProperty('--services-p', progress.toFixed(3));
+    var serviceTiles = document.querySelector('#servicios .work-tiles');
+    if (serviceTiles && 'IntersectionObserver' in window) {
+      var serviceCardObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var services = entry.target.closest('#servicios');
+          if (services) services.classList.add('cards-motion-ready');
+          serviceCardObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
+      serviceCardObserver.observe(serviceTiles);
+    } else if (serviceTiles) {
+      serviceTiles.closest('#servicios').classList.add('cards-motion-ready');
     }
 
     function onScroll() {
@@ -128,7 +130,6 @@ document.addEventListener('DOMContentLoaded', function () {
         window.requestAnimationFrame(function () {
           updateNavVisibility();
           updateActiveSection();
-          updateServicesTransition();
           ticking = false;
         });
         ticking = true;
