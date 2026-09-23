@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var servicesSection = document.getElementById('servicios');
     var serviceTiles = servicesSection && servicesSection.querySelector('.work-tiles');
     var projectsSection = document.getElementById('proyectos');
+    var projectsTransition = projectsSection && projectsSection.querySelector('.projects-transition');
     var projectStages = document.querySelectorAll('#proyectos .project-stage');
 
     function updateServicesPanel() {
@@ -129,6 +130,15 @@ document.addEventListener('DOMContentLoaded', function () {
       servicesSection.style.setProperty('--panel-progress', progress.toFixed(3));
     }
 
+    function updateProjectsTransition() {
+      if (!projectsTransition || !projectsSection) return;
+      var height = window.innerHeight || 1;
+      var top = projectsTransition.getBoundingClientRect().top;
+      var progress = (height - top) / (height * 0.75);
+      progress = Math.max(0, Math.min(1, progress));
+      projectsTransition.style.setProperty('--services-p', progress.toFixed(3));
+    }
+
     function updateProjectCaptions() {
       if (!projectStages.length) return;
       var height = window.innerHeight || 1;
@@ -138,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (mobile) {
         if (projectsSection) projectsSection.classList.remove('projects-motion-ready');
         projectStages.forEach(function (stage) {
-          stage.classList.remove('project-stage-active');
+          stage.classList.remove('project-stage-active', 'project-caption-active');
         });
         return;
       }
@@ -151,17 +161,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var stageRect = stage.getBoundingClientRect();
         var mediaRect = media.getBoundingClientRect();
+        var captionRect = caption.getBoundingClientRect();
         var stageStyle = window.getComputedStyle(stage);
         var rowInset = parseFloat(stageStyle.paddingTop) || 0;
         var rowGap = parseFloat(stageStyle.columnGap || stageStyle.gap) || 48;
         var imageWidth = mediaRect.width;
         var imageHeight = mediaRect.height;
+        var captionHeight = captionRect.height;
+        var captionWidth = parseFloat(window.getComputedStyle(caption).width) || 240;
         var imageTop = Math.max(76, (height - imageHeight) / 2);
-        var hold = imageHeight;
+        var captionTravel = Math.max(0, imageHeight - captionHeight);
+        var exitDistance = imageTop + imageHeight;
+        var duration = captionTravel + exitDistance;
         var imageLeft = stageRect.left;
         var captionLeft = imageLeft + imageWidth + rowGap;
-        var captionWidth = parseFloat(window.getComputedStyle(caption).width) || 240;
-        var startY = scrollY + stageRect.top + rowInset - imageTop;
+        var docImageTop = scrollY + stageRect.top + rowInset;
 
         stage.style.setProperty('--project-image-left', imageLeft.toFixed(1) + 'px');
         stage.style.setProperty('--project-image-top', imageTop.toFixed(1) + 'px');
@@ -169,31 +183,75 @@ document.addEventListener('DOMContentLoaded', function () {
         stage.style.setProperty('--project-image-height', imageHeight.toFixed(1) + 'px');
         stage.style.setProperty('--project-caption-left', captionLeft.toFixed(1) + 'px');
         stage.style.setProperty('--project-caption-width', captionWidth.toFixed(1) + 'px');
-        stage.style.setProperty('--project-caption-top', imageTop.toFixed(1) + 'px');
-        stage.style.setProperty('--project-hold-distance', hold.toFixed(1) + 'px');
-        stage.style.setProperty('--project-overlap', (-hold).toFixed(1) + 'px');
-        metrics.push({ stage: stage, startY: startY, hold: hold, imageTop: imageTop, imageHeight: imageHeight });
+        stage.style.setProperty('--project-hold-distance', duration.toFixed(1) + 'px');
+        metrics.push({
+          stage: stage,
+          imageTop: imageTop,
+          imageHeight: imageHeight,
+          captionHeight: captionHeight,
+          captionTravel: captionTravel,
+          exitDistance: exitDistance,
+          duration: duration,
+          docImageTop: docImageTop
+        });
       });
 
-      if (projectsSection) projectsSection.classList.add('projects-motion-ready');
+      if (!metrics.length) return;
+      metrics[0].startY = metrics[0].docImageTop - metrics[0].imageTop;
+      for (var i = 1; i < metrics.length; i++) {
+        metrics[i].startY = metrics[i - 1].startY + metrics[i - 1].duration;
+      }
 
-      // Activa una sola fila: así los rótulos nunca se apilan entre proyectos.
+      metrics.forEach(function (item, index) {
+        var runway;
+        if (index < metrics.length - 1) {
+          var next = metrics[index + 1];
+          var desiredDocumentGap = next.startY + next.imageTop - (item.startY + item.imageTop);
+          runway = desiredDocumentGap - item.imageHeight - 40;
+        } else {
+          runway = item.duration - item.imageTop - item.imageHeight;
+        }
+        runway = Math.max(0, runway);
+        item.stage.style.setProperty('--project-runway', runway.toFixed(1) + 'px');
+        item.stage.style.setProperty('--project-overlap', '0px');
+      });
+
+      projectsSection.classList.add('projects-motion-ready');
+
       var active = null;
       metrics.forEach(function (item) {
-        if (scrollY >= item.startY && scrollY < item.startY + item.hold) active = item;
+        if (scrollY >= item.startY && scrollY < item.startY + item.duration) active = item;
       });
 
       metrics.forEach(function (item) {
         var isActive = active && active.stage === item.stage;
         item.stage.classList.toggle('project-stage-active', Boolean(isActive));
-        if (isActive) {
-          var progress = Math.max(0, Math.min(1, (scrollY - item.startY) / item.hold));
-          item.stage.style.setProperty(
-            '--project-caption-top',
-            (item.imageTop + progress * item.imageHeight).toFixed(1) + 'px'
-          );
-        }
+        item.stage.classList.toggle(
+          'project-caption-active',
+          Boolean(isActive && scrollY < item.startY + item.captionTravel)
+        );
       });
+
+      if (active) {
+        var elapsed = scrollY - active.startY;
+        var captionTop;
+        var imageTop;
+        if (elapsed < active.captionTravel) {
+          captionTop = active.imageTop + elapsed;
+          imageTop = active.imageTop;
+        } else {
+          var exitProgress = Math.min(
+            1,
+            (elapsed - active.captionTravel) / active.exitDistance
+          );
+          var exitShift = exitProgress *
+            (active.imageTop + active.imageHeight + active.captionTravel);
+          imageTop = active.imageTop - exitShift;
+          captionTop = imageTop + active.imageHeight - active.captionHeight;
+        }
+        active.stage.style.setProperty('--project-image-top-active', imageTop.toFixed(1) + 'px');
+        active.stage.style.setProperty('--project-caption-top', captionTop.toFixed(1) + 'px');
+      }
     }
 
     if (serviceTiles && 'IntersectionObserver' in window) {
@@ -213,6 +271,7 @@ document.addEventListener('DOMContentLoaded', function () {
           updateNavVisibility();
           updateActiveSection();
           updateServicesPanel();
+          updateProjectsTransition();
           updateProjectCaptions();
           ticking = false;
         });
