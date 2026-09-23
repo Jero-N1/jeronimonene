@@ -2255,3 +2255,8 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
     transform:translateY(calc((1 - var(--services-p, 0)) * 55px)) scale(.97);
   }
 }
+
+
+/* Ajustes solicitados: quitar la franja bajo el hero y la línea bajo Servicios */
+.services-transition{display:none;}
+.work-tiles::after{display:none;}
