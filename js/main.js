@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isActive) moveIndicator(link);
       });
       var projectsRect = projectsSection && projectsSection.getBoundingClientRect();
-      var projectsNavActive = projectsRect && projectsRect.top <= 76 && projectsRect.bottom > 76;
+      var projectsNavActive = projectsRect && projectsRect.top <= 110 && projectsRect.bottom > 0;
       floatingNav.classList.toggle('projects-section-active', Boolean(projectsNavActive));
     }
 
