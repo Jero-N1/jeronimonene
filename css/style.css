@@ -2396,7 +2396,7 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
 }
 #proyectos.projects-motion-ready .project-stage.project-stage-active .big-media img{
   position:fixed;
-  top:var(--project-image-top);
+  top:var(--project-image-top-active, var(--project-image-top));
   left:var(--project-image-left);
   width:var(--project-image-width);
   height:var(--project-image-height);
