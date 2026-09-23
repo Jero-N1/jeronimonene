@@ -2101,3 +2101,157 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
   .contact-media{ flex:none; height:42vh; }
   .contact-title{ font-size:clamp(44px,14vw,64px); }
 }
+
+
+/* =========================================================
+   TRANSICIÓN HERO → SERVICIOS
+   La sección entra como una composición, no como un corte.
+   ========================================================= */
+
+.work-section{
+  position:relative;
+  overflow:hidden;
+  padding-top:0;
+}
+
+/* Banda de transición: funciona como una "junta" entre dos materiales */
+.services-transition{
+  position:relative;
+  height:132px;
+  overflow:hidden;
+  background:var(--ink);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  isolation:isolate;
+}
+.services-transition::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg, transparent 0 12%, rgba(184,184,2,.14) 12.1%, transparent 12.2% 100%),
+    linear-gradient(180deg, transparent 0 49%, rgba(255,255,255,.10) 49.2%, transparent 49.6%);
+  transform:translateY(calc((1 - var(--services-p, 0)) * 35px));
+  opacity:calc(.35 + var(--services-p, 0) * .65);
+  pointer-events:none;
+}
+.services-transition::after{
+  content:"";
+  position:absolute;
+  left:-20%;
+  top:50%;
+  width:34%;
+  height:1px;
+  background:linear-gradient(90deg, transparent, var(--olive), #fff, transparent);
+  transform:translateX(calc(var(--services-p, 0) * 390%));
+  opacity:.85;
+}
+.st-line{
+  width:34px;
+  height:1px;
+  background:var(--olive);
+  transform-origin:left;
+  transform:scaleX(calc(.2 + var(--services-p, 0) * .8));
+}
+.st-number,
+.st-label{
+  position:relative;
+  z-index:2;
+  text-transform:uppercase;
+  letter-spacing:.13em;
+  font-size:10px;
+  font-weight:600;
+}
+.st-number{ color:var(--olive); }
+.st-label{ color:rgba(255,255,255,.72); }
+
+.services-title{
+  position:relative;
+  display:block;
+  padding:76px 0 38px;
+  transform:translateY(calc((1 - var(--services-p, 0)) * 34px));
+  opacity:calc(.25 + var(--services-p, 0) * .75);
+}
+.services-title .services-kicker{
+  display:block;
+  margin-bottom:12px;
+  color:var(--red);
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.services-title .ch-title{
+  transform:translateX(calc((1 - var(--services-p, 0)) * -38px));
+}
+
+/* Los tres servicios aparecen como láminas que salen del plano */
+.work-tiles{
+  position:relative;
+  z-index:2;
+  perspective:1100px;
+}
+.work-tile{
+  opacity:calc(.35 + var(--services-p, 0) * .65);
+  transform:
+    translateY(calc((1 - var(--services-p, 0)) * 90px))
+    scale(calc(.94 + var(--services-p, 0) * .06));
+  clip-path:inset(calc((1 - var(--services-p, 0)) * 13%) 0 0 0);
+  transition:none;
+}
+.work-tile:nth-child(1){
+  transition-delay:0ms;
+}
+.work-tile:nth-child(2){
+  transform:
+    translateY(calc((1 - var(--services-p, 0)) * 115px))
+    scale(calc(.93 + var(--services-p, 0) * .07));
+}
+.work-tile:nth-child(3){
+  transform:
+    translateY(calc((1 - var(--services-p, 0)) * 140px))
+    scale(calc(.92 + var(--services-p, 0) * .08));
+}
+
+/* Una línea fina "cose" las tres piezas al llegar */
+.work-tiles::after{
+  content:"";
+  position:absolute;
+  top:-10px;
+  left:0;
+  width:100%;
+  height:1px;
+  background:linear-gradient(90deg, transparent, var(--red), var(--olive), transparent);
+  transform:scaleX(var(--services-p, 0));
+  transform-origin:left;
+  opacity:var(--services-p, 0);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .services-transition,
+  .services-title,
+  .work-tile{
+    transform:none !important;
+    opacity:1 !important;
+    clip-path:none !important;
+  }
+  .services-transition::before,
+  .services-transition::after,
+  .work-tiles::after{
+    transform:none !important;
+    opacity:1 !important;
+  }
+}
+
+@media (max-width:760px){
+  .services-transition{ height:104px; }
+  .services-title{ padding-top:58px; }
+  .work-tile,
+  .work-tile:nth-child(2),
+  .work-tile:nth-child(3){
+    transform:translateY(calc((1 - var(--services-p, 0)) * 55px)) scale(.97);
+  }
+}
