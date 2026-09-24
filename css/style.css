@@ -2819,3 +2819,7 @@ body.project-detail-page .pd-title--compact{
     font-size:clamp(26px,8.4vw,36px);
   }
 }
+
+
+/* Contacto comparte la barra completa con el resto del sitio. */
+body.page-contacto.work-menu-page .floating-nav{ left:0; right:0; width:100%; }
