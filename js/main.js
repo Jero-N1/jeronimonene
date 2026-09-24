@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var navTransferEnabled = Boolean(
       hero &&
       window.matchMedia &&
-      window.matchMedia('(min-width: 761px)').matches &&
+      window.matchMedia('(min-width: 901px)').matches &&
       !window.matchMedia('(prefers-reduced-motion: reduce)').matches
     );
     var navTransferDefinitions = hero ? [
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateHeroNavTransfer() {
       if (!hero) return;
-      var isDesktop = window.matchMedia && window.matchMedia('(min-width: 761px)').matches;
+      var isDesktop = window.matchMedia && window.matchMedia('(min-width: 901px)').matches;
       var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!isDesktop || reduceMotion || !navTransferDefinitions.length) {
         clearNavTransferClones();
