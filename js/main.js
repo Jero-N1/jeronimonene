@@ -261,6 +261,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var projectsNavCover = window.matchMedia && window.matchMedia('(max-width: 760px)').matches ? 80 : 160;
       var projectsNavActive = projectsRect && projectsRect.top <= projectsNavCover && projectsRect.bottom > 0;
       floatingNav.classList.toggle('projects-section-active', Boolean(projectsNavActive));
+      if (projectsSection) projectsSection.classList.toggle('projects-cover-active', Boolean(projectsNavActive));
     }
 
     var ticking = false;
