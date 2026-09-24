@@ -727,7 +727,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if (target) {
           event.preventDefault();
           var targetTop = window.scrollY + target.getBoundingClientRect().top;
-          var landingGap = galleryCategoryBar.getBoundingClientRect().bottom + 6;
+          var stickyTop = parseFloat(window.getComputedStyle(galleryCategoryBar).top) || 0;
+          var landingGap = stickyTop + galleryCategoryBar.offsetHeight + 6;
           window.scrollTo({ top: Math.max(0, targetTop - landingGap), behavior: 'smooth' });
           if (window.history && window.history.pushState) {
             window.history.pushState(null, '', targetId);
