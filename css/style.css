@@ -2766,16 +2766,19 @@ body.project-detail-page .pd-hero-content{
 body.project-detail-page .pd-title{
   width:100%;
   font-family:var(--font-sans);
-  font-size:clamp(44px,7.2vw,108px);
+  font-size:clamp(40px,6.5vw,76px);
   line-height:.94;
-  letter-spacing:-.035em;
+  letter-spacing:-.02em;
   text-align:center;
+  white-space:nowrap;
 }
 body.project-detail-page .pd-meta-row{
-  width:100%;
+  width:min(100%,1040px);
+  margin-left:auto;
+  margin-right:auto;
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:14px clamp(14px,3vw,42px);
+  gap:14px clamp(12px,1.2vw,16px);
   margin-top:clamp(22px,3.4vh,38px);
   text-align:center;
 }
@@ -2790,7 +2793,7 @@ body.project-detail-page .pd-meta-item{
     max-width:calc(100% - 36px);
   }
   body.project-detail-page .pd-title{
-    font-size:clamp(40px,10vw,66px);
+    font-size:clamp(20px,calc((100vw - 48px) / 18),40px);
   }
   body.project-detail-page .pd-meta-row{
     grid-template-columns:repeat(2,minmax(0,1fr));
