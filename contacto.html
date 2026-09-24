@@ -5,16 +5,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contacto — Jerónimo Nene Toro</title>
 <meta name="description" content="Contacto de Jerónimo Nene Toro, arquitecto.">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=contact-nav-01">
 </head>
-<body class="page-contacto">
+<body class="page-contacto work-menu-page">
 
-<nav class="floating-nav visible on-dark contact-nav-mini" id="floatingNav">
-  <a href="index.html" class="fn-brand">Jerónimo Nene Toro<span>.</span></a>
+<nav class="floating-nav visible on-dark" id="floatingNav">
+  <a href="index.html" class="fn-logo-link" aria-label="Jerónimo Nene Toro — Inicio">
+    <img src="img/logo-nene.png" alt="Jerónimo Nene Toro" class="fn-logo" decoding="async" fetchpriority="low">
+  </a>
   <div class="fn-links" id="fnLinks">
     <a href="index.html" class="fn-link">Inicio</a>
+    <button type="button" class="fn-link fn-menu-trigger" data-subnav="servicios" aria-expanded="false" aria-controls="fnSubnav">
+      <span>Servicios</span><span class="fn-plus" aria-hidden="true">+</span>
+    </button>
+    <button type="button" class="fn-link fn-menu-trigger" data-subnav="proyectos" aria-expanded="false" aria-controls="fnSubnav">
+      <span>Proyectos</span><span class="fn-plus" aria-hidden="true">+</span>
+    </button>
+    <a href="index.html#flipbook" class="fn-link">Flipbook</a>
   </div>
+  <a href="contacto.html" class="fn-contact">Contacto</a>
+  <button class="fn-toggle" id="fnToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
 </nav>
+<div class="fn-subnav" id="fnSubnav" aria-label="Enlaces de navegación" hidden>
+  <div class="fn-subnav-list" data-subnav-list="servicios" hidden>
+    <a href="trabajo/visualizacion.html" class="fn-subnav-link">Visualización</a>
+    <a href="trabajo/planos.html" class="fn-subnav-link">Planos</a>
+    <a href="trabajo/diseno-interior.html" class="fn-subnav-link">Diseño interior</a>
+  </div>
+  <div class="fn-subnav-list" data-subnav-list="proyectos" hidden>
+    <a href="proyectos/tayrona.html" class="fn-subnav-link">Pabellón Tayrona</a>
+    <a href="proyectos/sol-fernandez.html" class="fn-subnav-link">Sol Fernández</a>
+    <a href="proyectos/interwind.html" class="fn-subnav-link">Interwind</a>
+    <a href="proyectos/genova.html" class="fn-subnav-link">Genova’s Habitability</a>
+    <a href="proyectos/eneas-complex.html" class="fn-subnav-link">Enea’s Complex</a>
+    <a href="proyectos/malicia-la-paz.html" class="fn-subnav-link">Malicia La Paz</a>
+  </div>
+</div>
 
 <main class="contact-split">
   <div class="contact-left">
