@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Diseño interior — Jerónimo Nene Toro</title>
 <meta name="description" content="Diseño interior — trabajo de Jerónimo Nene Toro.">
-<link rel="stylesheet" href="../css/style.css?v=work-menu-04">
+<link rel="stylesheet" href="../css/style.css?v=work-menu-05">
 </head>
 <body class="project-page work-page work-menu-page">
 
@@ -49,56 +49,43 @@
     <img class="pd-hero-bg" src="../img/sol-interior.jpg" alt="Diseño interior" decoding="async" fetchpriority="high">
     <div class="pd-hero-overlay"></div>
     <div class="pd-hero-content">
-      <span class="pd-eyebrow">Trabajo — Diseño y ambientación de interiores</span>
       <h1 class="pd-title pd-title--sans">Diseño interior</h1>
     </div>
-    <a href="#galeria" class="hi-scroll" aria-label="Desplazarse hacia abajo">
+    <a href="#ilustracion" class="hi-scroll" aria-label="Desplazarse hacia abajo">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 9l7 7 7-7"/></svg>
     </a>
   </section>
 
   <!-- ============ GALERÍA (única sección bajo el hero) ============ -->
-  <section class="pd-block pd-block--tight" id="galeria">
-    <div class="wrap">
-      <div class="gallery-spacer"></div>
-      <div class="corner-head reveal">
-        <h2 class="ch-title">Galería</h2>
-        <span class="ch-bar"></span>
-      </div>
+  <!-- Categorías fijadas bajo la navegación principal -->
+  <div class="work-gallery" id="galeria">
+    <nav class="work-category-bar" aria-label="Categorías de diseño interior">
+      <a href="#ilustracion" class="work-category-link is-active" data-gallery-category="ilustracion" aria-current="location">Ilustración</a>
+      <a href="#renderizado" class="work-category-link" data-gallery-category="renderizado">Renderizado</a>
+      <a href="#fotomontaje" class="work-category-link" data-gallery-category="fotomontaje">Fotomontaje</a>
+    </nav>
 
-      <div class="wg-list reveal">
-        <div>
-          <div class="wg-title"><span class="wg-name">Ilustración arquitectónica</span></div>
-          <div class="wg-divider"></div>
-          <div class="wg-mosaic wg-mosaic--1 work-carousel">
+    <section class="work-gallery-stage" id="ilustracion" data-gallery-stage="ilustracion" aria-label="Ilustración arquitectónica">
+      <div class="wrap">
+        <div class="wg-mosaic wg-mosaic--1 work-carousel">
             <div class="wg-img p-a"><img src="../img/tayrona-hero.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Ilustración arquitectónica — imagen 1"></div>
-            <div class="wg-img p-b"><img src="../img/tayrona-axo.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Ilustración arquitectónica — imagen 2"></div>
-            <div class="wg-img p-c"><img src="../img/interwind-hero.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Ilustración arquitectónica — imagen 3"></div>
-            <div class="wg-img p-d"><img src="../img/solfernandez-hero.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Ilustración arquitectónica — imagen 4"></div>
-          </div>
-        </div>
-        <div>
-          <div class="wg-title"><span class="wg-name">Renderizado</span></div>
-          <div class="wg-divider"></div>
-          <div class="wg-mosaic wg-mosaic--2 work-carousel">
-            <div class="wg-img p-a"><img src="../img/sol-interior.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Renderizado — imagen 1"></div>
-            <div class="wg-img p-b"><img src="../img/tayrona-hero.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Renderizado — imagen 2"></div>
-            <div class="wg-img p-c"><img src="../img/interwind-hero.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Renderizado — imagen 3"></div>
-            <div class="wg-img p-d"><img src="../img/solfernandez-hero.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Renderizado — imagen 4"></div>
-          </div>
-        </div>
-        <div>
-          <div class="wg-title"><span class="wg-name">Fotomontaje</span></div>
-          <div class="wg-divider"></div>
-          <div class="wg-mosaic wg-mosaic--3 work-carousel">
-            <div class="wg-img p-a"><img src="../img/tayrona-axo.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Fotomontaje — imagen 1"></div>
-            <div class="wg-img p-b"><img src="../img/sol-interior.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Fotomontaje — imagen 2"></div>
-            <div class="wg-img p-c"><img src="../img/tayrona-hero.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Fotomontaje — imagen 3"></div>
-          </div>
-        </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <section class="work-gallery-stage" id="renderizado" data-gallery-stage="renderizado" aria-label="Renderizado">
+      <div class="wrap">
+        <div class="wg-mosaic wg-mosaic--2 work-carousel">
+            <div class="wg-img p-a"><img src="../img/sol-interior.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Renderizado — imagen 1"></div>
+      </div>
+    </section>
+
+    <section class="work-gallery-stage" id="fotomontaje" data-gallery-stage="fotomontaje" aria-label="Fotomontaje">
+      <div class="wrap">
+        <div class="wg-mosaic wg-mosaic--3 work-carousel">
+            <div class="wg-img p-a"><img src="../img/tayrona-axo.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Fotomontaje — imagen 1"></div>
+      </div>
+    </section>
+  </div>
 
   <!-- ============ OTRAS ÁREAS DE TRABAJO ============ -->
   <section class="pd-block pd-block--flush" id="mas-trabajo">
@@ -147,6 +134,6 @@
   </div>
 </footer>
 
-<script src="../js/main.js?v=work-menu-04"></script>
+<script src="../js/main.js?v=work-menu-05"></script>
 </body>
 </html>
