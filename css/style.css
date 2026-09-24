@@ -2614,8 +2614,8 @@ body.work-menu-page .wg-img img{ transition:none; }
 body.work-menu-page .wg-img:hover img{ transform:none; }
 
 
-/* ---------- Menús de navegación de Visualización ---------- */
-body.visualizacion-page .fn-menu-trigger{
+/* ---------- Menús de navegación en páginas de trabajo ---------- */
+body.work-menu-page .fn-menu-trigger{
   appearance:none;
   border:0;
   background:transparent;
@@ -2625,7 +2625,7 @@ body.visualizacion-page .fn-menu-trigger{
   gap:7px;
   cursor:pointer;
 }
-body.visualizacion-page .fn-plus{
+body.work-menu-page .fn-plus{
   display:inline-block;
   font-size:18px;
   line-height:1;
@@ -2633,10 +2633,10 @@ body.visualizacion-page .fn-plus{
   transform-origin:center;
   transition:transform .18s ease;
 }
-body.visualizacion-page .fn-menu-trigger[aria-expanded="true"] .fn-plus{
+body.work-menu-page .fn-menu-trigger[aria-expanded="true"] .fn-plus{
   transform:rotate(45deg);
 }
-body.visualizacion-page .fn-subnav{
+body.work-menu-page .fn-subnav{
   position:fixed;
   z-index:360;
   top:76px;
@@ -2650,14 +2650,14 @@ body.visualizacion-page .fn-subnav{
   box-shadow:0 18px 48px rgba(28,27,24,.12);
   text-align:right;
 }
-body.visualizacion-page .fn-subnav[hidden],
-body.visualizacion-page .fn-subnav-list[hidden]{ display:none !important; }
-body.visualizacion-page .fn-subnav-list{
+body.work-menu-page .fn-subnav[hidden],
+body.work-menu-page .fn-subnav-list[hidden]{ display:none !important; }
+body.work-menu-page .fn-subnav-list{
   display:flex;
   flex-direction:column;
   align-items:stretch;
 }
-body.visualizacion-page .fn-subnav-link{
+body.work-menu-page .fn-subnav-link{
   display:block;
   padding:12px 0;
   border-bottom:1px solid var(--line);
@@ -2668,10 +2668,10 @@ body.visualizacion-page .fn-subnav-link{
   text-align:right;
   transition:color .18s ease;
 }
-body.visualizacion-page .fn-subnav-link:last-child{ border-bottom:0; }
-body.visualizacion-page .fn-subnav-link:hover{ color:var(--ink); }
+body.work-menu-page .fn-subnav-link:last-child{ border-bottom:0; }
+body.work-menu-page .fn-subnav-link:hover{ color:var(--ink); }
 @media (max-width:900px){
-  body.visualizacion-page .fn-subnav{
+  body.work-menu-page .fn-subnav{
     top:64px;
     right:16px;
     width:min(360px,calc(100vw - 32px));
