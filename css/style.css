@@ -2793,7 +2793,7 @@ body.project-detail-page .pd-meta-item{
     max-width:calc(100% - 36px);
   }
   body.project-detail-page .pd-title{
-    font-size:clamp(20px,calc((100vw - 48px) / 18),40px);
+    font-size:clamp(28px,10vw,40px);
   }
   body.project-detail-page .pd-meta-row{
     grid-template-columns:repeat(2,minmax(0,1fr));
@@ -2802,4 +2802,14 @@ body.project-detail-page .pd-meta-item{
   }
   body.project-detail-page .pd-meta-label{ font-size:10px; }
   body.project-detail-page .pd-meta-value{ font-size:12px; }
+}
+
+body.project-detail-page .pd-title--compact{
+  font-size:clamp(40px,calc(5.4vw - 2.6px),66px);
+}
+@media(max-width:760px){
+  body.project-detail-page .pd-title--compact,
+  body.project-detail-page .pd-title--mobile-fit{
+    font-size:clamp(18px,calc(5.4vw - 2.6px),40px);
+  }
 }
