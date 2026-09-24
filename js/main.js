@@ -73,9 +73,25 @@ document.addEventListener('DOMContentLoaded', function () {
     var subnavTriggers = floatingNav.querySelectorAll('[data-subnav]');
     var subnavLists = subnavPanel ? subnavPanel.querySelectorAll('[data-subnav-list]') : [];
 
+    var activeSubnavTrigger = null;
+
+    function positionSubnav(trigger) {
+      if (!subnavPanel || !trigger) return;
+      var triggerRect = trigger.getBoundingClientRect();
+      var panelWidth = subnavPanel.getBoundingClientRect().width || 240;
+      var minCenter = Math.min(window.innerWidth / 2, 16 + panelWidth / 2);
+      var maxCenter = Math.max(window.innerWidth / 2, window.innerWidth - 16 - panelWidth / 2);
+      var center = Math.max(minCenter, Math.min(maxCenter, triggerRect.left + triggerRect.width / 2));
+      subnavPanel.style.left = center + 'px';
+      subnavPanel.style.right = 'auto';
+      subnavPanel.style.top = Math.max(12, triggerRect.bottom + 8) + 'px';
+      subnavPanel.style.transform = 'translateX(-50%)';
+    }
+
     function closeSubnav() {
       if (!subnavPanel) return;
       subnavPanel.hidden = true;
+      activeSubnavTrigger = null;
       subnavTriggers.forEach(function (trigger) {
         trigger.setAttribute('aria-expanded', 'false');
       });
@@ -90,11 +106,13 @@ document.addEventListener('DOMContentLoaded', function () {
         closeSubnav();
         if (wasOpen) return;
 
+        activeSubnavTrigger = trigger;
         subnavPanel.hidden = false;
         trigger.setAttribute('aria-expanded', 'true');
         subnavLists.forEach(function (list) {
           list.hidden = list.getAttribute('data-subnav-list') !== group;
         });
+        positionSubnav(trigger);
 
         var mobileNav = window.matchMedia && window.matchMedia('(max-width: 900px)').matches;
         if (mobileNav && fnLinks) {
@@ -102,6 +120,12 @@ document.addEventListener('DOMContentLoaded', function () {
           if (fnToggle) fnToggle.setAttribute('aria-expanded', 'false');
         }
       });
+    });
+
+    window.addEventListener('resize', function () {
+      if (!subnavPanel || subnavPanel.hidden) return;
+      if (activeSubnavTrigger && activeSubnavTrigger.getClientRects().length) positionSubnav(activeSubnavTrigger);
+      else closeSubnav();
     });
 
     document.addEventListener('click', function (event) {
