@@ -2372,13 +2372,13 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
 }
 
 
-/* Servicios: proporción más cercana a la referencia y acceso directo a su cabecera */
+/* Servicios: compensa el desplazamiento de entrada para alinear el ancla bajo la barra. */
 #servicios{
-  scroll-margin-top:115px;
+  scroll-margin-top:calc(14vh + 64px);
 }
 .work-section{ padding-top:42px; }
 .services-title{ padding:38px 0 36px; }
-.work-tile{ aspect-ratio:7/8; }
+.work-tile{ aspect-ratio:1/1; }
 
 
 /* Proyectos: una sola imagen flotante y un solo rótulo por tramo */
