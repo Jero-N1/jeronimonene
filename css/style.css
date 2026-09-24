@@ -2741,3 +2741,9 @@ body.work-menu-page .fn-subnav-link:hover{ color:var(--ink-soft); opacity:.72; }
     transform:translate(-50%,-50%);
   }
 }
+
+
+body.work-menu-page .fn-subnav{ background:rgba(255,255,255,.14); }
+body.work-menu-page .floating-nav.on-dark + .fn-subnav{ background:rgba(20,19,17,.12); }
+body.work-menu-page .floating-nav.on-dark + .fn-subnav .fn-subnav-link{ color:rgba(255,255,255,.96); }
+body.work-menu-page .floating-nav.on-dark + .fn-subnav .fn-subnav-link:hover{ color:#fff; opacity:.72; }
