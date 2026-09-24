@@ -2813,3 +2813,9 @@ body.project-detail-page .pd-title--compact{
     font-size:clamp(18px,calc(5.4vw - 2.6px),40px);
   }
 }
+
+@media(max-width:760px){
+  body.project-detail-page .pd-title--mobile-fit-short{
+    font-size:clamp(26px,8.4vw,36px);
+  }
+}
