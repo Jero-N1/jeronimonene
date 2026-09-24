@@ -2415,8 +2415,11 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
   right:0;
   height:160px;
   background:var(--paper);
+  opacity:0;
+  transition:opacity .2s ease;
   pointer-events:none;
 }
+#proyectos.projects-cover-active::before{ opacity:1; }
 #proyectos .project-stage{
   position:relative;
   align-items:flex-start;
