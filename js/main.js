@@ -65,8 +65,55 @@ document.addEventListener('DOMContentLoaded', function () {
     if (fnToggle && fnLinks) {
       fnToggle.addEventListener('click', function () {
         fnLinks.classList.toggle('open');
+        fnToggle.setAttribute('aria-expanded', fnLinks.classList.contains('open') ? 'true' : 'false');
       });
     }
+
+    var subnavPanel = document.getElementById('fnSubnav');
+    var subnavTriggers = floatingNav.querySelectorAll('[data-subnav]');
+    var subnavLists = subnavPanel ? subnavPanel.querySelectorAll('[data-subnav-list]') : [];
+
+    function closeSubnav() {
+      if (!subnavPanel) return;
+      subnavPanel.hidden = true;
+      subnavTriggers.forEach(function (trigger) {
+        trigger.setAttribute('aria-expanded', 'false');
+      });
+      subnavLists.forEach(function (list) { list.hidden = true; });
+    }
+
+    subnavTriggers.forEach(function (trigger) {
+      trigger.addEventListener('click', function () {
+        if (!subnavPanel) return;
+        var group = trigger.getAttribute('data-subnav');
+        var wasOpen = trigger.getAttribute('aria-expanded') === 'true';
+        closeSubnav();
+        if (wasOpen) return;
+
+        subnavPanel.hidden = false;
+        trigger.setAttribute('aria-expanded', 'true');
+        subnavLists.forEach(function (list) {
+          list.hidden = list.getAttribute('data-subnav-list') !== group;
+        });
+
+        var mobileNav = window.matchMedia && window.matchMedia('(max-width: 900px)').matches;
+        if (mobileNav && fnLinks) {
+          fnLinks.classList.remove('open');
+          if (fnToggle) fnToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
+
+    document.addEventListener('click', function (event) {
+      if (subnavPanel && !subnavPanel.hidden &&
+          !subnavPanel.contains(event.target) &&
+          !event.target.closest('[data-subnav]')) {
+        closeSubnav();
+      }
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeSubnav();
+    });
 
     // #inicio existe solo en index.html. En páginas interiores (proyecto, trabajo)
     // usamos .pd-hero si existe, y el nav queda visible desde el inicio (no oculto).
@@ -674,7 +721,18 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('scroll', queueGalleryCategoryUpdate, { passive: true });
     window.addEventListener('resize', queueGalleryCategoryUpdate);
     galleryCategoryLinks.forEach(function (link) {
-      link.addEventListener('click', function () {
+      link.addEventListener('click', function (event) {
+        var targetId = link.getAttribute('href');
+        var target = targetId && document.querySelector(targetId);
+        if (target) {
+          event.preventDefault();
+          var targetTop = window.scrollY + target.getBoundingClientRect().top;
+          var landingGap = galleryCategoryBar.getBoundingClientRect().bottom + 6;
+          window.scrollTo({ top: Math.max(0, targetTop - landingGap), behavior: 'smooth' });
+          if (window.history && window.history.pushState) {
+            window.history.pushState(null, '', targetId);
+          }
+        }
         window.setTimeout(updateGalleryCategory, 350);
       });
     });
