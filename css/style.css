@@ -2542,7 +2542,7 @@ body.visualizacion-page .work-gallery{
 }
 body.visualizacion-page .work-category-bar{
   position:sticky;
-  top:0;
+  top:60px;
   z-index:250;
   min-height:76px;
   display:flex;
@@ -2580,7 +2580,7 @@ body.visualizacion-page .work-gallery-stage{
   position:relative;
   min-height:calc(100vh - 76px);
   padding:46px 0 clamp(210px,30vh,310px);
-  scroll-margin-top:92px;
+  scroll-margin-top:152px;
   background:var(--paper);
 }
 body.visualizacion-page .work-gallery-stage .wrap{
@@ -2592,7 +2592,7 @@ body.visualizacion-page .work-gallery-stage .wg-mosaic{
 }
 @media (max-width:760px){
   body.visualizacion-page .work-category-bar{
-    top:0;
+    top:58px;
     min-height:64px;
     justify-content:flex-start;
     gap:clamp(18px,6vw,34px);
@@ -2606,6 +2606,6 @@ body.visualizacion-page .work-gallery-stage .wg-mosaic{
   body.visualizacion-page .work-gallery-stage{
     min-height:calc(100svh - 64px);
     padding:24px 0 190px;
-    scroll-margin-top:72px;
+    scroll-margin-top:130px;
   }
 }
