@@ -5,26 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Diseño interior — Jerónimo Nene Toro</title>
 <meta name="description" content="Diseño interior — trabajo de Jerónimo Nene Toro.">
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/style.css?v=work-menu-02">
 </head>
-<body class="project-page work-page">
+<body class="project-page work-page work-menu-page">
 
 <nav class="floating-nav" id="floatingNav">
-  <a href="../index.html" class="fn-brand">Jerónimo Nene Toro<span>.</span></a>
+  <a href="../index.html" class="fn-logo-link" aria-label="Jerónimo Nene Toro — Inicio">
+    <img src="../img/logo-nene.png" alt="Jerónimo Nene Toro" class="fn-logo" decoding="async" fetchpriority="low">
+  </a>
   <div class="fn-links" id="fnLinks">
     <a href="../index.html" class="fn-link">Inicio</a>
-    <a href="../index.html#servicios" class="fn-link">Servicios</a>
-    <a href="../index.html#proyectos" class="fn-link">Proyectos</a>
+    <button type="button" class="fn-link fn-menu-trigger" data-subnav="servicios" aria-expanded="false" aria-controls="fnSubnav">
+      <span>Servicios</span><span class="fn-plus" aria-hidden="true">+</span>
+    </button>
+    <button type="button" class="fn-link fn-menu-trigger" data-subnav="proyectos" aria-expanded="false" aria-controls="fnSubnav">
+      <span>Proyectos</span><span class="fn-plus" aria-hidden="true">+</span>
+    </button>
     <a href="../index.html#flipbook" class="fn-link">Flipbook</a>
-    <a href="../contacto.html" class="fn-link">Contacto</a>
   </div>
-  <button class="fn-toggle" id="fnToggle" aria-label="Abrir menú">☰</button>
+  <a href="../contacto.html" class="fn-contact">Contacto</a>
+  <button class="fn-toggle" id="fnToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
 </nav>
+<div class="fn-subnav" id="fnSubnav" aria-label="Enlaces de navegación" hidden>
+  <div class="fn-subnav-list" data-subnav-list="servicios" hidden>
+    <a href="visualizacion.html" class="fn-subnav-link">Visualización</a>
+    <a href="planos.html" class="fn-subnav-link">Planos</a>
+    <a href="diseno-interior.html" class="fn-subnav-link">Diseño interior</a>
+  </div>
+  <div class="fn-subnav-list" data-subnav-list="proyectos" hidden>
+    <a href="../proyectos/tayrona.html" class="fn-subnav-link">Pabellón Tayrona</a>
+    <a href="../proyectos/sol-fernandez.html" class="fn-subnav-link">Sol Fernández</a>
+    <a href="../proyectos/interwind.html" class="fn-subnav-link">Interwind</a>
+    <a href="../proyectos/genova.html" class="fn-subnav-link">Genova’s Habitability</a>
+    <a href="../proyectos/eneas-complex.html" class="fn-subnav-link">Enea’s Complex</a>
+    <a href="../proyectos/malicia-la-paz.html" class="fn-subnav-link">Malicia La Paz</a>
+  </div>
+</div>
+
 
 <main>
 
   <section class="pd-hero" id="pdHero">
-    <img class="pd-hero-bg" src="../img/sol-interior.jpg" alt="Diseño interior">
+    <img class="pd-hero-bg" src="../img/sol-interior.jpg" alt="Diseño interior" decoding="async" fetchpriority="high">
     <div class="pd-hero-overlay"></div>
     <div class="pd-hero-content">
       <span class="pd-eyebrow">Trabajo — Diseño y ambientación de interiores</span>
@@ -49,29 +71,29 @@
           <div class="wg-title"><span class="wg-name">Ilustración arquitectónica</span></div>
           <div class="wg-divider"></div>
           <div class="wg-mosaic wg-mosaic--1 work-carousel">
-            <div class="wg-img p-a"><img src="../img/tayrona-hero.jpg" alt="Ilustración arquitectónica — imagen 1"></div>
-            <div class="wg-img p-b"><img src="../img/tayrona-axo.jpg" alt="Ilustración arquitectónica — imagen 2"></div>
-            <div class="wg-img p-c"><img src="../img/interwind-hero.jpg" alt="Ilustración arquitectónica — imagen 3"></div>
-            <div class="wg-img p-d"><img src="../img/solfernandez-hero.jpg" alt="Ilustración arquitectónica — imagen 4"></div>
+            <div class="wg-img p-a"><img src="../img/tayrona-hero.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Ilustración arquitectónica"></div>
+            <div class="wg-img p-b"><img src="../img/tayrona-axo.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Ilustración arquitectónica"></div>
+            <div class="wg-img p-c"><img src="../img/interwind-hero.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Ilustración arquitectónica"></div>
+            <div class="wg-img p-d"><img src="../img/solfernandez-hero.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Ilustración arquitectónica"></div>
           </div>
         </div>
         <div>
           <div class="wg-title"><span class="wg-name">Renderizado</span></div>
           <div class="wg-divider"></div>
           <div class="wg-mosaic wg-mosaic--2 work-carousel">
-            <div class="wg-img p-a"><img src="../img/sol-interior.jpg" alt="Renderizado — imagen 1"></div>
-            <div class="wg-img p-b"><img src="../img/tayrona-hero.jpg" alt="Renderizado — imagen 2"></div>
-            <div class="wg-img p-c"><img src="../img/interwind-hero.jpg" alt="Renderizado — imagen 3"></div>
-            <div class="wg-img p-d"><img src="../img/solfernandez-hero.jpg" alt="Renderizado — imagen 4"></div>
+            <div class="wg-img p-a"><img src="../img/sol-interior.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Renderizado"></div>
+            <div class="wg-img p-b"><img src="../img/tayrona-hero.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Renderizado"></div>
+            <div class="wg-img p-c"><img src="../img/interwind-hero.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Renderizado"></div>
+            <div class="wg-img p-d"><img src="../img/solfernandez-hero.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Renderizado"></div>
           </div>
         </div>
         <div>
           <div class="wg-title"><span class="wg-name">Fotomontaje</span></div>
           <div class="wg-divider"></div>
           <div class="wg-mosaic wg-mosaic--3 work-carousel">
-            <div class="wg-img p-a"><img src="../img/tayrona-axo.jpg" alt="Fotomontaje — imagen 1"></div>
-            <div class="wg-img p-b"><img src="../img/sol-interior.jpg" alt="Fotomontaje — imagen 2"></div>
-            <div class="wg-img p-c"><img src="../img/tayrona-hero.jpg" alt="Fotomontaje — imagen 3"></div>
+            <div class="wg-img p-a"><img src="../img/tayrona-axo.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Fotomontaje"></div>
+            <div class="wg-img p-b"><img src="../img/sol-interior.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Fotomontaje"></div>
+            <div class="wg-img p-c"><img src="../img/tayrona-hero.jpg" loading="lazy" decoding="async" fetchpriority="low" alt="Fotomontaje"></div>
           </div>
         </div>
       </div>
@@ -125,6 +147,6 @@
   </div>
 </footer>
 
-<script src="../js/main.js"></script>
+<script src="../js/main.js?v=work-menu-02"></script>
 </body>
 </html>
