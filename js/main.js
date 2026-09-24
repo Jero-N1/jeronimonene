@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isActive) moveIndicator(link);
       });
       var projectsRect = projectsSection && projectsSection.getBoundingClientRect();
-      var projectsNavCover = window.matchMedia && window.matchMedia('(max-width: 760px)').matches ? 56 : 130;
+      var projectsNavCover = window.matchMedia && window.matchMedia('(max-width: 760px)').matches ? 80 : 160;
       var projectsNavActive = projectsRect && projectsRect.top <= projectsNavCover && projectsRect.bottom > 0;
       floatingNav.classList.toggle('projects-section-active', Boolean(projectsNavActive));
     }
