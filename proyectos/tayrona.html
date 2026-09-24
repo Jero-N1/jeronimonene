@@ -5,22 +5,43 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pabellón Tayrona — Jerónimo Nene Toro</title>
 <meta name="description" content="Pabellón Arqueológico Tayrona — proyecto de arquitectura de Jerónimo Nene Toro.">
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/style.css?v=projects-hero-01">
 </head>
-<body class="project-page">
+<body class="project-page work-menu-page project-detail-page">
 
 <!-- Nav flotante — igual que en inicio, visible desde el arranque en páginas interiores -->
 <nav class="floating-nav" id="floatingNav">
-  <a href="../index.html" class="fn-brand">Jerónimo Nene Toro<span>.</span></a>
+  <a href="../index.html" class="fn-logo-link" aria-label="Jerónimo Nene Toro — Inicio">
+    <img src="../img/logo-nene.png" alt="Jerónimo Nene Toro" class="fn-logo" decoding="async" fetchpriority="low">
+  </a>
   <div class="fn-links" id="fnLinks">
     <a href="../index.html" class="fn-link">Inicio</a>
-    <a href="../index.html#servicios" class="fn-link">Servicios</a>
-    <a href="../index.html#proyectos" class="fn-link">Proyectos</a>
+    <button type="button" class="fn-link fn-menu-trigger" data-subnav="servicios" aria-expanded="false" aria-controls="fnSubnav">
+      <span>Servicios</span><span class="fn-plus" aria-hidden="true">+</span>
+    </button>
+    <button type="button" class="fn-link fn-menu-trigger" data-subnav="proyectos" aria-expanded="false" aria-controls="fnSubnav">
+      <span>Proyectos</span><span class="fn-plus" aria-hidden="true">+</span>
+    </button>
     <a href="../index.html#flipbook" class="fn-link">Flipbook</a>
-    <a href="../contacto.html" class="fn-link">Contacto</a>
   </div>
-  <button class="fn-toggle" id="fnToggle" aria-label="Abrir menú">☰</button>
+  <a href="../contacto.html" class="fn-contact">Contacto</a>
+  <button class="fn-toggle" id="fnToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
 </nav>
+<div class="fn-subnav" id="fnSubnav" aria-label="Enlaces de navegación" hidden>
+  <div class="fn-subnav-list" data-subnav-list="servicios" hidden>
+    <a href="../trabajo/visualizacion.html" class="fn-subnav-link">Visualización</a>
+    <a href="../trabajo/planos.html" class="fn-subnav-link">Planos</a>
+    <a href="../trabajo/diseno-interior.html" class="fn-subnav-link">Diseño interior</a>
+  </div>
+  <div class="fn-subnav-list" data-subnav-list="proyectos" hidden>
+    <a href="tayrona.html" class="fn-subnav-link">Pabellón Tayrona</a>
+    <a href="sol-fernandez.html" class="fn-subnav-link">Sol Fernández</a>
+    <a href="interwind.html" class="fn-subnav-link">Interwind</a>
+    <a href="genova.html" class="fn-subnav-link">Genova’s Habitability</a>
+    <a href="eneas-complex.html" class="fn-subnav-link">Enea’s Complex</a>
+    <a href="malicia-la-paz.html" class="fn-subnav-link">Malicia La Paz</a>
+  </div>
+</div>
 
 <main>
 
@@ -30,8 +51,7 @@
     <div class="pd-hero-overlay"></div>
 
     <div class="pd-hero-content">
-      <span class="pd-eyebrow">Equipamiento cultural — Pabellón</span>
-      <h1 class="pd-title pd-title--grotesk">Pabellón<br>Tayrona</h1>
+      <h1 class="pd-title pd-title--sans">Pabellón<br>Tayrona</h1>
       <div class="pd-meta-row">
         <div class="pd-meta-item">
           <span class="pd-meta-label">Tipo</span>
@@ -188,6 +208,6 @@
   </div>
 </footer>
 
-<script src="../js/main.js"></script>
+<script src="../js/main.js?v=projects-hero-01"></script>
 </body>
 </html>
