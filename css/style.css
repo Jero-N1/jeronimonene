@@ -1009,8 +1009,9 @@ body.home{ background:var(--paper); }
   top:0; left:0;
   height:100%;
   border-radius:999px;
-  background:rgba(28,27,24,0.08);
-  transition:transform .45s cubic-bezier(.22,1,.36,1), width .45s cubic-bezier(.22,1,.36,1);
+  display:none;
+  background:transparent;
+  transition:none;
   z-index:0;
 }
 
@@ -1025,9 +1026,12 @@ body.home{ background:var(--paper); }
   color:rgba(28,27,24,0.6);
   border-radius:999px;
   white-space:nowrap;
-  transition:color .25s ease;
+  transition:color .25s ease,scale .24s ease,font-weight .24s ease;
 }
 .fn-link:hover, .fn-link.active{ color:var(--ink); }
+.fn-link:hover{ scale:1.16; font-weight:700; background:transparent; }
+.fn-link.active{ scale:1.12; font-weight:700; background:transparent; }
+.fn-link.active:hover{ scale:1.16; }
 
 .fn-contact{
   background:var(--ink);
@@ -2470,7 +2474,7 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
 }
 .hero-nav .hn-link:hover,
 .hi-content .hi-contact:hover{
-  scale:1.07;
+  scale:1.16;
   transform:none;
   font-weight:700;
   color:#fff;
