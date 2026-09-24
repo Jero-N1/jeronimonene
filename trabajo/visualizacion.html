@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Visualización — Jerónimo Nene Toro</title>
 <meta name="description" content="Visualización — trabajo de Jerónimo Nene Toro.">
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/style.css?v=visualizacion-01">
 </head>
-<body class="project-page work-page">
+<body class="project-page work-page visualizacion-page">
 
 <nav class="floating-nav" id="floatingNav">
   <a href="../index.html" class="fn-brand">Jerónimo Nene Toro<span>.</span></a>
@@ -27,70 +27,54 @@
     <img class="pd-hero-bg" src="../img/tayrona-hero.jpg" alt="Visualización">
     <div class="pd-hero-overlay"></div>
     <div class="pd-hero-content">
-      <span class="pd-eyebrow">Trabajo — Visualización arquitectónica</span>
-      <h1 class="pd-title pd-title--sans">Visualización</h1>
+      
+      <h1 class="pd-title pd-title--manifold">Visualización</h1>
     </div>
-    <a href="#galeria" class="hi-scroll" aria-label="Desplazarse hacia abajo">
+    <a href="#ilustracion" class="hi-scroll" aria-label="Desplazarse hacia abajo">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 9l7 7 7-7"/></svg>
     </a>
   </section>
 
-  <!-- ============ GALERÍA (única sección bajo el hero) ============ -->
-  <section class="pd-block pd-block--tight" id="galeria">
-    <div class="wrap">
-      <div class="gallery-spacer"></div>
-      <div class="corner-head reveal">
-        <h2 class="ch-title">Galería</h2>
-        <span class="ch-bar"></span>
-      </div>
+  <!-- Categorías fijadas bajo la navegación principal -->
+  <div class="work-gallery" id="galeria">
+    <nav class="work-category-bar" aria-label="Categorías de visualización">
+      <a href="#ilustracion" class="work-category-link is-active" data-gallery-category="ilustracion" aria-current="location">Ilustración</a>
+      <a href="#renderizado" class="work-category-link" data-gallery-category="renderizado">Renderizado</a>
+      <a href="#fotomontaje" class="work-category-link" data-gallery-category="fotomontaje">Fotomontaje</a>
+    </nav>
 
-      <div class="wg-list reveal">
-        <div>
-          <div class="wg-title"><span class="wg-name">Ilustración arquitectónica</span></div>
-          <div class="wg-divider"></div>
-          <div class="wg-mosaic wg-mosaic--1 work-carousel">
-            <div class="wg-img p-a"><img src="../img/tayrona-hero.jpg" alt="Ilustración arquitectónica — imagen 1"></div>
-            <div class="wg-img p-b"><img src="../img/tayrona-axo.jpg" alt="Ilustración arquitectónica — imagen 2"></div>
-            <div class="wg-img p-c"><img src="../img/interwind-hero.jpg" alt="Ilustración arquitectónica — imagen 3"></div>
-            <div class="wg-img p-d"><img src="../img/solfernandez-hero.jpg" alt="Ilustración arquitectónica — imagen 4"></div>
-          </div>
-        </div>
-        <div>
-          <div class="wg-title"><span class="wg-name">Renderizado</span></div>
-          <div class="wg-divider"></div>
-          <div class="wg-mosaic wg-mosaic--2 work-carousel">
-            <div class="wg-img p-a"><img src="../img/sol-interior.jpg" alt="Renderizado — imagen 1"></div>
-            <div class="wg-img p-b"><img src="../img/tayrona-hero.jpg" alt="Renderizado — imagen 2"></div>
-            <div class="wg-img p-c"><img src="../img/interwind-hero.jpg" alt="Renderizado — imagen 3"></div>
-            <div class="wg-img p-d"><img src="../img/solfernandez-hero.jpg" alt="Renderizado — imagen 4"></div>
-          </div>
-        </div>
-        <div>
-          <div class="wg-title"><span class="wg-name">Fotomontaje</span></div>
-          <div class="wg-divider"></div>
-          <div class="wg-mosaic wg-mosaic--3 work-carousel">
-            <div class="wg-img p-a"><img src="../img/tayrona-axo.jpg" alt="Fotomontaje — imagen 1"></div>
-            <div class="wg-img p-b"><img src="../img/sol-interior.jpg" alt="Fotomontaje — imagen 2"></div>
-            <div class="wg-img p-c"><img src="../img/tayrona-hero.jpg" alt="Fotomontaje — imagen 3"></div>
-          </div>
+    <section class="work-gallery-stage" id="ilustracion" data-gallery-stage="ilustracion" aria-label="Ilustración arquitectónica">
+      <div class="wrap">
+        <div class="wg-mosaic wg-mosaic--1 work-carousel">
+          <div class="wg-img p-a"><img src="../img/tayrona-hero.jpg" alt="Ilustración arquitectónica — imagen 1"></div>
+          <div class="wg-img p-b"><img src="../img/tayrona-axo.jpg" alt="Ilustración arquitectónica — imagen 2"></div>
+          <div class="wg-img p-c"><img src="../img/interwind-hero.jpg" alt="Ilustración arquitectónica — imagen 3"></div>
+          <div class="wg-img p-d"><img src="../img/solfernandez-hero.jpg" alt="Ilustración arquitectónica — imagen 4"></div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ============ OTRAS ÁREAS DE TRABAJO ============ -->
-  <section class="pd-block pd-block--flush" id="mas-trabajo">
-    <div class="wrap">
-      <div class="corner-head corner-head--nobar reveal">
-        <h2 class="ch-title">Servicios</h2>
+    <section class="work-gallery-stage" id="renderizado" data-gallery-stage="renderizado" aria-label="Renderizado">
+      <div class="wrap">
+        <div class="wg-mosaic wg-mosaic--2 work-carousel">
+          <div class="wg-img p-a"><img src="../img/sol-interior.jpg" alt="Renderizado — imagen 1"></div>
+          <div class="wg-img p-b"><img src="../img/tayrona-hero.jpg" alt="Renderizado — imagen 2"></div>
+          <div class="wg-img p-c"><img src="../img/interwind-hero.jpg" alt="Renderizado — imagen 3"></div>
+          <div class="wg-img p-d"><img src="../img/solfernandez-hero.jpg" alt="Renderizado — imagen 4"></div>
+        </div>
       </div>
-    </div>
-    <div class="svc-list reveal">
-      <a href="visualizacion.html" class="svc-row"><span class="svc-row-inner"><span class="svc-name">Visualización</span><span class="svc-arrow">&rarr;</span></span></a>
-      <a href="planos.html" class="svc-row"><span class="svc-row-inner"><span class="svc-name">Planos</span><span class="svc-arrow">&rarr;</span></span></a>
-      <a href="diseno-interior.html" class="svc-row"><span class="svc-row-inner"><span class="svc-name">Diseño interior</span><span class="svc-arrow">&rarr;</span></span></a>
-    </div>
-  </section>
+    </section>
+
+    <section class="work-gallery-stage" id="fotomontaje" data-gallery-stage="fotomontaje" aria-label="Fotomontaje">
+      <div class="wrap">
+        <div class="wg-mosaic wg-mosaic--3 work-carousel">
+          <div class="wg-img p-a"><img src="../img/tayrona-axo.jpg" alt="Fotomontaje — imagen 1"></div>
+          <div class="wg-img p-b"><img src="../img/sol-interior.jpg" alt="Fotomontaje — imagen 2"></div>
+          <div class="wg-img p-c"><img src="../img/tayrona-hero.jpg" alt="Fotomontaje — imagen 3"></div>
+        </div>
+      </div>
+    </section>
+  </div>
 
 </main>
 
@@ -125,6 +109,6 @@
   </div>
 </footer>
 
-<script src="../js/main.js"></script>
+<script src="../js/main.js?v=visualizacion-01"></script>
 </body>
 </html>
