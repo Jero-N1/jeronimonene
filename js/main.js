@@ -74,6 +74,148 @@ document.addEventListener('DOMContentLoaded', function () {
     var heroEl = hero || document.querySelector('.pd-hero');
     var alwaysVisible = !hero;
 
+    var navTransferItems = [];
+    var navTransferClones = [];
+    var navTransferWidth = 0;
+    var navTransferHeight = 0;
+    var navTransferEnabled = Boolean(
+      hero &&
+      window.matchMedia &&
+      window.matchMedia('(min-width: 761px)').matches &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    );
+    var navTransferDefinitions = hero ? [
+      { source: hero.querySelector('.hero-nav a[href="#servicios"]'), target: document.querySelector('.fn-link[data-section="servicios"]'), delay: 0, kind: 'link' },
+      { source: hero.querySelector('.hero-nav a[href="#proyectos"]'), target: document.querySelector('.fn-link[data-section="proyectos"]'), delay: 0.08, kind: 'link' },
+      { source: hero.querySelector('.hero-nav a[href="#flipbook"]'), target: document.querySelector('.fn-link[data-section="flipbook"]'), delay: 0.16, kind: 'link' },
+      { source: hero.querySelector('.hi-contact'), target: document.querySelector('.fn-contact'), delay: 0.22, kind: 'contact' }
+    ].filter(function (item) { return item.source && item.target; }) : [];
+
+    function clearNavTransferClones() {
+      navTransferClones.forEach(function (item) {
+        if (item.ghost.parentNode) item.ghost.parentNode.removeChild(item.ghost);
+      });
+      navTransferClones = [];
+    }
+
+    function measureNavTransfer() {
+      clearNavTransferClones();
+      floatingNav.classList.add('nav-transfer-measuring');
+      navTransferItems = navTransferDefinitions.map(function (item) {
+        var sourceRect = item.source.getBoundingClientRect();
+        var targetRect = item.target.getBoundingClientRect();
+        var sourceStyle = window.getComputedStyle(item.source);
+        var targetStyle = window.getComputedStyle(item.target);
+        var ghost = document.createElement('span');
+        ghost.className = 'nav-transfer-ghost';
+        ghost.setAttribute('aria-hidden', 'true');
+        ghost.textContent = item.source.textContent.trim();
+        ghost.style.fontFamily = sourceStyle.fontFamily;
+        ghost.style.fontSize = sourceStyle.fontSize;
+        ghost.style.fontWeight = sourceStyle.fontWeight;
+        ghost.style.letterSpacing = sourceStyle.letterSpacing;
+        ghost.style.lineHeight = sourceStyle.lineHeight;
+        ghost.style.textTransform = sourceStyle.textTransform;
+        ghost.style.color = sourceStyle.color;
+        ghost.style.width = sourceRect.width.toFixed(1) + 'px';
+        ghost.style.height = sourceRect.height.toFixed(1) + 'px';
+        ghost.style.borderRadius = item.kind === 'contact' ? '999px' : '0';
+        ghost.style.background = 'transparent';
+        document.body.appendChild(ghost);
+        return {
+          source: item.source,
+          target: item.target,
+          delay: item.delay,
+          kind: item.kind,
+          ghost: ghost,
+          start: { x: sourceRect.left, y: sourceRect.top, width: sourceRect.width, height: sourceRect.height },
+          end: { x: targetRect.left, y: targetRect.top, width: targetRect.width, height: targetRect.height },
+          startColor: sourceStyle.color,
+          endColor: targetStyle.color
+        };
+      });
+      floatingNav.classList.remove('nav-transfer-measuring');
+      navTransferWidth = window.innerWidth;
+      navTransferHeight = window.innerHeight;
+      navTransferClones = navTransferItems;
+    }
+
+    function updateHeroNavTransfer() {
+      if (!hero) return;
+      var isDesktop = window.matchMedia && window.matchMedia('(min-width: 761px)').matches;
+      var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!isDesktop || reduceMotion || !navTransferDefinitions.length) {
+        clearNavTransferClones();
+        hero.classList.remove('nav-transfer-sources-hidden');
+        floatingNav.classList.remove('nav-transfer-pending', 'nav-transfer-measuring');
+        return;
+      }
+
+      var viewportHeight = window.innerHeight || 1;
+      var transferStart = viewportHeight * 0.24;
+      var transferLength = viewportHeight * 0.52;
+      var rawProgress = ((window.scrollY || 0) - transferStart) / transferLength;
+      var progress = Math.max(0, Math.min(1, rawProgress));
+
+      if (progress <= 0) {
+        clearNavTransferClones();
+        hero.classList.remove('nav-transfer-sources-hidden');
+        floatingNav.classList.add('nav-transfer-pending');
+        return;
+      }
+
+      if (progress >= 1) {
+        clearNavTransferClones();
+        hero.classList.add('nav-transfer-sources-hidden');
+        floatingNav.classList.remove('nav-transfer-pending');
+        return;
+      }
+
+      hero.classList.add('nav-transfer-sources-hidden');
+      floatingNav.classList.add('nav-transfer-pending');
+      if (!navTransferClones.length || navTransferWidth !== window.innerWidth || navTransferHeight !== window.innerHeight) {
+        measureNavTransfer();
+      }
+
+      navTransferItems.forEach(function (item) {
+        var itemProgress = Math.max(0, Math.min(1, (progress - item.delay) / (1 - item.delay)));
+        var start = item.start;
+        var end = item.end;
+        var dx = end.x - start.x;
+        var dy = end.y - start.y;
+        var t = itemProgress;
+        var inverse = 1 - t;
+        var c1x = start.x + dx * 0.16;
+        var c1y = start.y - Math.min(74, Math.abs(dy) * 0.28);
+        var c2x = start.x + dx * 0.82;
+        var c2y = end.y + Math.min(64, Math.abs(dy) * 0.22);
+        var x = inverse * inverse * inverse * start.x +
+          3 * inverse * inverse * t * c1x +
+          3 * inverse * t * t * c2x +
+          t * t * t * end.x;
+        var y = inverse * inverse * inverse * start.y +
+          3 * inverse * inverse * t * c1y +
+          3 * inverse * t * t * c2y +
+          t * t * t * end.y;
+        var scaleX = start.width ? end.width / start.width : 1;
+        var scaleY = start.height ? end.height / start.height : 1;
+        item.ghost.style.transform =
+          'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) scale(' +
+          (1 + (scaleX - 1) * t).toFixed(3) + ',' +
+          (1 + (scaleY - 1) * t).toFixed(3) + ')';
+        if (item.kind === 'contact') {
+          item.ghost.style.color = t > 0.72 ? '#1c1b18' : item.startColor;
+          item.ghost.style.background = t > 0.72
+            ? 'rgba(255,255,255,' + Math.min(1, (t - 0.72) / 0.28).toFixed(3) + ')'
+            : 'transparent';
+        } else if (t > 0.78) {
+          item.ghost.style.color = item.endColor;
+        }
+      });
+    }
+
+    if (navTransferEnabled) floatingNav.classList.add('nav-transfer-pending');
+
     function updateNavVisibility() {
       if (!heroEl) { floatingNav.classList.add('visible'); return; }
       var heroBottom = heroEl.getBoundingClientRect().bottom;
@@ -165,7 +307,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       var metrics = [];
-      projectStages.forEach(function (stage) {
+      projectStages.forEach(function (stage, stageIndex) {
         var media = stage.querySelector('.big-media');
         var caption = stage.querySelector('.big-left');
         if (!media || !caption) return;
@@ -182,7 +324,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var captionWidth = parseFloat(window.getComputedStyle(caption).width) || 240;
         var imageTop = Math.max(76, (height - imageHeight) / 2);
         var captionTravel = Math.max(0, imageHeight - captionHeight);
-        var projectGap = 156;
+        var projectGap = stageIndex < 1 ? 156 : 216;
         var duration = imageTop + imageHeight + projectGap;
         var exitDistance = Math.max(1, duration - captionTravel);
         var imageLeft = stageRect.left;
@@ -321,6 +463,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!ticking) {
         window.requestAnimationFrame(function () {
           updateNavVisibility();
+          updateHeroNavTransfer();
           updateActiveSection();
           updateServicesPanel();
           updateProjectsPanel();
