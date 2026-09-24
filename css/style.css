@@ -2364,10 +2364,10 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
   content:"";
   position:absolute;
   z-index:10;
-  top:-110px;
+  top:-130px;
   left:0;
   right:0;
-  height:110px;
+  height:130px;
   background:var(--paper);
   pointer-events:none;
 }
@@ -2424,7 +2424,7 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
 /* La navegación se vuelve opaca solo mientras cruza Proyectos. */
 .floating-nav.projects-section-active{
   background:var(--paper);
-  border-bottom-color:var(--line);
+  border-bottom-color:transparent;
   backdrop-filter:none;
   -webkit-backdrop-filter:none;
 }
@@ -2439,7 +2439,7 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
     margin-top:-40px;
     padding-top:40px;
   }
-  #proyectos::before{ top:-40px; height:40px; }
+  #proyectos::before{ top:-56px; height:56px; }
   #proyectos .project-stage{
     padding:18px 0;
     margin-bottom:0;
@@ -2453,13 +2453,12 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
 /* Hero navigation hover: clear emphasis without a pill or bounce. */
 .hero-nav .hn-link,
 .hi-content .hi-contact{
-  transition:transform .22s ease,font-weight .22s ease,color .22s ease;
+  transition:scale .22s ease,font-weight .22s ease,color .22s ease;
 }
 .hero-nav .hn-link:hover,
 .hi-content .hi-contact:hover{
-  animation:none;
-  opacity:1;
-  transform:scale(1.07);
+  scale:1.07;
+  transform:none;
   font-weight:700;
   color:#fff;
   background:transparent;
