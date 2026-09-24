@@ -116,7 +116,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isActive) moveIndicator(link);
       });
       var projectsRect = projectsSection && projectsSection.getBoundingClientRect();
-      var projectsNavActive = projectsRect && projectsRect.top <= 110 && projectsRect.bottom > 0;
+      var projectsNavCover = window.matchMedia && window.matchMedia('(max-width: 760px)').matches ? 56 : 130;
+      var projectsNavActive = projectsRect && projectsRect.top <= projectsNavCover && projectsRect.bottom > 0;
       floatingNav.classList.toggle('projects-section-active', Boolean(projectsNavActive));
     }
 
@@ -181,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var captionWidth = parseFloat(window.getComputedStyle(caption).width) || 240;
         var imageTop = Math.max(76, (height - imageHeight) / 2);
         var captionTravel = Math.max(0, imageHeight - captionHeight);
-        var projectGap = 44;
+        var projectGap = 96;
         var duration = imageTop + imageHeight + projectGap;
         var exitDistance = Math.max(1, duration - captionTravel);
         var imageLeft = stageRect.left;
