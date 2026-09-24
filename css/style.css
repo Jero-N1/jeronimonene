@@ -2766,7 +2766,7 @@ body.project-detail-page .pd-hero-content{
 body.project-detail-page .pd-title{
   width:100%;
   font-family:var(--font-sans);
-  font-size:clamp(46px,8vw,118px);
+  font-size:clamp(44px,7.2vw,108px);
   line-height:.94;
   letter-spacing:-.035em;
   text-align:center;
@@ -2777,16 +2777,20 @@ body.project-detail-page .pd-meta-row{
   grid-template-columns:repeat(4,minmax(0,1fr));
   gap:14px clamp(14px,3vw,42px);
   margin-top:clamp(22px,3.4vh,38px);
-  text-align:left;
+  text-align:center;
 }
-body.project-detail-page .pd-meta-item{ min-width:0; }
+body.project-detail-page .pd-meta-item{
+  min-width:0;
+  align-items:center;
+  text-align:center;
+}
 @media(max-width:760px){
   body.project-detail-page .pd-hero-content{
     width:calc(100% - 36px);
     max-width:calc(100% - 36px);
   }
   body.project-detail-page .pd-title{
-    font-size:clamp(42px,11vw,72px);
+    font-size:clamp(40px,10vw,66px);
   }
   body.project-detail-page .pd-meta-row{
     grid-template-columns:repeat(2,minmax(0,1fr));
