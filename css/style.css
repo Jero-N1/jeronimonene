@@ -2364,10 +2364,10 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
   content:"";
   position:absolute;
   z-index:10;
-  top:-130px;
+  top:-160px;
   left:0;
   right:0;
-  height:130px;
+  height:160px;
   background:var(--paper);
   pointer-events:none;
 }
@@ -2386,6 +2386,9 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
   width:var(--project-image-width);
   height:var(--project-image-height);
   overflow:visible;
+}
+#proyectos .project-stage .big-media img{
+  aspect-ratio:2/1;
 }
 #proyectos.projects-motion-ready .project-stage .big-media img{
   width:100%;
@@ -2439,7 +2442,7 @@ body.page-contacto .floating-nav{ right:28px; left:auto; }
     margin-top:-40px;
     padding-top:40px;
   }
-  #proyectos::before{ top:-56px; height:56px; }
+  #proyectos::before{ top:-80px; height:80px; }
   #proyectos .project-stage{
     padding:18px 0;
     margin-bottom:0;
