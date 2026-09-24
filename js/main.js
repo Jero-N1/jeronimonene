@@ -637,6 +637,51 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  /* ---------- Categorías fijadas (página de Visualización) ---------- */
+  var galleryCategoryBar = document.querySelector('.work-category-bar');
+  var galleryStages = document.querySelectorAll('[data-gallery-stage]');
+  if (galleryCategoryBar && galleryStages.length) {
+    var galleryCategoryLinks = galleryCategoryBar.querySelectorAll('[data-gallery-category]');
+    var galleryUpdateQueued = false;
+
+    function updateGalleryCategory() {
+      var threshold = galleryCategoryBar.getBoundingClientRect().bottom + 8;
+      var activeCategory = galleryStages[0].getAttribute('data-gallery-stage');
+
+      galleryStages.forEach(function (stage) {
+        if (stage.getBoundingClientRect().top <= threshold) {
+          activeCategory = stage.getAttribute('data-gallery-stage');
+        }
+      });
+
+      galleryCategoryLinks.forEach(function (link) {
+        var isActive = link.getAttribute('data-gallery-category') === activeCategory;
+        link.classList.toggle('is-active', isActive);
+        if (isActive) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+    }
+
+    function queueGalleryCategoryUpdate() {
+      if (galleryUpdateQueued) return;
+      galleryUpdateQueued = true;
+      window.requestAnimationFrame(function () {
+        updateGalleryCategory();
+        galleryUpdateQueued = false;
+      });
+    }
+
+    window.addEventListener('scroll', queueGalleryCategoryUpdate, { passive: true });
+    window.addEventListener('resize', queueGalleryCategoryUpdate);
+    galleryCategoryLinks.forEach(function (link) {
+      link.addEventListener('click', function () {
+        window.setTimeout(updateGalleryCategory, 350);
+      });
+    });
+    updateGalleryCategory();
+    window.setTimeout(updateGalleryCategory, 250);
+  }
+
   /* ============================================
      LIGHTBOX — zoom semi-completo (solo carruseles .work-carousel)
      ============================================ */
