@@ -324,7 +324,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var captionWidth = parseFloat(window.getComputedStyle(caption).width) || 240;
         var imageTop = Math.max(76, (height - imageHeight) / 2);
         var captionTravel = Math.max(0, imageHeight - captionHeight);
-        var projectGap = stageIndex < 1 ? 156 : 216;
+        var projectGap = stageIndex < 1 ? 156 : 244;
         var duration = imageTop + imageHeight + projectGap;
         var exitDistance = Math.max(1, duration - captionTravel);
         var imageLeft = stageRect.left;
