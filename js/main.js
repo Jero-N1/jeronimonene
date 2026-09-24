@@ -267,6 +267,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var servicesSection = document.getElementById('servicios');
     var serviceTiles = servicesSection && servicesSection.querySelector('.work-tiles');
+
+    // La barra tiene posición fija y la sección se desplaza al entrar.
+    // Calculamos su destino compensando el transform actual para que aterrice
+    // igual desde cualquier punto de la página.
+    var servicesNavLink = document.querySelector('.fn-link[data-section="servicios"]');
+    if (servicesNavLink && servicesSection) {
+      servicesNavLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        var sectionRect = servicesSection.getBoundingClientRect();
+        var transform = window.getComputedStyle(servicesSection).transform;
+        var currentShift = transform && transform !== 'none'
+          ? new DOMMatrix(transform).m42
+          : 0;
+        var naturalDocumentTop = window.scrollY + sectionRect.top - currentShift;
+        var landingOffset = window.innerHeight * 0.14 + 64;
+        var destination = Math.max(0, naturalDocumentTop - landingOffset);
+
+        if (window.history && window.history.pushState) {
+          window.history.pushState(null, '', '#servicios');
+        }
+        window.scrollTo({ top: destination, behavior: 'smooth' });
+        if (fnLinks) fnLinks.classList.remove('open');
+      });
+    }
+
     var projectsSection = document.getElementById('proyectos');
     var projectStages = document.querySelectorAll('#proyectos .project-stage');
 
