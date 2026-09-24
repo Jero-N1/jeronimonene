@@ -5,21 +5,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Visualización — Jerónimo Nene Toro</title>
 <meta name="description" content="Visualización — trabajo de Jerónimo Nene Toro.">
-<link rel="stylesheet" href="../css/style.css?v=visualizacion-03">
+<link rel="stylesheet" href="../css/style.css?v=visualizacion-04">
 </head>
 <body class="project-page work-page visualizacion-page">
 
 <nav class="floating-nav" id="floatingNav">
-  <a href="../index.html" class="fn-brand">Jerónimo Nene Toro<span>.</span></a>
+  <a href="../index.html" class="fn-logo-link" aria-label="Jerónimo Nene Toro — Inicio">
+    <img src="../img/logo-nene.png" alt="Jerónimo Nene Toro" class="fn-logo">
+  </a>
   <div class="fn-links" id="fnLinks">
     <a href="../index.html" class="fn-link">Inicio</a>
-    <a href="../index.html#servicios" class="fn-link">Servicios</a>
-    <a href="../index.html#proyectos" class="fn-link">Proyectos</a>
+    <button type="button" class="fn-link fn-menu-trigger" data-subnav="servicios" aria-expanded="false" aria-controls="fnSubnav">
+      <span>Servicios</span><span class="fn-plus" aria-hidden="true">+</span>
+    </button>
+    <button type="button" class="fn-link fn-menu-trigger" data-subnav="proyectos" aria-expanded="false" aria-controls="fnSubnav">
+      <span>Proyectos</span><span class="fn-plus" aria-hidden="true">+</span>
+    </button>
     <a href="../index.html#flipbook" class="fn-link">Flipbook</a>
-    <a href="../contacto.html" class="fn-link">Contacto</a>
   </div>
-  <button class="fn-toggle" id="fnToggle" aria-label="Abrir menú">☰</button>
+  <a href="../contacto.html" class="fn-contact">Contacto</a>
+  <button class="fn-toggle" id="fnToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
 </nav>
+<div class="fn-subnav" id="fnSubnav" aria-label="Enlaces de navegación" hidden>
+  <div class="fn-subnav-list" data-subnav-list="servicios" hidden>
+    <a href="visualizacion.html" class="fn-subnav-link">Visualización</a>
+    <a href="planos.html" class="fn-subnav-link">Planos</a>
+    <a href="diseno-interior.html" class="fn-subnav-link">Diseño interior</a>
+  </div>
+  <div class="fn-subnav-list" data-subnav-list="proyectos" hidden>
+    <a href="../proyectos/tayrona.html" class="fn-subnav-link">Pabellón Tayrona</a>
+    <a href="../proyectos/sol-fernandez.html" class="fn-subnav-link">Sol Fernández</a>
+    <a href="../proyectos/interwind.html" class="fn-subnav-link">Interwind</a>
+    <a href="../proyectos/genova.html" class="fn-subnav-link">Genova’s Habitability</a>
+    <a href="../proyectos/eneas-complex.html" class="fn-subnav-link">Enea’s Complex</a>
+    <a href="../proyectos/malicia-la-paz.html" class="fn-subnav-link">Malicia La Paz</a>
+  </div>
+</div>
 
 <main>
 
@@ -76,6 +97,20 @@
     </section>
   </div>
 
+  <!-- Otras áreas de trabajo -->
+  <section class="pd-block pd-block--flush" id="mas-trabajo">
+    <div class="wrap">
+      <div class="corner-head corner-head--nobar reveal">
+        <h2 class="ch-title">Servicios</h2>
+      </div>
+    </div>
+    <div class="svc-list reveal">
+      <a href="visualizacion.html" class="svc-row"><span class="svc-row-inner"><span class="svc-name">Visualización</span><span class="svc-arrow">&rarr;</span></span></a>
+      <a href="planos.html" class="svc-row"><span class="svc-row-inner"><span class="svc-name">Planos</span><span class="svc-arrow">&rarr;</span></span></a>
+      <a href="diseno-interior.html" class="svc-row"><span class="svc-row-inner"><span class="svc-name">Diseño interior</span><span class="svc-arrow">&rarr;</span></span></a>
+    </div>
+  </section>
+
 </main>
 
 <!-- Lightbox (zoom semi-completo) — solo en páginas de Trabajo -->
@@ -109,6 +144,6 @@
   </div>
 </footer>
 
-<script src="../js/main.js?v=visualizacion-03"></script>
+<script src="../js/main.js?v=visualizacion-04"></script>
 </body>
 </html>
