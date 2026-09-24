@@ -2609,3 +2609,6 @@ body.visualizacion-page .work-gallery-stage .wg-mosaic{
     scroll-margin-top:130px;
   }
 }
+
+body.visualizacion-page .wg-img img{ transition:none; }
+body.visualizacion-page .wg-img:hover img{ transform:none; }
