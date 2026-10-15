@@ -2823,3 +2823,227 @@ body.project-detail-page .pd-title--compact{
 
 /* Contacto comparte la barra completa con el resto del sitio. */
 body.page-contacto.work-menu-page .floating-nav{ left:0; right:0; width:100%; }
+
+
+/* ---------- Inicio: servicios inmersivos ---------- */
+body.home #servicios{
+  min-height:100svh;
+  padding:clamp(76px,10vh,124px) 0 clamp(52px,8vh,96px);
+  overflow:hidden;
+  color:#f5f1e8;
+  background:
+    radial-gradient(ellipse at 86% 14%,rgba(128,127,66,.16),transparent 32%),
+    var(--ink);
+  transform:none;
+  scroll-margin-top:76px;
+}
+body.home #servicios .services-transition{ display:none; }
+body.home #servicios .services-title{
+  padding:0 0 clamp(26px,4vh,48px);
+  transform:none;
+  opacity:1;
+}
+body.home #servicios .services-title .ch-title{
+  color:#f5f1e8;
+  font-size:clamp(42px,8.5vw,112px);
+  line-height:.88;
+  letter-spacing:-.055em;
+  text-transform:none;
+}
+body.home #servicios .work-tiles{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(8px,1.2vw,18px);
+  width:100%;
+  margin:0;
+  perspective:none;
+}
+body.home #servicios .work-tile,
+body.home #servicios .work-tile:nth-child(n){
+  height:clamp(430px,67vh,760px);
+  min-height:0;
+  aspect-ratio:auto;
+  border:1px solid rgba(245,241,232,.18);
+  background:#272722;
+  opacity:1;
+  visibility:visible;
+  transform:none;
+  clip-path:none;
+  animation:none;
+  isolation:isolate;
+}
+body.home #servicios .work-tile img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:saturate(.78);
+  transition:transform .9s cubic-bezier(.2,.72,.18,1),filter .6s ease;
+}
+body.home #servicios .work-tile::after{
+  background:linear-gradient(180deg,rgba(18,18,16,.02) 28%,rgba(18,18,16,.12) 52%,rgba(18,18,16,.78) 100%);
+  opacity:1;
+  transition:opacity .45s ease;
+}
+body.home #servicios .work-tile:hover img,
+body.home #servicios .work-tile:focus-visible img{
+  transform:scale(1.045);
+  filter:saturate(1);
+}
+body.home #servicios .wt-label{
+  top:auto;
+  left:clamp(18px,2.5vw,38px);
+  bottom:clamp(24px,4vh,48px);
+  max-width:calc(100% - 44px);
+  transform:none;
+  font-family:var(--font-display);
+  font-size:clamp(25px,3.15vw,48px);
+  font-weight:500;
+  line-height:1;
+  letter-spacing:-.035em;
+  text-align:left;
+  white-space:normal;
+}
+body.home #servicios .work-tile:focus-visible{ outline-color:#d8d19d; }
+
+/* ---------- Inicio: proyectos como carrusel vertical por scroll ---------- */
+body.home #proyectos{
+  margin-top:0;
+  margin-bottom:0;
+  padding:clamp(76px,10vh,116px) 0 10vh;
+  top:auto;
+  color:#f5f1e8;
+  background:var(--ink);
+  scroll-margin-top:76px;
+}
+body.home #proyectos::before{ display:none; }
+body.home #proyectos .project-section-heading{
+  position:sticky;
+  top:76px;
+  margin:0 -48px;
+  padding:0 48px clamp(20px,3vh,36px);
+  color:#f5f1e8;
+  background:var(--ink);
+}
+body.home #proyectos .project-section-heading .ch-title{
+  color:#f5f1e8;
+  font-size:clamp(38px,6.2vw,76px);
+  line-height:.94;
+  letter-spacing:-.045em;
+  text-transform:none;
+}
+body.home #proyectos .big-list{ display:block; isolation:isolate; }
+body.home #proyectos .project-stage{
+  position:sticky;
+  top:clamp(126px,19vh,188px);
+  display:block;
+  width:100%;
+  height:min(70vh,720px);
+  min-height:460px;
+  margin:0 0 8vh;
+  padding:0;
+  overflow:hidden;
+  color:#f5f1e8;
+  background:#24241f;
+  border:1px solid rgba(245,241,232,.18);
+  isolation:isolate;
+}
+body.home #proyectos .project-stage:nth-child(1){z-index:1;}
+body.home #proyectos .project-stage:nth-child(2){z-index:2;}
+body.home #proyectos .project-stage:nth-child(3){z-index:3;}
+body.home #proyectos .project-stage:nth-child(4){z-index:4;}
+body.home #proyectos .project-stage:nth-child(5){z-index:5;}
+body.home #proyectos .project-stage:nth-child(6){z-index:6;}
+body.home #proyectos .project-stage .big-media{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+body.home #proyectos .project-stage .big-media::after{
+  position:absolute;
+  inset:0;
+  content:"";
+  background:linear-gradient(180deg,rgba(17,17,15,.03) 22%,rgba(17,17,15,.12) 46%,rgba(17,17,15,.84) 100%);
+  pointer-events:none;
+}
+body.home #proyectos .project-stage .big-media img{
+  width:100%;
+  height:100%;
+  aspect-ratio:auto;
+  object-fit:cover;
+  transition:transform .9s cubic-bezier(.2,.72,.18,1);
+}
+body.home #proyectos .project-stage:hover .big-media img,
+body.home #proyectos .project-stage:focus-visible .big-media img{ transform:scale(1.035); }
+body.home #proyectos .project-stage .big-left{
+  position:absolute;
+  z-index:2;
+  right:clamp(22px,5vw,76px);
+  bottom:clamp(24px,5vh,64px);
+  left:clamp(22px,5vw,76px);
+  display:flex;
+  width:auto;
+  gap:14px;
+  color:#f5f1e8;
+  pointer-events:none;
+}
+body.home #proyectos .project-stage .big-left-row{ gap:18px; }
+body.home #proyectos .project-stage .big-logo{
+  width:48px;
+  height:48px;
+  border:1px solid rgba(245,241,232,.68);
+  background:transparent;
+  color:#f5f1e8;
+}
+body.home #proyectos .project-stage .big-name{
+  color:#f5f1e8;
+  font-size:clamp(26px,4vw,58px);
+  line-height:1.02;
+  letter-spacing:-.04em;
+}
+body.home #proyectos .project-stage .big-tag{ color:#ded6a3; }
+body.home #proyectos .project-stage .big-meta{
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  gap:8px 24px;
+  margin-left:66px;
+}
+body.home #proyectos .project-stage .big-meta-item{ color:rgba(245,241,232,.78); }
+
+@media(max-width:760px){
+  body.home #servicios{ min-height:0; padding:88px 0 64px; }
+  body.home #servicios .services-title{ padding-bottom:26px; }
+  body.home #servicios .work-tiles{ grid-template-columns:1fr; gap:12px; }
+  body.home #servicios .work-tile,
+  body.home #servicios .work-tile:nth-child(n){ height:min(68svh,600px); min-height:400px; }
+  body.home #proyectos{ padding:84px 0 48px; }
+  body.home #proyectos .project-section-heading{
+    position:relative;
+    top:auto;
+    margin:0;
+    padding:0 0 24px;
+  }
+  body.home #proyectos .project-stage{
+    position:relative;
+    top:auto;
+    height:min(70svh,620px);
+    min-height:420px;
+    margin-bottom:16px;
+  }
+  body.home #proyectos .project-stage .big-left{
+    right:20px;
+    bottom:24px;
+    left:20px;
+  }
+  body.home #proyectos .project-stage .big-meta{ margin-left:0; }
+}
+
+@media(prefers-reduced-motion:reduce){
+  body.home #servicios .work-tile img,
+  body.home #proyectos .project-stage .big-media img{ transition:none; }
+}
+

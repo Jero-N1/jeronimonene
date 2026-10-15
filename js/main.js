@@ -338,233 +338,52 @@ document.addEventListener('DOMContentLoaded', function () {
     var ticking = false;
 
     var servicesSection = document.getElementById('servicios');
-    var serviceTiles = servicesSection && servicesSection.querySelector('.work-tiles');
+    var projectsSection = document.getElementById('proyectos');
 
-    // La barra tiene posición fija y la sección se desplaza al entrar.
-    // Calculamos su destino compensando el transform actual para que aterrice
-    // igual desde cualquier punto de la página.
+    // La navegación conserva un aterrizaje cómodo bajo la barra fija.
     var servicesNavLink = document.querySelector('.fn-link[data-section="servicios"]');
     if (servicesNavLink && servicesSection) {
       servicesNavLink.addEventListener('click', function (event) {
         event.preventDefault();
-        var sectionRect = servicesSection.getBoundingClientRect();
-        var transform = window.getComputedStyle(servicesSection).transform;
-        var currentShift = transform && transform !== 'none'
-          ? new DOMMatrix(transform).m42
-          : 0;
-        var naturalDocumentTop = window.scrollY + sectionRect.top - currentShift;
-        var landingOffset = window.innerHeight * 0.14 + 64;
-        var destination = Math.max(0, naturalDocumentTop - landingOffset);
-
-        if (window.history && window.history.pushState) {
-          window.history.pushState(null, '', '#servicios');
-        }
-        window.scrollTo({ top: destination, behavior: 'smooth' });
+        var destination = window.scrollY + servicesSection.getBoundingClientRect().top - 76;
+        if (window.history && window.history.pushState) window.history.pushState(null, '', '#servicios');
+        window.scrollTo({ top: Math.max(0, destination), behavior: 'smooth' });
         if (fnLinks) fnLinks.classList.remove('open');
       });
     }
 
-    var projectsSection = document.getElementById('proyectos');
-    var projectStages = document.querySelectorAll('#proyectos .project-stage');
-
-    function updateServicesPanel() {
-      if (!servicesSection) return;
-      var height = window.innerHeight || 1;
-      var top = servicesSection.getBoundingClientRect().top;
-
-      // A medida que Servicios cruza el viewport, su avance supera el scroll normal.
-      var progress = (height - top) / (height * 0.75);
-      progress = Math.max(0, Math.min(1, progress));
-      servicesSection.style.setProperty('--panel-progress', progress.toFixed(3));
-    }
-
-    function updateProjectsPanel() {
-      if (!projectsSection) return;
-      var height = window.innerHeight || 1;
-      var currentTop = projectsSection.getBoundingClientRect().top;
-      var panelOffset = parseFloat(window.getComputedStyle(projectsSection).top) || 0;
-      var naturalTop = currentTop - panelOffset;
-      var progress = (height - naturalTop) / (height * 0.75);
-      progress = Math.max(0, Math.min(1, progress));
-      projectsSection.style.setProperty('--projects-panel-progress', progress.toFixed(3));
-    }
-
-    function updateProjectCaptions() {
-      if (!projectStages.length) return;
-      var height = window.innerHeight || 1;
-      var scrollY = window.scrollY || window.pageYOffset || 0;
-      var mobile = window.matchMedia && window.matchMedia('(max-width: 760px)').matches;
-
-      if (mobile) {
-        if (projectsSection) projectsSection.classList.remove('projects-motion-ready', 'project-handoff-active');
-        projectStages.forEach(function (stage) {
-          stage.classList.remove('project-stage-active', 'project-caption-active', 'project-image-obscured');
-        });
-        return;
-      }
-
-      var metrics = [];
-      projectStages.forEach(function (stage, stageIndex) {
-        var media = stage.querySelector('.big-media');
-        var caption = stage.querySelector('.big-left');
-        if (!media || !caption) return;
-
-        var stageRect = stage.getBoundingClientRect();
-        var mediaRect = media.getBoundingClientRect();
-        var captionRect = caption.getBoundingClientRect();
-        var stageStyle = window.getComputedStyle(stage);
-        var rowInset = parseFloat(stageStyle.paddingTop) || 0;
-        var rowGap = parseFloat(stageStyle.columnGap || stageStyle.gap) || 48;
-        var imageWidth = mediaRect.width;
-        var imageHeight = mediaRect.height;
-        var captionHeight = captionRect.height;
-        var captionWidth = parseFloat(window.getComputedStyle(caption).width) || 240;
-        var imageTop = Math.max(76, (height - imageHeight) / 2);
-        var captionTravel = Math.max(0, imageHeight - captionHeight);
-        var projectGap = stageIndex < 1 ? 156 : 244;
-        var duration = imageTop + imageHeight + projectGap;
-        var exitDistance = Math.max(1, duration - captionTravel);
-        var imageLeft = stageRect.left;
-        var captionLeft = imageLeft + imageWidth + rowGap;
-        var docImageTop = scrollY + stageRect.top + rowInset;
-
-        stage.style.setProperty('--project-image-left', imageLeft.toFixed(1) + 'px');
-        stage.style.setProperty('--project-image-top', imageTop.toFixed(1) + 'px');
-        stage.style.setProperty('--project-image-width', imageWidth.toFixed(1) + 'px');
-        stage.style.setProperty('--project-image-height', imageHeight.toFixed(1) + 'px');
-        stage.style.setProperty('--project-caption-left', captionLeft.toFixed(1) + 'px');
-        stage.style.setProperty('--project-caption-width', captionWidth.toFixed(1) + 'px');
-        stage.style.setProperty('--project-hold-distance', duration.toFixed(1) + 'px');
-        metrics.push({
-          stage: stage,
-          imageTop: imageTop,
-          imageHeight: imageHeight,
-          mediaTop: mediaRect.top,
-          mediaBottom: mediaRect.bottom,
-          mediaLeft: mediaRect.left,
-          mediaRight: mediaRect.right,
-          captionHeight: captionHeight,
-          captionTravel: captionTravel,
-          exitDistance: exitDistance,
-          duration: duration,
-          docImageTop: docImageTop,
-          rowInset: rowInset
-        });
-      });
-
-      if (!metrics.length) return;
-      metrics[0].startY = metrics[0].docImageTop - metrics[0].imageTop;
-      for (var i = 1; i < metrics.length; i++) {
-        metrics[i].startY = metrics[i - 1].startY + metrics[i - 1].duration;
-      }
-
-      metrics.forEach(function (item, index) {
-        var runway;
-        if (index < metrics.length - 1) {
-          var next = metrics[index + 1];
-          var desiredDocumentGap = next.startY + next.imageTop - (item.startY + item.imageTop);
-          runway = desiredDocumentGap - item.imageHeight - next.rowInset;
-        } else {
-          runway = item.duration - item.imageTop - item.imageHeight;
+    // Mejora progresiva: la composición se entiende y se puede recorrer sin GSAP.
+    // ScrollTrigger solo añade entradas suaves y una escala editorial muy sutil.
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduceMotion && window.gsap && window.ScrollTrigger) {
+      window.gsap.registerPlugin(window.ScrollTrigger);
+      window.gsap.fromTo('#servicios .work-tile',
+        { y: 28, autoAlpha: 0.84 },
+        {
+          y: 0,
+          autoAlpha: 1,
+          duration: 0.85,
+          stagger: 0.12,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: '#servicios .work-tiles', start: 'top 82%', once: true }
         }
-        runway = Math.max(0, runway);
-        item.stage.style.setProperty('--project-runway', runway.toFixed(1) + 'px');
-        item.stage.style.setProperty('--project-overlap', '0px');
-      });
-
-      projectsSection.classList.add('projects-motion-ready');
-
-      var active = null;
-      metrics.forEach(function (item) {
-        if (scrollY >= item.startY && scrollY < item.startY + item.duration) active = item;
-      });
-
-      projectsSection.classList.toggle('project-handoff-active', Boolean(active));
-      metrics.forEach(function (item) {
-        var isActive = active && active.stage === item.stage;
-        item.stage.classList.toggle('project-stage-active', Boolean(isActive));
-        item.stage.classList.toggle(
-          'project-caption-active',
-          Boolean(isActive && scrollY < item.startY + item.captionTravel)
-        );
-      });
-
-      if (active) {
-        var elapsed = scrollY - active.startY;
-        var captionTop;
-        var imageTop;
-        if (elapsed < active.captionTravel) {
-          captionTop = active.imageTop + elapsed;
-          imageTop = active.imageTop;
-        } else {
-          var exitProgress = Math.min(
-            1,
-            (elapsed - active.captionTravel) / active.exitDistance
-          );
-          var exitShift = exitProgress *
-            (active.captionTravel + active.exitDistance);
-          imageTop = active.imageTop - exitShift;
-          captionTop = imageTop + active.imageHeight - active.captionHeight;
-        }
-        active.stage.style.setProperty('--project-image-top-active', imageTop.toFixed(1) + 'px');
-        active.stage.style.setProperty('--project-caption-top', captionTop.toFixed(1) + 'px');
-
-        var fixedLeft = parseFloat(active.stage.style.getPropertyValue('--project-image-left')) || 0;
-        var fixedRight = fixedLeft + (parseFloat(active.stage.style.getPropertyValue('--project-image-width')) || 0);
-        var fixedBottom = imageTop + active.imageHeight;
-        metrics.forEach(function (item) {
-          if (item === active) {
-            item.stage.classList.remove('project-image-obscured');
-            return;
-          }
-          var overlapsActive =
-            item.mediaLeft < fixedRight &&
-            item.mediaRight > fixedLeft &&
-            item.mediaTop < fixedBottom &&
-            item.mediaBottom > imageTop;
-          if (overlapsActive) {
-            var coveredTop = Math.max(0, Math.min(item.imageHeight, imageTop + active.imageHeight - item.mediaTop));
-            var coveredBottom = Math.max(0, Math.min(item.imageHeight, item.mediaBottom - imageTop));
-            if (item.mediaTop < imageTop) coveredTop = 0;
-            else coveredBottom = 0;
-            item.stage.style.setProperty('--project-clip-top', coveredTop.toFixed(1) + 'px');
-            item.stage.style.setProperty('--project-clip-bottom', coveredBottom.toFixed(1) + 'px');
-            item.stage.classList.add('project-image-obscured');
-          } else {
-            item.stage.classList.remove('project-image-obscured');
-            item.stage.style.removeProperty('--project-clip-top');
-            item.stage.style.removeProperty('--project-clip-bottom');
-          }
+      );
+      document.querySelectorAll('#proyectos .project-stage').forEach(function (stage) {
+        window.gsap.fromTo(stage, { y: 24, autoAlpha: 0.9 }, {
+          y: 0,
+          autoAlpha: 1,
+          duration: 0.75,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: stage, start: 'top 88%', once: true }
         });
-      } else {
-        projectStages.forEach(function (stage) {
-          stage.classList.remove('project-image-obscured');
-          stage.style.removeProperty('--project-clip-top');
-          stage.style.removeProperty('--project-clip-bottom');
-        });
-      }
+      });
     }
-
-    if (serviceTiles && 'IntersectionObserver' in window) {
-      servicesSection.classList.add('cards-motion-enhanced');
-      var serviceCardObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          servicesSection.classList.toggle('cards-motion-visible', entry.isIntersecting);
-        });
-      }, { threshold: 0.08 });
-      serviceCardObserver.observe(serviceTiles);
-    }
-
-
     function onScroll() {
       if (!ticking) {
         window.requestAnimationFrame(function () {
           updateNavVisibility();
           updateHeroNavTransfer();
           updateActiveSection();
-          updateServicesPanel();
-          updateProjectsPanel();
-          updateProjectCaptions();
           ticking = false;
         });
         ticking = true;
@@ -929,6 +748,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
 });
+
 
 
 
