@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (servicesNavLink && servicesSection) {
       servicesNavLink.addEventListener('click', function (event) {
         event.preventDefault();
-        var destination = window.scrollY + servicesSection.getBoundingClientRect().top - 76;
+        var destination = window.scrollY + servicesSection.getBoundingClientRect().top - 80;
         if (window.history && window.history.pushState) window.history.pushState(null, '', '#servicios');
         window.scrollTo({ top: Math.max(0, destination), behavior: 'smooth' });
         if (fnLinks) fnLinks.classList.remove('open');
